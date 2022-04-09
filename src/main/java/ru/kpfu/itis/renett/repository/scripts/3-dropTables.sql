@@ -1,0 +1,7 @@
+DROP TABLE "user" CASCADE;
+DROP TABLE article CASCADE;
+DROP TABLE comment CASCADE;
+DROP TABLE tag CASCADE;
+DROP TABLE like_article;
+DROP TABLE article_tag;
+DROP TABLE auth;
