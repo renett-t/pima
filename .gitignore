@@ -2,7 +2,7 @@
 *.iml
 out/
 target/
-*/*.properties
+*.properties
 
 # Compiled class file
 *.class

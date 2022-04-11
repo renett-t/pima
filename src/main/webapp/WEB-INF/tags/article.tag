@@ -1,6 +1,6 @@
 <%@tag description="Article Displaying Tag" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@attribute name="articleInstance" required="true" type="ru.kpfu.itis.renett.models.Article" %>
+<%@attribute name="articleInstance" required="true" type="ru.renett.models.old.Article" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <div class="article-wrapper">
@@ -19,7 +19,7 @@
                 </div>
             </c:if>
         </div>
-        <div class="article-heading-author"> Опубликовано пользователем ${articleInstance.author.login}, ${articleInstance.publishedAt.toLocaleString()}</div>
+        <div class="article-heading-author"> Опубликовано пользователем ${articleInstance.author.username}, ${articleInstance.publishedAt.toLocaleString()}</div>
         <c:forEach var="tagInstance" items="${articleInstance.tagList}">
             <t:tags tag="${tagInstance}" isBlankPage="true"></t:tags>
         </c:forEach>
