@@ -1,7 +1,7 @@
 package ru.renett.controllers.old.articles;
 
 import ru.renett.exceptions.InvalidRequestDataException;
-import ru.renett.models.old.Article;
+import ru.renett.models.Article;
 import ru.renett.service.old.articleService.ArticleGetDataService;
 import ru.renett.configuration.Constants;
 import ru.renett.service.old.articleService.ArticleSaveDataService;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/deleteArticle")
+//@WebServlet("/deleteArticle")
 public class ArticleDeleteServlet extends HttpServlet {
     private ArticleGetDataService articleGetDataService;
     private ArticleSaveDataService articleSaveDataService;
@@ -32,7 +32,7 @@ public class ArticleDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            int id = requestValidator.checkRequestedIdCorrect(request.getParameter("id"));
+            Long id = requestValidator.checkRequestedIdCorrect(request.getParameter("id"));
             Article articleToDelete = articleGetDataService.getArticleById(id);
             if (articleToDelete != null) {
                 articleSaveDataService.deleteArticle(articleToDelete);

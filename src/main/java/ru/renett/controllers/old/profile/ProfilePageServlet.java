@@ -1,7 +1,7 @@
 package ru.renett.controllers.old.profile;
 
 import ru.renett.configuration.Constants;
-import ru.renett.models.old.Article;
+import ru.renett.models.Article;
 import ru.renett.models.User;
 import ru.renett.service.old.articleService.ArticleGetDataService;
 
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/profile")
+//@WebServlet("/profile")
 public class ProfilePageServlet extends HttpServlet {
     private ArticleGetDataService articleGetDataService;
 

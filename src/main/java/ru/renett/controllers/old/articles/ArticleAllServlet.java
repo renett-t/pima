@@ -1,7 +1,7 @@
 package ru.renett.controllers.old.articles;
 
-import ru.renett.models.old.Article;
-import ru.renett.models.old.Tag;
+import ru.renett.models.Article;
+import ru.renett.models.Tag;
 import ru.renett.models.User;
 import ru.renett.service.old.articleService.ArticleGetDataService;
 import ru.renett.configuration.Constants;
@@ -17,10 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/articles")
+//@WebServlet("/articles")
 public class ArticleAllServlet extends HttpServlet {
     private ArticleGetDataService articleGetDataService;
-    private Map<String, Integer> mapOfTags;
+    private Map<String, Long> mapOfTags;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -60,14 +60,14 @@ public class ArticleAllServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/articles_page.jsp").forward(request, response);
     }
 
-    private Map<String, Integer> initializeMapOfTags() {
-        Map<String, Integer> map = new HashMap<>();
+    private Map<String, Long> initializeMapOfTags() {
+        Map<String, Long> map = new HashMap<>();
         for (Tag tag: articleGetDataService.getAllTags()) {
             map.put(tag.getId().toString(), tag.getId());
         }
-        map.put("guitar", 3);
-        map.put("music-theory", 9);
-        map.put("songs", 2);
+        map.put("guitar", 3L);
+        map.put("music-theory", 9L);
+        map.put("songs", 2L);
 
         return map;
     }

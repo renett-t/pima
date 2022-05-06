@@ -1,8 +1,8 @@
 package ru.renett.service.old.articleService;
 
 import ru.renett.exceptions.FileUploadException;
-import ru.renett.models.old.Article;
-import ru.renett.models.old.Comment;
+import ru.renett.models.Article;
+import ru.renett.models.Comment;
 import ru.renett.models.User;
 
 import javax.servlet.http.HttpServletRequest;

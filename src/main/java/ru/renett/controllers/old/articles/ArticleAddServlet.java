@@ -1,6 +1,6 @@
 package ru.renett.controllers.old.articles;
 
-import ru.renett.models.old.Tag;
+import ru.renett.models.Tag;
 import ru.renett.service.old.articleService.ArticleGetDataService;
 import ru.renett.configuration.Constants;
 
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/newArticle")
+//@WebServlet("/newArticle")
 @MultipartConfig
 public class ArticleAddServlet extends HttpServlet {
     private ArticleGetDataService articleGetDataService;

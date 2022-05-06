@@ -1,7 +1,7 @@
 package ru.renett.controllers.old;
 
 import ru.renett.exceptions.InvalidRequestDataException;
-import ru.renett.models.old.Article;
+import ru.renett.models.Article;
 import ru.renett.configuration.Constants;
 import ru.renett.service.old.articleService.ArticleGetDataService;
 import ru.renett.service.old.RequestValidatorInterface;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/main")
+//@WebServlet("/main")
 public class MainPageServlet extends HttpServlet {
     private ArticleGetDataService articleGetDataService;
     private UserPreferencesInterface userPreferencesManager;

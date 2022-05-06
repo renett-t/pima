@@ -12,7 +12,7 @@ import ru.renett.service.security.UserService;
 
 import javax.validation.Valid;
 
-@Controller
+//@Controller
 public class RegistrationController {
     private final UserService userService;
 
@@ -25,13 +25,13 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registration(Model model) {
-        model.addAttribute(userForm, new User());
+//        model.addAttribute(userForm, new User());
 
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute(userForm) @Valid User userForm, BindingResult bindingResult, Model model) {
+    public String addUser(@ModelAttribute @Valid User userForm, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return "registration";

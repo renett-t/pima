@@ -1,6 +1,6 @@
 <%@tag description="Article Displaying Tag" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@attribute name="articleInstance" required="true" type="ru.renett.models.old.Article" %>
+<%@attribute name="articleInstance" required="true" type="ru.renett.models.Article" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <div class="article-wrapper">

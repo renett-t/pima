@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@WebFilter("/*")
+
 public class SecurityRedirectsFilter implements Filter {
     private SecurityService securityService;
     private Map<String, String> paths;

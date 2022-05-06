@@ -35,11 +35,8 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User with username '" + username + "' not found.");
-        }
-        return user;
+        Optional<User> user = userRepository.findUserByUserName(username);
+        return user.orElseThrow( () -> new UsernameNotFoundException("User with username '" + username + "' not found."));
     }
 
     public User findUserById(Long userId) {
@@ -53,10 +50,10 @@ public class UserService implements UserDetailsService {
 
     // todo: move to exception throwing?
     public boolean saveUser(User user) {
-        User userFromDbWithUsername = userRepository.findByUsername(user.getUsername());
-        User userFromDbWithEmail = userRepository.findByEmail(user.getEmail());
+        Optional<User> userFromDbWithUsername = userRepository.findUserByUserName(user.getUsername());
+        Optional<User> userFromDbWithEmail = userRepository.findUserByEmail(user.getEmail());
 
-        if (userFromDbWithEmail != null || userFromDbWithUsername != null) {
+        if (userFromDbWithEmail.isPresent() || userFromDbWithUsername.isPresent()) {
             return false;
         }
 

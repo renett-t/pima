@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.renett.service.security.UserService;
 
-@Controller
+
 public class AdminController {
     private UserService userService;
 

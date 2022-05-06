@@ -1,7 +1,7 @@
 package ru.renett.controllers.old.articles;
 
 import ru.renett.exceptions.InvalidRequestDataException;
-import ru.renett.models.old.Article;
+import ru.renett.models.Article;
 import ru.renett.models.User;
 import ru.renett.service.old.articleService.*;
 import ru.renett.configuration.Constants;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/like")
+//@WebServlet("/like")
 public class ArticleLikeServlet extends HttpServlet {
     private ArticleGetDataService articleGetDataService;
     private ArticleSaveDataService articleSaveDataService;
@@ -34,7 +34,7 @@ public class ArticleLikeServlet extends HttpServlet {
         try {
             // user likes article just by clicking on the special icon - so the request always should be right, and it will contain
             // valid id value. But what if someone decides to make a request on their own, trying to break all the rules? :O
-            int id = requestValidator.checkRequestedIdCorrect(request.getParameter("id"));
+            Long id = requestValidator.checkRequestedIdCorrect(request.getParameter("id"));
             Article article = articleGetDataService.getArticleById(id);
             User user = (User) request.getSession().getAttribute(Constants.SESSION_USER_ATTRIBUTE_NAME);
 

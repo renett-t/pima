@@ -9,7 +9,7 @@
         </c:if>
     </div>
     <div class="articles-wrapper card-group row row-cols-3 g-4">
-            <%--@elvariable id="lwai" type="ru.renett.models.old.Article"--%>
+            <%--@elvariable id="lwai" type="ru.renett.models.Article"--%>
     <c:if test="${not empty lwai}">
         <p>Последняя просмотренная Вами статья: </p>
         <t:article-card articleInstance="${lwai}"></t:article-card>

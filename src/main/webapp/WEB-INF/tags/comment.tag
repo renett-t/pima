@@ -1,8 +1,8 @@
 <%@tag description="Article Card Tag" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
-<%@attribute name="commentInstance" required="true" type="ru.renett.models.old.Comment" %>
-<%@attribute name="parentCommentInstance" type="ru.renett.models.old.Comment" %>
+<%@attribute name="commentInstance" required="true" type="ru.renett.models.Comment" %>
+<%@attribute name="parentCommentInstance" type="ru.renett.models.Comment" %>
 
 <div class="comment-wrapper">
     <div class="comment-heading-wrapper">

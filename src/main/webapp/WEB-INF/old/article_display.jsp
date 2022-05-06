@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%--@elvariable id="articleInstance" type="ru.renett.models.old.Article"--%>
+<%--@elvariable id="articleInstance" type="ru.renett.models.Article"--%>
 <t:mainLayout title="${articleInstance.title}">
     <c:if test="${not empty message}">
         <h6>${message}</h6>

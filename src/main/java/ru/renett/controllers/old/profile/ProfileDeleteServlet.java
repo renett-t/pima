@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/deleteProfile")
+//@WebServlet("/deleteProfile")
 public class ProfileDeleteServlet extends HttpServlet {
     private SecurityService securityService;
     private UserService userService;

@@ -2,14 +2,13 @@ package ru.renett.service.old.articleService;
 
 import ru.renett.configuration.Constants;
 import ru.renett.exceptions.FileUploadException;
-import ru.renett.models.old.Article;
-import ru.renett.models.old.Comment;
-import ru.renett.models.old.Tag;
+import ru.renett.models.Article;
+import ru.renett.models.Comment;
+import ru.renett.models.Tag;
 import ru.renett.models.User;
-import ru.renett.repository.old.ArticleRepository;
-import ru.renett.repository.old.CommentRepository;
-import ru.renett.repository.old.TagRepository;
-import ru.renett.service.Constants;
+import ru.renett.repository.ArticleRepository;
+import ru.renett.repository.CommentRepository;
+import ru.renett.repository.TagRepository;
 import ru.renett.service.old.fileService.*;
 import ru.renett.service.old.RequestValidatorInterface;
 
@@ -18,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
     private final String DEFAULT_THUMBNAIL = Constants.DEFAULT_THUMBNAIL;
@@ -52,7 +50,7 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
                 .title(title)
                 .body(htmlTagsValidator.checkStringInputTags(body))
                 .author(author)
-                .tagList(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Part imagePart = null;
@@ -78,7 +76,7 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
         if (tags != null) {
             for (String tag : tags) {
                 if (!tag.equals("-1")) {
-                    newArticle.getTagList().add(new Tag(Long.parseLong(tag)));
+                    newArticle.getTags().add(new Tag(Long.parseLong(tag)));
                 }
             }
         }
@@ -121,17 +119,17 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
                     throw new FileUploadException(e);
                 }
                 editedArticle.setThumbnailPath(imageFileName);
-                articleRepository.update(editedArticle);
+                articleRepository.save(editedArticle);
             } else {
                 articleRepository.updateWithoutThumbnail(editedArticle);
             }
         } catch (IOException | ServletException e) {
             throw new FileUploadException("Проблемы с загрузкой изображения", e);
         }
-        int articleId = Integer.parseInt(request.getParameter("articleId"));
-        List<Tag> newTags = new ArrayList<>();
-        List<Tag> leftTags = new ArrayList<>();
-        List<Tag> oldTags = tagRepository.findAllArticleTags(articleId);
+        Long articleId = Long.parseLong(request.getParameter("articleId"));
+        Set<Tag> newTags = new LinkedHashSet<>();
+        Set<Tag> leftTags = new LinkedHashSet<>();
+        Set<Tag> oldTags = tagRepository.findTagsByArticleId(articleId);
         if (tags != null) {
             for (String tag : tags) {
                 if (!tag.equals("-1")) {
@@ -143,8 +141,10 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
 
         newTags.removeAll(oldTags);
         oldTags.removeAll(leftTags);
-        tagRepository.saveNewTags(newTags, articleId);
-        tagRepository.deleteOldTags(oldTags, articleId);
+//        todo: fix saving tags (
+//        tagRepository.save()
+//        tagRepository.saveNewTags(newTags, articleId);
+//        tagRepository.deleteOldTags(oldTags, articleId);
     }
 
     @Override

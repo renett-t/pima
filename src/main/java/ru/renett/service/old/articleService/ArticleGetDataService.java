@@ -1,11 +1,12 @@
 package ru.renett.service.old.articleService;
 
-import ru.renett.models.old.Article;
-import ru.renett.models.old.Comment;
-import ru.renett.models.old.Tag;
+import ru.renett.models.Article;
+import ru.renett.models.Comment;
+import ru.renett.models.Tag;
 import ru.renett.models.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ArticleGetDataService {
     Article getArticleById(Long id);
@@ -17,7 +18,7 @@ public interface ArticleGetDataService {
 
     Tag getTagById(Long tagId);
     List<Tag> getAllTags();
-    List<Tag> getArticleTags(Article article);
+    Set<Tag> getArticleTags(Article article);
     boolean isArticleLikedByUser(User user, Article article);
     long getArticleLikesAmount(Article article);
 

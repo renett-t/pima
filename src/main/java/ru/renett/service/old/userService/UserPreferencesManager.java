@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class UserPreferencesManager implements UserPreferencesInterface {
     @Override
-    public void saveLastViewedArticleIdCookie(int id, HttpServletResponse response) {
+    public void saveLastViewedArticleIdCookie(Long id, HttpServletResponse response) {
         Cookie authorizedCookie = new Cookie(Constants.COOKIE_LAST_VIEWED_ARTICLE, String.valueOf(id));
         authorizedCookie.setMaxAge(60*60*24*100);
         response.addCookie(authorizedCookie);
