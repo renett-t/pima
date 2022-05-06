@@ -1,0 +1,23 @@
+
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.url=
+spring.datasource.hikari.maximum-pool-size=30
+spring.datasource.initialization-mode=always
+
+spring.jpa.defer-datasource-initialization=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.show-sql=true
+
+spring.mvc.view.prefix=/WEB-INF/templates/
+spring.mvc.view.suffix=.jsp
+
+server.port=8088
+server.servlet.context-path=/pima
+
+##Spring properties
+#spring.profiles.active=jsp
+#spring.main.allow-bean-definition-overriding=true
+#logging.level.web=DEBUG
