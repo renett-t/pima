@@ -1,27 +1,29 @@
-package ru.renett.models.old;
+package ru.renett.models;
 
 import lombok.*;
 
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "tag")
 public class Tag {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Size(min = 3)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
     public Tag(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Tag{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                '}';
     }
 
     @Override

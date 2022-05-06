@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -13,8 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -22,44 +21,45 @@ import java.util.Set;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @NotNull
     @Size(min = 5, message = "В имени/фамилии должно быть не менее 5 знаков")
     @Column(name = "first_name")
     private String firstName;
 
-    @NotNull
     @Size(min = 5, message = "В имени/фамилии должно быть не менее 5 знаков")
     @Column(name = "second_name")
     private String secondName;
 
-    @NotNull
     @Size(min = 5, message = "В имени должно быть не менее 5 знаков")
-    @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$")
-    // todo: unique constraints
+//    @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$")
+    @Email
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @NotNull
-    @Size(min = 5, message = "В имени/фамилии должно быть не менее 5 знаков")
-    private String username;
+    @Size(min = 5, max = 32, message = "Юзернэйм может содержать от 5 до 32 символов включительно")
+    @Column(name = "username", nullable = false, unique = true)
+    private String userName;
 
-    @NotNull
     @Size(min = 5, message = "Пароль должен содержать не мене 5 символов")
-    @Column(name = "password_hash")
+    @Column(name = "password_hash", length = 64, nullable = false)
     private String password;
 
     @Transient
     private String passwordRepeat;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
     public User(String firstName, String secondName, String email, String username) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
-        this.username = username;
+        this.userName = username;
     }
 
     public User(Long id) {
@@ -71,12 +71,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(secondName, user.secondName) && Objects.equals(email, user.email) && Objects.equals(username, user.username) && Objects.equals(password, user.password);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(secondName, user.secondName) && Objects.equals(email, user.email) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, secondName, email, username, password);
+        return Objects.hash(id, firstName, secondName, email, userName, password);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     @Override
