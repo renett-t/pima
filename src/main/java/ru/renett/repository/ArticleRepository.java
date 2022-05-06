@@ -1,8 +1,8 @@
-package ru.renett.repository.old;
+package ru.renett.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import ru.renett.models.old.Article;
+import ru.renett.models.Article;
 
 import java.util.List;
 
