@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 @Builder
@@ -21,6 +22,9 @@ public class Tag {
     @Size(min = 3)
     @Column(name = "title", nullable = false, unique = true)
     private String title;
+
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    private Set<Article> articles;
 
     public Tag(Long id) {
         this.id = id;

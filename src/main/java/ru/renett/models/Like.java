@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "comment", uniqueConstraints =
+@Table(name = "like_article", uniqueConstraints =
     @UniqueConstraint(name = "unique_like_constraint", columnNames = {"user_id", "article_id"}))
 public class Like {
     @Id

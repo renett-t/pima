@@ -1,11 +1,3 @@
--- сразу после запуска приложения
-INSERT INTO public.t_role(id, name)
-VALUES (1, 'ROLE_USER'), (2, 'ROLE_ADMIN');
-
--- после регистрации юзера добавим ему роль админа
-INSERT INTO public.t_user_roles(user_id, roles_id)
-VALUES (1, 2);
-
 INSERT INTO t_user(first_name, second_name, email, username, password_hash) VALUES
                                                                              ('Регина', 'Тяпкина', 'rtapkina@gmail.com', 'renett_t', '1318b4f61f0dd525459cebdc446ba2fed827277a22b8b30549f14982c82a5939'),
                                                                              ('Андрей', 'Солнцев', 'sunandre@gmail.com', 'sunandre', 'cbd114f2f00d7495ffe4ba3121ae9982831ff3d2c3cc18b4ef1e4d05559f0b87'),
@@ -13,6 +5,16 @@ INSERT INTO t_user(first_name, second_name, email, username, password_hash) VALU
                                                                              ('User', 'UserSurmane', 'rus.surname@gmail.com', 'rus.surname', 'c6293e5e4f716566a08f03813f1c68bf1b52b537df9704b4f925ef83695cf442'),
                                                                              ('Адель', 'Маратов', 'adel.maratov@gmail.com', 'adel.maratov', '04b8bb985492a68885a7822f23822f493ffc3703c6f44b1dd270f5bfe5c587ed');
 -- login: adel.maratov, pass: adel.maratov007
+
+INSERT INTO t_role(id, name)
+VALUES (1, 'ROLE_ADMIN'), (2, 'ROLE_USER');
+
+INSERT INTO user_roles(user_id, role_id)
+VALUES (1, 2),
+       (2, 1),
+       (3, 2),
+       (4, 2),
+       (5, 2);
 
 INSERT INTO article(title, body, author_id, thumbnail_path, view_count) VALUES
                                                               ('Руководство: Как создать статью на нашем сайте?', '<blockquote><p>Допустим, здесь опубликовано исчерпывающее руководство по тому, как вообще пользоваться сайтом</p></blockquote>', 1, 'piano-background.jpg', 19),
@@ -69,7 +71,7 @@ INSERT INTO article_tag VALUES
                               (8, 2),
                               (8, 1);
 
-INSERT INTO like_article VALUES
+INSERT INTO like_article(user_id, article_id) VALUES
                             (1, 4),
                             (1, 2),
                             (1, 6),

@@ -6,6 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -34,9 +37,9 @@ public class Article {
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
+//    @CreationTimestamp
+    @Column(name = "published_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
-    @Column(name = "published_at", nullable = false, insertable = false, updatable = false)
     private Date publishedAt;
 
     @Column(name = "thumbnail_path", nullable = false)
@@ -49,7 +52,7 @@ public class Article {
     @JoinTable(name = "article_tag",
             joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
-    private Set<Tag> tagList;
+    private Set<Tag> tags;
 
     @Column(name = "view_count", nullable = false)
     private Long viewAmount;
@@ -83,11 +86,5 @@ public class Article {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, body, author.getId());
-    }
-
-    @PrePersist
-    protected void onCreate() {
-//        this.publishedAt = new Date();
-        this.viewAmount = 0L;
     }
 }

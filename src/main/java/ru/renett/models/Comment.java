@@ -34,8 +34,8 @@ public class Comment {
     private User author;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
-    @Column(name = "published_at", nullable = false, insertable = false, updatable = false)
+//    @CreationTimestamp
+    @Column(name = "published_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP default current_timestamp")
     private Date publishedAt;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)

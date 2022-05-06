@@ -1,7 +1,9 @@
-DROP TABLE "user" CASCADE;
+DROP TABLE t_user CASCADE;
+DROP TABLE t_role CASCADE;
 DROP TABLE article CASCADE;
 DROP TABLE comment CASCADE;
 DROP TABLE tag CASCADE;
-DROP TABLE like_article;
 DROP TABLE article_tag;
-DROP TABLE auth;
+DROP TABLE user_roles;
+DROP TABLE like_article;
+
