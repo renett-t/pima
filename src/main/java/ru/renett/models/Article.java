@@ -57,12 +57,22 @@ public class Article {
     @Column(name = "view_count", nullable = false)
     private Long viewAmount;
 
-    // todo: как ето доставать...
-    @Transient
-    private Long commentAmount;
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<Like> likes;
 
     @Transient
-    private Long likeAmount;
+    private int commentAmount;
+
+    @Transient
+    private int likeAmount;
+
+    public int getLikeAmount() {
+        return likes.size();
+    }
+
+    public int getCommentAmount() {
+        return commentList.size();
+    }
 
     public Article(Long id) {
         this.id = id;

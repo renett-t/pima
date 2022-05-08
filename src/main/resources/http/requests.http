@@ -1,0 +1,36 @@
+### Получение списка статей
+GET http://localhost:8088/pima/articles
+
+### Получение списка статей с указанием пагинации
+GET http://localhost:8088/pima/articles?page=0&limit=5
+
+### Получение статьи по id
+GET http://localhost:8088/pima/articles/1
+
+### Создание новой статьи:
+POST http://localhost:8088/pima/articles
+Content-Type: application/json
+#Authorization: Bearer token
+
+{
+  "authorId" : 1,
+  "title": "Test title",
+  "body": "Test body",
+  "image": "link",
+  "tags": ["test", "useful", "tutorial", "Руководство"]
+}
+
+### Обновление статьи по id
+PUT http://localhost:8088/pima/articles/7
+Content-Type: application/json
+#Authorization: Bearer token
+
+{
+  "title": "Test title",
+  "body": "Test body",
+  "image": "link",
+  "tags": ["test", "useful", "tutorial", "Руководство"]
+}
+
+### Удаление статьи
+DELETE http://localhost:8088/pima/articles/7

@@ -6,7 +6,7 @@ import ru.renett.models.Article;
 
 import java.util.List;
 
-public interface ArticleRepository extends JpaRepository<Article, Long> {
+public interface ArticlesRepository extends JpaRepository<Article, Long> {
     @Query(value = "SELECT * FROM article WHERE author_id = ? ORDER BY id;", nativeQuery = true)
     List<Article> findAllByAuthorId(Long ownerId);
 

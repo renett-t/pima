@@ -5,6 +5,6 @@ import ru.renett.models.Comment;
 
 import java.util.List;
 
-public interface CommentRepository extends JpaRepository<Comment, Long> {
+public interface CommentsRepository extends JpaRepository<Comment, Long> {
     List<Comment> findCommentsByArticleId(Long id);
 }

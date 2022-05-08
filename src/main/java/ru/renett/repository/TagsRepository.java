@@ -4,12 +4,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.renett.models.Tag;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-public interface TagRepository extends JpaRepository<Tag, Long> {
+public interface TagsRepository extends JpaRepository<Tag, Long> {
     @Query(value = "SELECT * FROM tag left join article_tag on tag.id = article_tag.tag_id WHERE article_id = ?;", nativeQuery = true)
     Set<Tag> findTagsByArticleId(Long articleId);
+    Optional<Tag> findTagByTitle(String title);
 
     // INSERT INTO article_tag(article_id, tag_id) VALUES (?, ?);
 //    void saveNewTags(Set<Tag> newTags, Long articleId);
