@@ -15,24 +15,25 @@ import java.util.Set;
 @Entity
 @Table(name = "t_role")
 public class Role implements GrantedAuthority {
+
+    public enum ROLE {
+        ADMIN, AUTHOR, USER
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Size(min = 5)
-    private String name;
+    @Enumerated
+    @Column(name = "name")
+    private ROLE name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> users;
 
-    public Role(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     @Override
     public String getAuthority() {
-        return getName();
+        return getName().toString();
     }
 }

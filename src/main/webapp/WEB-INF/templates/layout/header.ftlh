@@ -13,7 +13,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="<@spring.url'/main'/>">Главная</a>
+                            <a class="nav-link active" aria-current="page" href="<@spring.url'/'/>">Главная</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -41,18 +41,6 @@
                         <img class="nav-profile-icon" src="<@spring.url'/resources/icons/profile.png'/>" alt="profile icon">
                     </a>
                 </@security.authorize>
-
-                <#-- @ftlvariable name="isAuthenticated" type="java.lang.Boolean" -->
-                <#if isAuthenticated?? && isAuthenticated == true>
-                    <a href="<@spring.url'/profile'/>">
-                        <@security.authentication property="principal.username" />
-                        <img class="nav-profile-icon" src="<@spring.url'/resources/icons/profile.png'/>" alt="profile icon">
-                    </a>
-                <#else>
-                    <a href="<@spring.url'/signIn'/>">
-                        <img class="nav-profile-icon" src="<@spring.url'/resources/icons/profile.png'/>" alt="profile icon">
-                    </a>
-                </#if>
             </div>
         </nav>
     </header>

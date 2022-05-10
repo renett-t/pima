@@ -1,9 +1,17 @@
-INSERT INTO t_user(first_name, second_name, email, username, password_hash) VALUES
-                                                                             ('Регина', 'Тяпкина', 'rtapkina@gmail.com', 'renett_t', '1318b4f61f0dd525459cebdc446ba2fed827277a22b8b30549f14982c82a5939'),
-                                                                             ('Андрей', 'Солнцев', 'sunandre@gmail.com', 'sunandre', 'cbd114f2f00d7495ffe4ba3121ae9982831ff3d2c3cc18b4ef1e4d05559f0b87'),
-                                                                             ('Елизавета', 'Лунева', 'moonaliza@gmail.com', 'moonaliza', '1318b4f61f0dd525459cebdc446ba2fed827277a22b8b30549f14982c82a5939'),
-                                                                             ('User', 'UserSurmane', 'rus.surname@gmail.com', 'rus.surname', 'c6293e5e4f716566a08f03813f1c68bf1b52b537df9704b4f925ef83695cf442'),
-                                                                             ('Адель', 'Маратов', 'adel.maratov@gmail.com', 'adel.maratov', '04b8bb985492a68885a7822f23822f493ffc3703c6f44b1dd270f5bfe5c587ed');
+create table if not exists persistent_logins
+(
+    username  varchar(64) not null,
+    series    varchar(64) not null,
+    token     varchar(64) not null,
+    last_used timestamp   not null
+);
+
+INSERT INTO t_user(first_name, second_name, email, username, password_hash, state) VALUES
+                                                                             ('Регина', 'Тяпкина', 'rtapkina@gmail.com', 'renett_t', '1318b4f61f0dd525459cebdc446ba2fed827277a22b8b30549f14982c82a5939', 'CONFIRMED'),
+                                                                             ('Андрей', 'Солнцев', 'sunandre@gmail.com', 'sunandre', 'cbd114f2f00d7495ffe4ba3121ae9982831ff3d2c3cc18b4ef1e4d05559f0b87', 'CONFIRMED'),
+                                                                             ('Елизавета', 'Лунева', 'moonaliza@gmail.com', 'moonaliza', '1318b4f61f0dd525459cebdc446ba2fed827277a22b8b30549f14982c82a5939', 'CONFIRMED'),
+                                                                             ('User', 'UserSurmane', 'rus.surname@gmail.com', 'rus.surname', 'c6293e5e4f716566a08f03813f1c68bf1b52b537df9704b4f925ef83695cf442', 'CONFIRMED'),
+                                                                             ('Адель', 'Маратов', 'adel.maratov@gmail.com', 'adel.maratov', '04b8bb985492a68885a7822f23822f493ffc3703c6f44b1dd270f5bfe5c587ed', 'CONFIRMED');
 -- login: adel.maratov, pass: adel.maratov007
 
 INSERT INTO t_role(id, name)

@@ -3,7 +3,7 @@
 <#import "layout/layout.ftlh" as layout/>
 
 // todo
-<@layout title=title> <#-- @ftlvariable name="title" type="java.lang.String" -->
+<@layout.contents title="Регистрация"> <#-- @ftlvariable name="title" type="java.lang.String" -->
 <t:mainLayout title="Регистрация">
     <div class="registration-form-wrapper centered-content-wrapper">
         <form:form class="registration-form" method="POST" modelAttribute="userForm">

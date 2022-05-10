@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.renett.models.User;
 
 @Data
 @Builder
@@ -14,4 +15,13 @@ public class AuthorDto {
     private String firstName;
     private String secondName;
     private String username;
+
+    public static AuthorDto from(User user) {
+        return AuthorDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .secondName(user.getSecondName())
+                .username(user.getUserName())
+                .build();
+    }
 }

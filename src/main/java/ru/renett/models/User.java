@@ -1,14 +1,11 @@
 package ru.renett.models;
 
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,7 +15,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "t_user")
-public class User implements UserDetails {
+public class User {
+
+    public enum State {
+        NOT_CONFIRMED, CONFIRMED, DELETED, BANNED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -46,14 +48,14 @@ public class User implements UserDetails {
     @Column(name = "password_hash", length = 64, nullable = false)
     private String password;
 
-    @Transient
-    private String passwordRepeat;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
+
+    @Enumerated(value = EnumType.STRING)
+    private State state;
 
     public User(String firstName, String secondName, String email, String username) {
         this.firstName = firstName;
@@ -77,40 +79,5 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, secondName, email, userName, password);
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return userName;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true; // todo
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }

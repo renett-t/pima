@@ -1,52 +1,50 @@
 package ru.renett.controllers.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.renett.models.User;
-import ru.renett.service.security.UserService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import ru.renett.dto.SignUpDto;
+import ru.renett.exceptions.ServiceException;
+import ru.renett.service.impl.UserServiceImpl;
 
 import javax.validation.Valid;
 
-//@Controller
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/signUp")
 public class RegistrationController {
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    private static final String userForm = "userForm";
+    private static final String SIGN_UP_FORM = "signUpForm";
 
-    @Autowired
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping("/registration")
+    @GetMapping
     public String registration(Model model) {
-//        model.addAttribute(userForm, new User());
-
-        return "registration";
+        model.addAttribute(SIGN_UP_FORM, new SignUpDto());
+        return "sign_up";
     }
 
-    @PostMapping("/registration")
-    public String addUser(@ModelAttribute @Valid User userForm, BindingResult bindingResult, Model model) {
+    @PostMapping
+    public String addUser(@ModelAttribute @Valid SignUpDto signUpForm, BindingResult bindingResult, ModelMap map) {
+        System.out.println(signUpForm);
 
         if (bindingResult.hasErrors()) {
-            return "registration";
+            map.put(SIGN_UP_FORM, signUpForm);
+            return "sign_up";
         }
 
-        if (!userForm.getPassword().equals(userForm.getPasswordRepeat())){
-            model.addAttribute("passwordError", "Пароли не совпадают");
-            return "registration";
-        }
-        // todo: exceptions handling
-        if (!userService.saveUser(userForm)){
-            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-            return "registration";
+        try {
+            userService.signUp(userService);
+        } catch (ServiceException ex) {
+            map.put("message", ex.getMessage());
+            return "sign_up";
         }
 
-        return "redirect:/";
+        return "redirect:/signIn";
     }
 }

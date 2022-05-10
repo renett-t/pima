@@ -3,7 +3,7 @@
 <#import "spring.ftl" as spring />
 <#import "header.ftlh" as header/>
 <#import "footer.ftlh" as footer/>
-<#macro layout title>
+<#macro contents title>
     <!DOCTYPE html>
     <html>
     <head>

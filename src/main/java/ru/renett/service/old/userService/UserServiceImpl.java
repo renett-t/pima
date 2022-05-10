@@ -1,32 +1,32 @@
 package ru.renett.service.old.userService;
 
 import ru.renett.models.User;
-import ru.renett.repository.UserRepository;
+import ru.renett.repository.UsersRepository;
 
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
+    private UsersRepository usersRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
     }
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return usersRepository.findById(id).orElse(null);
     }
 
     @Override
     public void editUserData(User user) {
-        userRepository.save(user);
+        usersRepository.save(user);
     }
 
     @Override
     public void deleteUser(User user) {
-        userRepository.delete(user);
+        usersRepository.delete(user);
     }
 
     @Override
     public void addNewUser(User user) {
-        userRepository.save(user);
+        usersRepository.save(user);
     }
 }

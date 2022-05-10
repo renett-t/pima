@@ -2,7 +2,7 @@
 <#import "spring.ftl" as spring />
 <#import "layout/layout.ftlh" as layout/>
 
-<@layout title=title> <#-- @ftlvariable name="title" type="java.lang.String" -->
+<@layout.contents title="Вход">
     <div class="registration-form-wrapper">
 <#--        <@spring.bind path='signInDto' />-->
         <h1 class="h3 mb-3 fw-normal">Войти</h1>
@@ -33,7 +33,7 @@
             Зайти через Вконтакте</a>
         </div>
     </div>
-</@layout>
+</@layout.contents>
 
 <script>cntx = '<@spring.url''>'
     console.log("CONTEX: " + cntx)</script>

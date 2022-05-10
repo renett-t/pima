@@ -34,6 +34,7 @@ public class ArticleDto {
                 .publishedAt(article.getPublishedAt().toString())
                 .views(article.getViewAmount())
                 .likes(article.getLikeAmount())
+                .author(AuthorDto.from(article.getAuthor()))
                 .commentsAmount(article.getCommentAmount())
                 .comments(CommentDto.from(article.getCommentList()))
                 .build();

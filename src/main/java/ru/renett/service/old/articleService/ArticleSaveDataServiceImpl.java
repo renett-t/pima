@@ -6,9 +6,9 @@ import ru.renett.models.Article;
 import ru.renett.models.Comment;
 import ru.renett.models.Tag;
 import ru.renett.models.User;
-import ru.renett.repository.ArticleRepository;
-import ru.renett.repository.CommentRepository;
-import ru.renett.repository.TagRepository;
+import ru.renett.repository.ArticlesRepository;
+import ru.renett.repository.CommentsRepository;
+import ru.renett.repository.TagsRepository;
 import ru.renett.service.old.fileService.*;
 import ru.renett.service.old.RequestValidatorInterface;
 
@@ -22,17 +22,17 @@ import java.util.*;
 public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
     private final String DEFAULT_THUMBNAIL = Constants.DEFAULT_THUMBNAIL;
 
-    private ArticleRepository articleRepository;
-    private CommentRepository commentRepository;
-    private TagRepository tagRepository;
+    private ArticlesRepository articlesRepository;
+    private CommentsRepository commentsRepository;
+    private TagsRepository tagsRepository;
     private HtmlTagsValidator htmlTagsValidator;
     private FileManager fileManager;
     private RequestValidatorInterface requestValidator;
 
-    public ArticleSaveDataServiceImpl(ArticleRepository articleRepository, CommentRepository commentRepository, TagRepository tagRepository, RequestValidatorInterface requestValidator) {
-        this.articleRepository = articleRepository;
-        this.commentRepository = commentRepository;
-        this.tagRepository = tagRepository;
+    public ArticleSaveDataServiceImpl(ArticlesRepository articlesRepository, CommentsRepository commentsRepository, TagsRepository tagsRepository, RequestValidatorInterface requestValidator) {
+        this.articlesRepository = articlesRepository;
+        this.commentsRepository = commentsRepository;
+        this.tagsRepository = tagsRepository;
         this.htmlTagsValidator = new HtmlTagsValidatorImpl();
         this.requestValidator = requestValidator;
         this.fileManager = new FileManagerImpl(Constants.STORAGE_URL);
@@ -81,14 +81,14 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
             }
         }
 
-        articleRepository.save(newArticle);
+        articlesRepository.save(newArticle);
         return newArticle.getId();
     }
 
     @Override
     public void deleteArticle(Article articleToDelete) {
         if (articleToDelete != null) {
-            articleRepository.delete(articleToDelete);
+            articlesRepository.delete(articleToDelete);
         }
     }
 
@@ -119,9 +119,9 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
                     throw new FileUploadException(e);
                 }
                 editedArticle.setThumbnailPath(imageFileName);
-                articleRepository.save(editedArticle);
+                articlesRepository.save(editedArticle);
             } else {
-                articleRepository.updateWithoutThumbnail(editedArticle);
+                articlesRepository.updateWithoutThumbnail(editedArticle);
             }
         } catch (IOException | ServletException e) {
             throw new FileUploadException("Проблемы с загрузкой изображения", e);
@@ -129,7 +129,7 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
         Long articleId = Long.parseLong(request.getParameter("articleId"));
         Set<Tag> newTags = new LinkedHashSet<>();
         Set<Tag> leftTags = new LinkedHashSet<>();
-        Set<Tag> oldTags = tagRepository.findTagsByArticleId(articleId);
+        Set<Tag> oldTags = tagsRepository.findTagsByArticleId(articleId);
         if (tags != null) {
             for (String tag : tags) {
                 if (!tag.equals("-1")) {
@@ -150,20 +150,20 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
     @Override
     public void likeArticle(User user, Article likedArticle) {
         if (likedArticle != null && user != null) {
-            articleRepository.updateLikesAmount(user.getId(), likedArticle.getId());
+            articlesRepository.updateLikesAmount(user.getId(), likedArticle.getId());
         }
     }
 
     @Override
     public void dislikeArticle(User user, Article dislikedArticle) {
         if (user != null && dislikedArticle != null) {
-            articleRepository.removeLikeFromArticle(user.getId(), dislikedArticle.getId());
+            articlesRepository.removeLikeFromArticle(user.getId(), dislikedArticle.getId());
         }
     }
 
     @Override
     public void updateViewCount(Article article) {
-        articleRepository.updateViewCount(article.getId(), article.getViewAmount());
+        articlesRepository.updateViewCount(article.getId(), article.getViewAmount());
     }
 
     @Override
@@ -188,7 +188,7 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
                 .build();
 
         if (newComment != null) {
-            commentRepository.save(newComment);
+            commentsRepository.save(newComment);
         }
     }
 

@@ -34,7 +34,7 @@ public class CommentDto {
                 .parentId(parentId)
                 .publishedAt(comment.getPublishedAt().toString())
                 .authorId(comment.getAuthor().getId())
-                .authorUserName(comment.getAuthor().getUsername())
+                .authorUserName(comment.getAuthor().getUserName())
                 .build();
     }
 

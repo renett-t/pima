@@ -5,10 +5,10 @@ import ru.renett.models.Article;
 import ru.renett.models.Comment;
 import ru.renett.models.Tag;
 import ru.renett.models.User;
-import ru.renett.repository.ArticleRepository;
-import ru.renett.repository.CommentRepository;
-import ru.renett.repository.TagRepository;
-import ru.renett.repository.UserRepository;
+import ru.renett.repository.ArticlesRepository;
+import ru.renett.repository.CommentsRepository;
+import ru.renett.repository.TagsRepository;
+import ru.renett.repository.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,26 +16,26 @@ import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
-public class ArticleGetDataServiceImpl implements ArticleGetDataService {
-    private final ArticleRepository articleRepository;
-    private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
-    private final TagRepository tagRepository;
+public class ArticlesGetDataServiceImpl implements ArticlesGetDataService {
+    private final ArticlesRepository articlesRepository;
+    private final UsersRepository usersRepository;
+    private final CommentsRepository commentsRepository;
+    private final TagsRepository tagsRepository;
 
     @Override
     public Article getArticleById(Long id) {
-        Optional<Article> foundArticle = articleRepository.findById(id);
+        Optional<Article> foundArticle = articlesRepository.findById(id);
 
         Article article = foundArticle.orElse(null);
 
         if (article != null) {
-            User author = userRepository.findById(article.getAuthor().getId()).orElse(article.getAuthor());
+            User author = usersRepository.findById(article.getAuthor().getId()).orElse(article.getAuthor());
             article.setAuthor(author);
             List<Comment> commentList = this.getArticleComments(article);
-            article.setCommentAmount((long) commentList.size());
+            article.setCommentAmount(commentList.size());
             article.setCommentList(this.rearrangeArticleCommentsList(commentList));
             article.setTags(this.getArticleTags(article));
-            article.setLikeAmount(this.getArticleLikesAmount(article));
+            article.setLikeAmount((int) this.getArticleLikesAmount(article));
         }
 
         return article;
@@ -44,7 +44,7 @@ public class ArticleGetDataServiceImpl implements ArticleGetDataService {
     @Override
     public List<Article> getUsersArticles(User user) {
         if (user != null) {
-            List<Article> articleList = articleRepository.findAllByAuthorId(user.getId());
+            List<Article> articleList = articlesRepository.findAllByAuthorId(user.getId());
             initializeArticlesWithBasicInfo(articleList);
             return articleList;
         } else {
@@ -55,7 +55,7 @@ public class ArticleGetDataServiceImpl implements ArticleGetDataService {
     @Override
     public List<Article> getLikedArticles(User user) {
         if (user != null) {
-            List<Article> articleList = articleRepository.findAllLikedArticles(user.getId());
+            List<Article> articleList = articlesRepository.findAllLikedArticles(user.getId());
             initializeArticlesWithBasicInfo(articleList);
             return articleList;
         }
@@ -64,16 +64,16 @@ public class ArticleGetDataServiceImpl implements ArticleGetDataService {
 
     @Override
     public List<Article> getAllArticles() {
-        List<Article> articleList = articleRepository.findAll();
+        List<Article> articleList = articlesRepository.findAll();
         initializeArticlesWithBasicInfo(articleList);
         return articleList;
     }
 
     @Override
     public List<Article> getAllArticlesExceptUsers(User user) {
-        List<Article> all = articleRepository.findAll();
+        List<Article> all = articlesRepository.findAll();
         if (user != null) {
-            List<Article> users = articleRepository.findAllByAuthorId(user.getId());
+            List<Article> users = articlesRepository.findAllByAuthorId(user.getId());
             all.removeAll(users);
             initializeArticlesWithBasicInfo(all);
         }
@@ -83,7 +83,7 @@ public class ArticleGetDataServiceImpl implements ArticleGetDataService {
     @Override
     public List<Article> getAllArticlesByTag(Tag tag) {
         if (tag != null) {
-            List<Article> articleList = articleRepository.findAllByTagId(tag.getId());
+            List<Article> articleList = articlesRepository.findAllByTagId(tag.getId());
             initializeArticlesWithBasicInfo(articleList);
             return articleList;
         }
@@ -92,12 +92,12 @@ public class ArticleGetDataServiceImpl implements ArticleGetDataService {
 
     @Override
     public List<Tag> getAllTags() {
-        return tagRepository.findAll();
+        return tagsRepository.findAll();
     }
 
     @Override
     public Set<Tag> getArticleTags(Article article) {
-        return tagRepository.findTagsByArticleId(article.getId());
+        return tagsRepository.findTagsByArticleId(article.getId());
     }
 
 
@@ -112,7 +112,7 @@ public class ArticleGetDataServiceImpl implements ArticleGetDataService {
 
     @Override
     public long getArticleLikesAmount(Article article) {
-        return articleRepository.getLikesAmount(article.getId());
+        return articlesRepository.getLikesAmount(article.getId());
     }
 
     /**
@@ -122,9 +122,9 @@ public class ArticleGetDataServiceImpl implements ArticleGetDataService {
      */
     @Override
     public List<Comment> getArticleComments(Article article) {
-        List<Comment> commentList = commentRepository.findCommentsByArticleId(article.getId());
+        List<Comment> commentList = commentsRepository.findCommentsByArticleId(article.getId());
         for (Comment comment : commentList) {
-            User actualAuthor = userRepository.findById(comment.getAuthor().getId()).orElse(comment.getAuthor());
+            User actualAuthor = usersRepository.findById(comment.getAuthor().getId()).orElse(comment.getAuthor());
             comment.setAuthor(actualAuthor);
         }
         return commentList;
@@ -159,7 +159,7 @@ public class ArticleGetDataServiceImpl implements ArticleGetDataService {
 
     @Override
     public Tag getTagById(Long tagId) {
-        return tagRepository.findById(tagId).orElse(null);
+        return tagsRepository.findById(tagId).orElse(null);
     }
 
     private void initializeArticlesWithBasicInfo(List<Article> articleList) {
@@ -169,8 +169,8 @@ public class ArticleGetDataServiceImpl implements ArticleGetDataService {
     }
 
     private void initializeArticleWithBasicInfo(Article article) {
-        article.setCommentAmount((long) this.getArticleComments(article).size());
-        article.setLikeAmount(this.getArticleLikesAmount(article));
+        article.setCommentAmount(this.getArticleComments(article).size());
+        article.setLikeAmount((int) this.getArticleLikesAmount(article));
         article.setTags(this.getArticleTags(article));
     }
 }

@@ -8,7 +8,7 @@ import ru.renett.models.User;
 import java.util.List;
 import java.util.Set;
 
-public interface ArticleGetDataService {
+public interface ArticlesGetDataService {
     Article getArticleById(Long id);
     List<Article> getUsersArticles(User user);
     List<Article> getLikedArticles(User user);

@@ -1,4 +1,4 @@
-package ru.renett.controllers;
+package ru.renett.controllers.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,13 +19,13 @@ public class ArticlesRestController {
     private final ArticlesRestService articlesRestService;
 
     @Value("${defaults.rest.page}")
-    private int defaultPage;
+    private static final String defaultPage = "";
 
     @Value("${defaults.rest.limit}")
-    private int defaultLimit;
+    private static final String defaultLimit = "";
 
     @GetMapping
-    public ResponseEntity<ArticlesPage> getArticles(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+    public ResponseEntity<ArticlesPage> getArticles(@RequestParam(name = "page", defaultValue = defaultPage) int page, @RequestParam(name = "limit", defaultValue = defaultLimit) int limit) {
         try {
             return ResponseEntity.ok(articlesRestService.getArticles(page, limit));
         } catch (EntityNotFoundException ex) {

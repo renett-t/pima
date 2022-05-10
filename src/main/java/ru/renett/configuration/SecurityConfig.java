@@ -1,58 +1,90 @@
 package ru.renett.configuration;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RequestParam;
-import ru.renett.service.security.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ru.renett.models.Role;
+import ru.renett.models.User;
 
-//@Configuration
-//@EnableWebSecurity
-@RequiredArgsConstructor
+import javax.sql.DataSource;
+
+@Configuration
+@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public final UserService userService;
+    public final UserDetailsService userDetailsService;
+    public final PasswordEncoder passwordEncoder;
+    public final DataSource dataSource;
 
+    @Autowired
+    public SecurityConfig(@Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, DataSource dataSource) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+        this.dataSource = dataSource;
+    }
+
+    @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // todo: понять эту фигню :)
-        httpSecurity
-                .csrf()
-                    .disable()
-                .authorizeRequests()
-                    // Доступ только для не зарегистрированных пользователей
-                    .antMatchers("/registration").not().fullyAuthenticated()
-                    // Доступ только для пользователей с ролью Администратор
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/articles").hasRole("USER")
-                    // Доступ разрешен всем пользователей
-                    .antMatchers("/", "/resources/**").permitAll()
-                // Все остальные страницы требуют аутентификации
-                .anyRequest().authenticated()
-                .and()
-                    // Настройка для входа в систему
-                    .formLogin()
-                    .loginPage("/login")
-                    // Перенарпавление на главную страницу после успешного входа
-                    .defaultSuccessUrl("/")
-                    .permitAll()
-                .and()
-                    .logout()
-                    .permitAll()
-                    .logoutSuccessUrl("/");
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-    @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .csrf()
+                    .ignoringAntMatchers("/api/**")
+//                    .ignoringAntMatchers("/articles")
+                    .and()
+                .authorizeRequests()
+                    .antMatchers("/signUp").permitAll()
+                    .antMatchers("/profile").authenticated()
+                    .antMatchers("/confirm").hasAuthority(User.State.NOT_CONFIRMED.name()) //todo
+                    .antMatchers("/admin/**").hasRole(Role.ROLE.ADMIN.name())
+                    .antMatchers("/articles/*/edit").hasRole(Role.ROLE.AUTHOR.name()) //todo
+                    .antMatchers("/", "/main", "/resources/**", "/articles").permitAll()
+                .anyRequest().permitAll()
+                    .and()
+                .formLogin()
+                    .loginPage("/signIn")
+                    .defaultSuccessUrl("/")
+                    .failureUrl("/signIn?error")
+                    .permitAll()
+                    .and()
+                .logout()
+                    .permitAll()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/signIn?logout")
+                    .deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(true)
+                    .and()
+                .rememberMe()
+                    .rememberMeParameter("rememberMe")
+                    .tokenRepository(tokenRepository())
+                    .tokenValiditySeconds(Constants.SECURITY_TOKEN_VALIDITY_SECONDS);
+    }
+
+    @Bean
+    public PersistentTokenRepository tokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
     }
 }
