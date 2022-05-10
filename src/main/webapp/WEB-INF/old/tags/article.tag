@@ -56,7 +56,7 @@
                 Войдите, чтобы оставить комментарий: <a class="" href="<c:url value="/signin"/>">Вход</a>
             </div>
             <br>
-            <script src="<c:url value="/scripts/article-display-script-non-auth.js"/>"charset="UTF-8">
+            <script src="<c:url value="/scripts/article-display-script-non-auth.js"/>" charset="UTF-8">
             </script>
         </c:if>
         <c:if test="${authorized}">
