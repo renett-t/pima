@@ -15,14 +15,18 @@ INSERT INTO t_user(first_name, second_name, email, username, password_hash, stat
 -- login: adel.maratov, pass: adel.maratov007
 
 INSERT INTO t_role(id, name)
-VALUES (1, 'ROLE_ADMIN'), (2, 'ROLE_USER');
+VALUES (1, 'ADMIN'), (2, 'USER'), (3, 'AUTHOR');
 
 INSERT INTO user_roles(user_id, role_id)
 VALUES (1, 2),
        (2, 1),
        (3, 2),
        (4, 2),
-       (5, 2);
+       (5, 2),
+       (1, 3),
+       (2, 3),
+       (4, 3),
+       (5, 3);
 
 INSERT INTO article(title, body, author_id, thumbnail_path, view_count) VALUES
                                                               ('Руководство: Как создать статью на нашем сайте?', '<blockquote><p>Допустим, здесь опубликовано исчерпывающее руководство по тому, как вообще пользоваться сайтом</p></blockquote>', 1, 'piano-background.jpg', 19),

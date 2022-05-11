@@ -1,6 +1,6 @@
 <#ftl encoding="UTF-8"/>
 <#import "spring.ftl" as spring />
-<#assign  security=JspTaglibs["http://www.springframework.org/security/tags"] />
+<#assign security=JspTaglibs["http://www.springframework.org/security/tags"]/>
 
 <#macro contents>
     <header>

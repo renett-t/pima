@@ -35,7 +35,7 @@ public class VkServlet extends HttpServlet {
         if (request.getParameter("code") != null) {
             try {
                 User user = vkService.getUserFromVk(request.getParameter("code"));
-                securityService.signIn(user.getUsername(), null, request, response);
+                securityService.signIn(user.getUserName(), null, request, response);
 
                 response.sendRedirect(getServletContext().getContextPath()  + "/profile");
                 return;

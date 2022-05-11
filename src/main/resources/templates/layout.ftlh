@@ -1,8 +1,8 @@
 <#ftl encoding="UTF-8"/>
 <#-- Site Layout Macro -->
 <#import "spring.ftl" as spring />
-<#import "header.ftlh" as header/>
-<#import "footer.ftlh" as footer/>
+<#import "header.ftl" as header/>
+<#import "footer.ftl" as footer/>
 <#macro contents title>
     <!DOCTYPE html>
     <html>

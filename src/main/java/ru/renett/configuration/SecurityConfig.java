@@ -26,13 +26,11 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public final UserDetailsService userDetailsService;
-    public final PasswordEncoder passwordEncoder;
     public final DataSource dataSource;
 
     @Autowired
-    public SecurityConfig(@Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, DataSource dataSource) {
+    public SecurityConfig(@Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService, DataSource dataSource) {
         this.userDetailsService = userDetailsService;
-        this.passwordEncoder = passwordEncoder;
         this.dataSource = dataSource;
     }
 
@@ -43,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -65,6 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/signIn")
                     .defaultSuccessUrl("/")
+                    .usernameParameter("userName")
+                    .passwordParameter("password")
                     .failureUrl("/signIn?error")
                     .permitAll()
                     .and()

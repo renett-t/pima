@@ -5,7 +5,7 @@ import ru.renett.exceptions.InvalidRequestDataException;
 import ru.renett.models.Article;
 import ru.renett.models.Tag;
 import ru.renett.models.User;
-import ru.renett.service.old.articleService.ArticleGetDataService;
+import ru.renett.service.old.articleService.ArticlesGetDataService;
 import ru.renett.configuration.Constants;
 import ru.renett.service.old.articleService.ArticleSaveDataService;
 import ru.renett.service.old.RequestValidatorInterface;
@@ -13,7 +13,6 @@ import ru.renett.service.old.RequestValidatorInterface;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,14 +22,14 @@ import java.util.List;
 //@WebServlet("/editArticle")
 @MultipartConfig
 public class ArticleEditServlet extends HttpServlet {
-    private ArticleGetDataService articleGetDataService;
+    private ArticlesGetDataService articlesGetDataService;
     private ArticleSaveDataService articleSaveDataService;
     private RequestValidatorInterface requestValidator;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        articleGetDataService = (ArticleGetDataService) config.getServletContext().getAttribute(Constants.CNTX_ARTICLE_GET_SERVICE);
+        articlesGetDataService = (ArticlesGetDataService) config.getServletContext().getAttribute(Constants.CNTX_ARTICLE_GET_SERVICE);
         articleSaveDataService = (ArticleSaveDataService) config.getServletContext().getAttribute(Constants.CNTX_ARTICLE_SAVE_SERVICE);
         requestValidator = (RequestValidatorInterface) config.getServletContext().getAttribute(Constants.CNTX_REQUEST_VALIDATOR);
     }
@@ -40,7 +39,7 @@ public class ArticleEditServlet extends HttpServlet {
         if (request.getParameter("id") != null) {
             try {
                 Long idOfRequestedArticle = requestValidator.checkRequestedIdCorrect(request.getParameter("id"));
-                Article requestedArticle = articleGetDataService.getArticleById(idOfRequestedArticle);
+                Article requestedArticle = articlesGetDataService.getArticleById(idOfRequestedArticle);
                 User author = (User) request.getSession().getAttribute(Constants.SESSION_USER_ATTRIBUTE_NAME);
 
                 if (requestedArticle.getAuthor().getId() != author.getId()) {
@@ -63,7 +62,7 @@ public class ArticleEditServlet extends HttpServlet {
             }
         }
 
-        List<Tag> tags = articleGetDataService.getAllTags();
+        List<Tag> tags = articlesGetDataService.getAllTags();
         request.setAttribute("tagList", tags);
 
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/article_edit.jsp").forward(request, response);
@@ -92,7 +91,7 @@ public class ArticleEditServlet extends HttpServlet {
                 request.setAttribute("message", e.getMessage());
                 request.setAttribute("aititle", request.getParameter("title"));
                 request.setAttribute("aibody", request.getParameter("articleBody"));
-                List<Tag> tags = articleGetDataService.getAllTags();
+                List<Tag> tags = articlesGetDataService.getAllTags();
                 request.setAttribute("tagList", tags);
                 getServletContext().getRequestDispatcher("/WEB-INF/jsp/article_edit.jsp").forward(request, response);
             }

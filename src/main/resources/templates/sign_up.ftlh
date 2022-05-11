@@ -1,6 +1,6 @@
 <#ftl encoding="UTF-8"/>
 <#import "spring.ftl" as spring />
-<#import "layout/layout.ftlh" as layout/>
+<#import "layout.ftlh" as layout/>
 
 // todo
 <@layout.contents title="Регистрация"> <#-- @ftlvariable name="title" type="java.lang.String" -->

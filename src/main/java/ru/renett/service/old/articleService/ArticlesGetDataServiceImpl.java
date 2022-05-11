@@ -1,6 +1,7 @@
 package ru.renett.service.old.articleService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.renett.models.Article;
 import ru.renett.models.Comment;
 import ru.renett.models.Tag;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@Service
 @RequiredArgsConstructor
 public class ArticlesGetDataServiceImpl implements ArticlesGetDataService {
     private final ArticlesRepository articlesRepository;
