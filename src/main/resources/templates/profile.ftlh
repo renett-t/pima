@@ -1,7 +1,40 @@
 <#ftl encoding="UTF-8"/>
+<#-- @ftlvariable name="user" type="ru.renett.models.User" -->
+<#-- @ftlvariable name="likedArticles" type="java.util.List<ru.renett.models.Article>" -->
 <#import "spring.ftl" as spring />
-<#import "layout.ftlh" as layout/>
+<#import "macro_layout.ftl" as layout/>
+<#import 'macro_article_card.ftl' as article_card_layout>
 
 <@layout.contents "Профиль">
-
+    <div class="profile-wrapper">
+        <div class="edit-delete-wrapper">
+            <a href="<@spring.url'/editProfile'/>">
+                <img class="icon-img edit-icon" src="<@spring.url'/resources/icons/edit.png'/>" alt="edit">
+            </a>
+            <img class="icon-img delete-icon" id="delete-icon-request" src="<@spring.url'/assets/icons/cancel.png'/>"
+                 alt="delete">
+        </div>
+        <div class="profile">
+            <h1>Ваш аккаунт @${user.userName}</h1>
+            <h3>${user.firstName} ${user.secondName}</h3>
+            <h3>E-mail: ${user.email} </h3>
+            <a href="<@spring.url'/logout'/>">
+                <button class="btn btn-dark">Выйти</button>
+            </a>
+        </div>
+        <br>
+        <hr>
+        <div>
+            <#if likedArticles?has_content>
+                <div class="heading-second">Понравившиеся статьи:</div>
+                <div class="articles-wrapper card-group row row-cols-3 g-4">
+                    <#list likedArticles as article>
+                        <@article_card_layout.contents article/>
+                    </#list>
+                </div>
+            </#if>
+        </div>
+    </div>
+    <script src="<@spring.url'/scripts/profile-script.js'/>">
+    </script>
 </@layout.contents>

@@ -1,7 +1,7 @@
 <#ftl encoding="UTF-8"/>
 <#import "spring.ftl" as spring />
-<#import "layout.ftlh" as layout/>
-<#import "article_card.ftl" as article/>
+<#import "macro_layout.ftl" as layout/>
+<#import "macro_article_card.ftl" as article/>
 
 <#assign title>
     <@spring.message 'page.exception.title'/>

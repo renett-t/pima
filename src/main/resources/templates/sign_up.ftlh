@@ -1,61 +1,61 @@
 <#ftl encoding="UTF-8"/>
 <#import "spring.ftl" as spring />
-<#import "layout.ftlh" as layout/>
+<#import "macro_layout.ftl" as layout/>
 
-// todo
 <@layout.contents title="Регистрация"> <#-- @ftlvariable name="title" type="java.lang.String" -->
-<t:mainLayout title="Регистрация">
     <div class="registration-form-wrapper centered-content-wrapper">
-        <form:form class="registration-form" method="POST" modelAttribute="userForm">
+        <@spring.bind "signUpDto" />
+
+        <form class="registration-form" method="POST" action="<@spring.url'/signUp'/>" >
+
+<#--            <#assign firstNamePlaceholder>-->
+<#--                <@spring.message 'page.sign_up.placeholder.firstName'/>-->
+<#--            </#assign>-->
             <label for="nameInput" class="form-label">Ваше имя</label><br>
-            <form:input path="firstName" class="input-field form-control" id="nameInput" type="text" autofocus="true"/>
-            <form:errors path="firstName"/>
-            <div class="error-field" id="error-nameInput">${usernameError}</div><br>
+            <@spring.formInput 'signUpDto.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" required'/>
+<#--            <@spring.showErrors "<br>", "error text-danger "/>-->
+            <div class="error-field" id="error-nameInput"></div><br>
 
             <label for="name2Input" class="form-label">Ваша фамилия</label><br>
-            <form:input path="secondName" class="input-field form-control" id="name2Input" type="text" autofocus="true"/>
-            <form:errors path="secondName"/>
+            <@spring.formInput 'signUpDto.secondName' 'class="input-field form-control" id="name2Input" required'/>
+            <div class="error-field" id="error-nameInput"></div><br>
 
             <label for="emailInput" class="form-label">E-mail</label><br>
-            <form:input path="email" class="input-field form-control" id="emailInput" type="text" autofocus="true"/>
-            <form:errors path="email"/>
+            <@spring.formInput 'signUpDto.email' 'class="input-field form-control" id="emailInput" required'/>
             <div class="error-field" id="error-emailInput"></div><br>
 
             <label for="loginInput" class="form-label">Юзернейм</label><br>
-            <form:input path="username" class="input-field form-control" id="loginInput" type="text" autofocus="true"/>
-            <form:errors path="username"/>
+            <@spring.formInput 'signUpDto.userName' 'class="input-field form-control" id="loginInput" required'/>
             <div class="error-field" id="error-loginInput"></div><br>
 
             <label for="passwordInput" class="form-label">Пароль</label><br>
-            <form:input path="password" class="input-field form-control" id="passwordInput" type="password" autofocus="true"/>
-            <form:errors path="password"/>
+            <@spring.formInput 'signUpDto.password' 'class="input-field form-control" id="passwordInput" type="password" required'/>
             <div class="error-field" id="error-passwordInput"></div><br>
 
             <label for="repeatedPasswordInput" class="form-label">Повторите пароль</label><br>
-            <form:input path="passwordRepeat" class="input-field form-control" id="repeatedPasswordInput" type="password" autofocus="true"/>
-            <form:errors path="passwordRepeat"/>
-            <div class="error-field" id="error-repeatedPasswordInput">${passwordError}</div><br>
-
-            <br><div class="form-check">
+            <@spring.formInput 'signUpDto.passwordRepeat' 'class="input-field form-control" id="repeatedPasswordInput" type="password" autofocus="true"'/>
+            <div class="error-field" id="error-repeatedPasswordInput"></div><br>
+            <br>
+            <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="agreement" required>
                 <label class="form-check-label" for="agreement">
                     Согласен с политикой конфиденциальности и условиями обработки персональных данных
                 </label>
             </div>
             <br>
-            <div class="message-wrapper">
-                <c:if test="${not empty message}">
+            <#if message??>
+                <div class="message-wrapper">
                     <h6 class="mx-3">${message}</h6>
-                </c:if>
-                <br>
-            </div>
+                    <br>
+                </div>
+            </#if>
+
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 
             <button class="btn btn-primary" type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
 
-        </form:form>
-
-</t:mainLayout>
-<script>cntx = '${pageContext.request.contextPath}'
-    console.log("CONTEX: " + cntx)</script>
-<script src="<c:url value="/scripts/form-control.js"/>" charset="UTF-8">
-</script>
+    <script src="<@spring.url'/scripts/form-control.js'/>" charset="UTF-8">
+    </script>
+</@layout.contents>

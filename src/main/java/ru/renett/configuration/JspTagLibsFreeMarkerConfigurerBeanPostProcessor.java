@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 // https://stackoverflow.com/questions/33755964/spring-boot-with-jsp-tag-libs-in-embedded-tomcat
-@Component
+//@Component
 public class JspTagLibsFreeMarkerConfigurerBeanPostProcessor implements BeanPostProcessor {
 
     @Override

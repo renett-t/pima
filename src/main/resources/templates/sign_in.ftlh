@@ -1,6 +1,6 @@
 <#ftl encoding="UTF-8"/>
 <#import "spring.ftl" as spring />
-<#import "layout.ftlh" as layout/>
+<#import "macro_layout.ftl" as layout/>
 
 <@layout.contents "Вход">
     <div class="registration-form-wrapper">
@@ -36,8 +36,7 @@
             Зайти через Вконтакте</a>
         </div>
     </div>
-<#--    <script>cntx = '<@spring.url''>'-->
-<#--    console.log("CONTEX: " + cntx)</script>-->
-<#--    <script src="<@spring.url'/scripts/form-control.js'>" charset="UTF-8"/>-->
 
+    <script src="<@spring.url'/scripts/form-control.js'/>" charset="UTF-8">
+    </script>
 </@layout.contents>

@@ -1,7 +1,7 @@
 <#ftl encoding="UTF-8"/>
 <#-- Article Card Layout Macro -->
 <#import "spring.ftl" as spring />
-<#import "tag.ftl" as tag_layout />
+<#import "macro_tag.ftl" as tag_layout />
 <#macro contents article> <#-- @ftlvariable name="article" type="ru.renett.models.Article" -->
     <div class="col">
         <div class="card h-100">
