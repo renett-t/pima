@@ -1,4 +1,4 @@
-package ru.itis.antonov.imagination.validation;
+package ru.renett.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

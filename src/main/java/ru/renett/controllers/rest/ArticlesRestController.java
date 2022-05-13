@@ -13,7 +13,7 @@ import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.service.article.ArticlesRestService;
 
 @RestController
-@RequestMapping("/articles")
+@RequestMapping("/api/articles")
 @RequiredArgsConstructor
 public class ArticlesRestController {
     private final ArticlesRestService articlesRestService;

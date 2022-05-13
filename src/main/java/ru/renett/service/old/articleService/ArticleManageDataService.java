@@ -7,7 +7,7 @@ import ru.renett.models.User;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface ArticleSaveDataService {
+public interface ArticleManageDataService {
     Long createArticle(HttpServletRequest request) throws FileUploadException;
     void editArticle(HttpServletRequest request) throws FileUploadException;
     void deleteArticle(Article articleToDelete);

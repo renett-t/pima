@@ -7,7 +7,7 @@ import ru.renett.models.Tag;
 import ru.renett.models.User;
 import ru.renett.service.old.articleService.ArticlesGetDataService;
 import ru.renett.configuration.Constants;
-import ru.renett.service.old.articleService.ArticleSaveDataService;
+import ru.renett.service.old.articleService.ArticleManageDataService;
 import ru.renett.service.old.RequestValidatorInterface;
 
 import javax.servlet.ServletConfig;
@@ -23,14 +23,14 @@ import java.util.List;
 @MultipartConfig
 public class ArticleEditServlet extends HttpServlet {
     private ArticlesGetDataService articlesGetDataService;
-    private ArticleSaveDataService articleSaveDataService;
+    private ArticleManageDataService articleManageDataService;
     private RequestValidatorInterface requestValidator;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         articlesGetDataService = (ArticlesGetDataService) config.getServletContext().getAttribute(Constants.CNTX_ARTICLE_GET_SERVICE);
-        articleSaveDataService = (ArticleSaveDataService) config.getServletContext().getAttribute(Constants.CNTX_ARTICLE_SAVE_SERVICE);
+        articleManageDataService = (ArticleManageDataService) config.getServletContext().getAttribute(Constants.CNTX_ARTICLE_SAVE_SERVICE);
         requestValidator = (RequestValidatorInterface) config.getServletContext().getAttribute(Constants.CNTX_REQUEST_VALIDATOR);
     }
 
@@ -65,7 +65,7 @@ public class ArticleEditServlet extends HttpServlet {
         List<Tag> tags = articlesGetDataService.getAllTags();
         request.setAttribute("tagList", tags);
 
-        getServletContext().getRequestDispatcher("/WEB-INF/jsp/article_edit.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/macro_article_edit.ftl.jsp").forward(request, response);
     }
 
     @Override
@@ -76,10 +76,10 @@ public class ArticleEditServlet extends HttpServlet {
         if (submit != null) {
             try {
                 if (submit.equals("create")) {
-                    artId = articleSaveDataService.createArticle(request);
+                    artId = articleManageDataService.createArticle(request);
                 } else if (submit.equals("edit")) {
                     artId = requestValidator.checkRequestedIdCorrect(request.getParameter("articleId"));
-                    articleSaveDataService.editArticle(request);
+                    articleManageDataService.editArticle(request);
                 } else {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                     return;
@@ -93,7 +93,7 @@ public class ArticleEditServlet extends HttpServlet {
                 request.setAttribute("aibody", request.getParameter("articleBody"));
                 List<Tag> tags = articlesGetDataService.getAllTags();
                 request.setAttribute("tagList", tags);
-                getServletContext().getRequestDispatcher("/WEB-INF/jsp/article_edit.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/WEB-INF/jsp/macro_article_edit.ftl.jsp").forward(request, response);
             }
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);

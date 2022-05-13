@@ -1,5 +1,6 @@
 package ru.renett.service.old.articleService;
 
+import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.models.Article;
 import ru.renett.models.Comment;
 import ru.renett.models.Tag;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface ArticlesGetDataService {
-    Article getArticleById(Long id);
+    Article getArticleById(Long id) throws ArticleNotFoundException;
     List<Article> getUsersArticles(User user);
     List<Article> getLikedArticles(User user);
     List<Article> getAllArticles();
@@ -24,4 +25,6 @@ public interface ArticlesGetDataService {
 
     List<Comment> getArticleComments(Article article);
     List<Comment> rearrangeArticleCommentsList(List<Comment> commentList);
+
+    Article getArticleByIdOrSlug(String parameter) throws ArticleNotFoundException;
 }

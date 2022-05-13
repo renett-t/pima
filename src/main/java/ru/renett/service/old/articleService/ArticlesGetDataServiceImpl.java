@@ -160,6 +160,13 @@ public class ArticlesGetDataServiceImpl implements ArticlesGetDataService {
     }
 
     @Override
+    public Article getArticleByIdOrSlug(String parameter) {
+        // todo: slug search
+        Long id = Long.parseLong(parameter);
+        return getArticleById(id);
+    }
+
+    @Override
     public Tag getTagById(Long tagId) {
         return tagsRepository.findById(tagId).orElse(null);
     }

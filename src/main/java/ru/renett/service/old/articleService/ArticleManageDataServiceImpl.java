@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
+public class ArticleManageDataServiceImpl implements ArticleManageDataService {
     private final String DEFAULT_THUMBNAIL = Constants.DEFAULT_THUMBNAIL;
 
     private ArticlesRepository articlesRepository;
@@ -29,7 +29,7 @@ public class ArticleSaveDataServiceImpl implements ArticleSaveDataService {
     private FileManager fileManager;
     private RequestValidatorInterface requestValidator;
 
-    public ArticleSaveDataServiceImpl(ArticlesRepository articlesRepository, CommentsRepository commentsRepository, TagsRepository tagsRepository, RequestValidatorInterface requestValidator) {
+    public ArticleManageDataServiceImpl(ArticlesRepository articlesRepository, CommentsRepository commentsRepository, TagsRepository tagsRepository, RequestValidatorInterface requestValidator) {
         this.articlesRepository = articlesRepository;
         this.commentsRepository = commentsRepository;
         this.tagsRepository = tagsRepository;
