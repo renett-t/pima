@@ -2,38 +2,42 @@
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
 
-<@layout.contents title="Регистрация"> <#-- @ftlvariable name="title" type="java.lang.String" -->
+<#assign title>
+    <@spring.message 'page.sign_up.title'/>
+</#assign>
+<@layout.contents title>
     <div class="registration-form-wrapper centered-content-wrapper">
-        <@spring.bind "signUpDto" />
-
+        <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
         <form class="registration-form" method="POST" action="<@spring.url'/signUp'/>" >
+            <@spring.bind "signUpForm" />
+            <p class="message-wrapper">${spring.status.errorMessage}</p>
 
-<#--            <#assign firstNamePlaceholder>-->
-<#--                <@spring.message 'page.sign_up.placeholder.firstName'/>-->
-<#--            </#assign>-->
-            <label for="nameInput" class="form-label">Ваше имя</label><br>
-            <@spring.formInput 'signUpDto.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" required'/>
+            <label for="nameInput" class="form-label"><@spring.message 'page.sign_up.form.label.firstName'/></label><br>
+            <#assign fNamePlaceholder>
+                <@spring.message 'page.sign_up.form.placeholder.firstName'/>
+            </#assign>
+            <@spring.formInput 'signUpForm.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" placeholder=${fNamePlaceholder} required'/>
 <#--            <@spring.showErrors "<br>", "error text-danger "/>-->
             <div class="error-field" id="error-nameInput"></div><br>
 
             <label for="name2Input" class="form-label">Ваша фамилия</label><br>
-            <@spring.formInput 'signUpDto.secondName' 'class="input-field form-control" id="name2Input" required'/>
+            <@spring.formInput 'signUpForm.secondName' 'class="input-field form-control" id="name2Input" required'/>
             <div class="error-field" id="error-nameInput"></div><br>
 
             <label for="emailInput" class="form-label">E-mail</label><br>
-            <@spring.formInput 'signUpDto.email' 'class="input-field form-control" id="emailInput" required'/>
+            <@spring.formInput 'signUpForm.email' 'class="input-field form-control" id="emailInput" required'/>
             <div class="error-field" id="error-emailInput"></div><br>
 
             <label for="loginInput" class="form-label">Юзернейм</label><br>
-            <@spring.formInput 'signUpDto.userName' 'class="input-field form-control" id="loginInput" required'/>
+            <@spring.formInput 'signUpForm.userName' 'class="input-field form-control" id="loginInput" required'/>
             <div class="error-field" id="error-loginInput"></div><br>
 
             <label for="passwordInput" class="form-label">Пароль</label><br>
-            <@spring.formInput 'signUpDto.password' 'class="input-field form-control" id="passwordInput" type="password" required'/>
+            <@spring.formInput 'signUpForm.password' 'class="input-field form-control" id="passwordInput" type="password" required'/>
             <div class="error-field" id="error-passwordInput"></div><br>
 
             <label for="repeatedPasswordInput" class="form-label">Повторите пароль</label><br>
-            <@spring.formInput 'signUpDto.passwordRepeat' 'class="input-field form-control" id="repeatedPasswordInput" type="password" autofocus="true"'/>
+            <@spring.formInput 'signUpForm.passwordRepeat' 'class="input-field form-control" id="repeatedPasswordInput" type="password" autofocus="true"'/>
             <div class="error-field" id="error-repeatedPasswordInput"></div><br>
             <br>
             <div class="form-check">
