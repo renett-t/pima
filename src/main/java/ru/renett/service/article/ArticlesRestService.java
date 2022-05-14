@@ -1,9 +1,9 @@
 package ru.renett.service.article;
 
-import ru.renett.dto.AddArticleDto;
+import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.dto.ArticleDto;
-import ru.renett.dto.ArticlesPage;
-import ru.renett.dto.UpdateArticleDto;
+import ru.renett.dto.rest.ArticlesPage;
+import ru.renett.dto.rest.UpdateArticleDto;
 
 public interface ArticlesRestService {
 

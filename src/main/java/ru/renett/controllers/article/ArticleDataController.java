@@ -8,12 +8,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.renett.dto.AddArticleDto;
+import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.models.Article;
 import ru.renett.models.User;
-import ru.renett.service.old.articleService.ArticleManageDataService;
-import ru.renett.service.old.articleService.ArticlesGetDataService;
+import ru.renett.service.article.ArticleManageDataService;
+import ru.renett.service.article.ArticlesGetDataService;
 import ru.renett.service.user.UserService;
 import ru.renett.utils.TagsCache;
 

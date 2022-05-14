@@ -7,20 +7,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = EqualPasswordsValidator.class)
+@Constraint(validatedBy = SameFieldsValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EqualPasswords {
-    String message() default "passwords arent equals";
+public @interface SameFields {
+    String message() default "Fields should be the same";
 
-    String password();
-    String passwordRepeat();
-
-    @Target(ElementType.TYPE)
-    @Retention(RetentionPolicy.RUNTIME)
-    @interface List{
-        EqualPasswords[] value();
-    }
+    String one();
+    String two();
 
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

@@ -1,4 +1,4 @@
-package ru.renett.service.old.fileService;
+package ru.renett.service.file;
 
 import java.io.InputStream;
 

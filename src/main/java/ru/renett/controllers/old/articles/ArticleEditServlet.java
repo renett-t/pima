@@ -5,10 +5,9 @@ import ru.renett.exceptions.InvalidRequestDataException;
 import ru.renett.models.Article;
 import ru.renett.models.Tag;
 import ru.renett.models.User;
-import ru.renett.service.old.articleService.ArticlesGetDataService;
+import ru.renett.service.article.ArticlesGetDataService;
 import ru.renett.configuration.Constants;
-import ru.renett.service.old.articleService.ArticleManageDataService;
-import ru.renett.service.old.RequestValidatorInterface;
+import ru.renett.service.article.ArticleManageDataService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

@@ -1,6 +1,7 @@
-package ru.renett.service.old.fileService;
+package ru.renett.service.impl;
 
 import ru.renett.exceptions.FileUploadException;
+import ru.renett.service.file.FileManager;
 
 import java.io.File;
 import java.io.IOException;

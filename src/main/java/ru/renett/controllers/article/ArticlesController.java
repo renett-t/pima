@@ -13,7 +13,7 @@ import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.models.Article;
 import ru.renett.models.Tag;
 import ru.renett.models.User;
-import ru.renett.service.old.articleService.ArticlesGetDataService;
+import ru.renett.service.article.ArticlesGetDataService;
 import ru.renett.service.user.UserService;
 import ru.renett.utils.TagsCache;
 

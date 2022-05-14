@@ -1,4 +1,4 @@
-package ru.renett.service.old.articleService;
+package ru.renett.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import ru.renett.repository.ArticlesRepository;
 import ru.renett.repository.CommentsRepository;
 import ru.renett.repository.TagsRepository;
 import ru.renett.repository.UsersRepository;
+import ru.renett.service.article.ArticlesGetDataService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ru.renett.service.old.articleService;
+package ru.renett.utils;
 
 public interface HtmlTagsValidator {
     /**

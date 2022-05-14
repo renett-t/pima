@@ -1,10 +1,10 @@
-package ru.renett.service.old;
+package ru.renett.utils.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import ru.renett.service.old.Parser;
+import ru.renett.utils.Parser;
 
 public class VkParser implements Parser {
     private final Gson gson;

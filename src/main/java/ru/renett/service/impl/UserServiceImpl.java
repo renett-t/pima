@@ -3,10 +3,10 @@ package ru.renett.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.renett.dto.SignUpDto;
-import ru.renett.dto.UpdateUserDto;
-import ru.renett.dto.UpdateUserRoleDto;
-import ru.renett.dto.UpdateUserStateDto;
+import ru.renett.dto.form.SignUpForm;
+import ru.renett.dto.form.UpdateUserForm;
+import ru.renett.dto.form.UpdateUserRoleForm;
+import ru.renett.dto.form.UpdateUserStateForm;
 import ru.renett.exceptions.ServiceException;
 import ru.renett.exceptions.SignUpException;
 import ru.renett.models.Role;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private final RolesRepository rolesRepository;
 
     @Override
-    public void signUp(SignUpDto dto) throws SignUpException {
+    public void signUp(SignUpForm dto) throws SignUpException {
         // validation (done by Spring)
         Optional<User> emailUser = usersRepository.findUserByEmail(dto.getEmail());
         Optional<User> userNameUser = usersRepository.findUserByUserName(dto.getUserName());
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserData(UpdateUserDto dto) throws ServiceException {
+    public User updateUserData(UpdateUserForm dto) throws ServiceException {
         if (checkPasswords(dto.getPassword(), dto.getPasswordRepeat())) {
             throw new ServiceException("Passwords do not match");
         } else {
@@ -85,13 +85,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserRole(UpdateUserRoleDto dto) throws ServiceException {
+    public User updateUserRole(UpdateUserRoleForm dto) throws ServiceException {
         throw new UnsupportedOperationException("emae");
         // todo update user role method
     }
 
     @Override
-    public User updateUserState(UpdateUserStateDto dto) throws ServiceException {
+    public User updateUserState(UpdateUserStateForm dto) throws ServiceException {
         throw new UnsupportedOperationException("o mae ma wu");
         // todo update user state method
     }

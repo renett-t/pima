@@ -1,9 +1,8 @@
 package ru.renett.controllers.old.articles;
 
 import ru.renett.exceptions.InvalidRequestDataException;
-import ru.renett.service.old.articleService.ArticleManageDataService;
+import ru.renett.service.article.ArticleManageDataService;
 import ru.renett.configuration.Constants;
-import ru.renett.service.old.RequestValidatorInterface;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

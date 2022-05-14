@@ -1,4 +1,6 @@
-package ru.renett.service.old.articleService;
+package ru.renett.utils.impl;
+
+import ru.renett.utils.HtmlTagsValidator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

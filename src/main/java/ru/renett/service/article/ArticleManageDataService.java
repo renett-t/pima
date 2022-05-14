@@ -1,4 +1,4 @@
-package ru.renett.service.old.articleService;
+package ru.renett.service.article;
 
 import ru.renett.exceptions.FileUploadException;
 import ru.renett.models.Article;

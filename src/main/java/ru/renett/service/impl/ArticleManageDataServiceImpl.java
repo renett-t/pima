@@ -1,5 +1,7 @@
-package ru.renett.service.old.articleService;
+package ru.renett.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.renett.configuration.Constants;
 import ru.renett.exceptions.FileUploadException;
 import ru.renett.models.Article;
@@ -9,8 +11,9 @@ import ru.renett.models.User;
 import ru.renett.repository.ArticlesRepository;
 import ru.renett.repository.CommentsRepository;
 import ru.renett.repository.TagsRepository;
-import ru.renett.service.old.fileService.*;
-import ru.renett.service.old.RequestValidatorInterface;
+import ru.renett.service.article.ArticleManageDataService;
+import ru.renett.utils.HtmlTagsValidator;
+import ru.renett.service.file.FileManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,24 +22,16 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
+@Service
+@RequiredArgsConstructor
 public class ArticleManageDataServiceImpl implements ArticleManageDataService {
     private final String DEFAULT_THUMBNAIL = Constants.DEFAULT_THUMBNAIL;
 
-    private ArticlesRepository articlesRepository;
-    private CommentsRepository commentsRepository;
-    private TagsRepository tagsRepository;
-    private HtmlTagsValidator htmlTagsValidator;
-    private FileManager fileManager;
-    private RequestValidatorInterface requestValidator;
-
-    public ArticleManageDataServiceImpl(ArticlesRepository articlesRepository, CommentsRepository commentsRepository, TagsRepository tagsRepository, RequestValidatorInterface requestValidator) {
-        this.articlesRepository = articlesRepository;
-        this.commentsRepository = commentsRepository;
-        this.tagsRepository = tagsRepository;
-        this.htmlTagsValidator = new HtmlTagsValidatorImpl();
-        this.requestValidator = requestValidator;
-        this.fileManager = new FileManagerImpl(Constants.STORAGE_URL);
-    }
+    private final ArticlesRepository articlesRepository;
+    private final CommentsRepository commentsRepository;
+    private final TagsRepository tagsRepository;
+    private final HtmlTagsValidator htmlTagsValidator;
+    private final FileManager fileManager;
 
     @Override
     public Long createArticle(HttpServletRequest request) {

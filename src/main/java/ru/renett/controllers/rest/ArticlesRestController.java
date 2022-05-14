@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.renett.dto.AddArticleDto;
+import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.dto.ArticleDto;
-import ru.renett.dto.ArticlesPage;
-import ru.renett.dto.UpdateArticleDto;
+import ru.renett.dto.rest.ArticlesPage;
+import ru.renett.dto.rest.UpdateArticleDto;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.service.article.ArticlesRestService;
 

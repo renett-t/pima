@@ -8,10 +8,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.renett.dto.UpdateUserDto;
+import ru.renett.dto.form.UpdateUserForm;
 import ru.renett.models.Article;
 import ru.renett.models.User;
-import ru.renett.service.old.articleService.ArticlesGetDataService;
+import ru.renett.service.article.ArticlesGetDataService;
 import ru.renett.service.user.UserService;
 
 import java.util.List;
@@ -48,9 +48,9 @@ public class ProfileController {
     }
 
     @PostMapping("/edit")
-    public String edit(UpdateUserDto updateUserDto, @AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
+    public String edit(UpdateUserForm updateUserForm, @AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
         // todo: do i have to check id in update data and id in user get by UserDetails
-        User user = userService.updateUserData(updateUserDto);
+        User user = userService.updateUserData(updateUserForm);
         map.put(USER_ATTR, user);
         return "redirect:/profile";
     }

@@ -1,4 +1,4 @@
-package ru.renett.service.old;
+package ru.renett.utils;
 
 public interface Parser {
     String getTokenFromServerResponse(String tokenidemail);

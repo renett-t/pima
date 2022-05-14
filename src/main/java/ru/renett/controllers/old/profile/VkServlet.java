@@ -4,7 +4,6 @@ import ru.renett.exceptions.InvalidUserDataException;
 import ru.renett.exceptions.VkAuthorizationException;
 import ru.renett.models.User;
 import ru.renett.configuration.Constants;
-import ru.renett.service.old.SecurityService;
 import ru.renett.service.old.VkService;
 
 import javax.servlet.ServletConfig;

@@ -1,9 +1,9 @@
 package ru.renett.service.user;
 
-import ru.renett.dto.SignUpDto;
-import ru.renett.dto.UpdateUserDto;
-import ru.renett.dto.UpdateUserRoleDto;
-import ru.renett.dto.UpdateUserStateDto;
+import ru.renett.dto.form.SignUpForm;
+import ru.renett.dto.form.UpdateUserForm;
+import ru.renett.dto.form.UpdateUserRoleForm;
+import ru.renett.dto.form.UpdateUserStateForm;
 import ru.renett.exceptions.ServiceException;
 import ru.renett.exceptions.SignUpException;
 import ru.renett.models.User;
@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    void signUp(SignUpDto signUpDto) throws SignUpException;
+    void signUp(SignUpForm signUpForm) throws SignUpException;
 
-    User updateUserData(UpdateUserDto dto);
+    User updateUserData(UpdateUserForm dto);
 
-    User updateUserRole(UpdateUserRoleDto dto);
+    User updateUserRole(UpdateUserRoleForm dto);
 
-    User updateUserState(UpdateUserStateDto dto);
+    User updateUserState(UpdateUserStateForm dto);
 
     void save(User user);
 
