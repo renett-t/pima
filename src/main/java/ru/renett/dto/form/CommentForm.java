@@ -1,19 +1,18 @@
-package ru.renett.dto;
+package ru.renett.dto.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateArticleDto {
-    private String title;
+public class CommentForm {
+    @NotBlank
     private String body;
-    private String image;
-    private List<String> tags;
+    private Long parentId;
+    private Long authorId;
 }

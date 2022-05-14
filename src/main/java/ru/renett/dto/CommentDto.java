@@ -21,7 +21,6 @@ public class CommentDto {
     private Long authorId;
     private String authorUserName;
 
-
     public static CommentDto from(Comment comment) {
         Comment parent = comment.getParentComment();
         Long parentId = null;
@@ -38,7 +37,7 @@ public class CommentDto {
                 .build();
     }
 
-    public static List<CommentDto> from(List<Comment> articles) {
-        return articles.stream().map(CommentDto::from).collect(Collectors.toList());
+    public static List<CommentDto> from(List<Comment> comments) {
+        return comments.stream().map(CommentDto::from).collect(Collectors.toList());
     }
 }

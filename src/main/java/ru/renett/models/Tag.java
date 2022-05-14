@@ -3,7 +3,6 @@ package ru.renett.models;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,7 +18,6 @@ public class Tag {
     @Column(name = "id")
     private Long id;
 
-    @Size(min = 3)
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 

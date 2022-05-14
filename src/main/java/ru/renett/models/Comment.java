@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +20,6 @@ public class Comment {
     @Column(name = "id")
     private Long id;
 
-    @Size(min = 3)
     @Column(name = "body", nullable = false, columnDefinition = "text")
     private String body;
 // todo: check cascade operaions

@@ -4,7 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.renett.models.Article;
 import ru.renett.models.User;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -23,5 +27,9 @@ public class AuthorDto {
                 .secondName(user.getSecondName())
                 .username(user.getUserName())
                 .build();
+    }
+
+    public static List<AuthorDto> from(List<User> authors) {
+        return authors.stream().map(AuthorDto::from).collect(Collectors.toList());
     }
 }

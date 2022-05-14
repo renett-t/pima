@@ -1,14 +1,8 @@
 package ru.renett.models;
 
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +20,6 @@ public class Article {
     @Column(name = "id")
     private Long id;
 
-    @Size(min = 3, max = 255)
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 

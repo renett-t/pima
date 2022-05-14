@@ -19,10 +19,11 @@ public class ArticleDto {
     private String body;
     private String thumbnail;
     private String publishedAt;
-    private Long views;
+    private int views;
     private int likes;
-    private AuthorDto author;
     private int commentsAmount;
+
+    private AuthorDto author;
     private List<CommentDto> comments;
 
     public static ArticleDto from(Article article) {
@@ -32,7 +33,7 @@ public class ArticleDto {
                 .body(article.getBody())
                 .thumbnail(article.getThumbnailPath())
                 .publishedAt(article.getPublishedAt().toString())
-                .views(article.getViewAmount())
+                .views(Math.toIntExact(article.getViewAmount()))
                 .likes(article.getLikeAmount())
                 .author(AuthorDto.from(article.getAuthor()))
                 .commentsAmount(article.getCommentAmount())

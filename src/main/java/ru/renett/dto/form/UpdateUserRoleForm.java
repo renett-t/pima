@@ -1,4 +1,4 @@
-package ru.renett.dto;
+package ru.renett.dto.form;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 @Builder
-public class UpdateUserRoleDto {
+public class UpdateUserRoleForm {
     private Long id;
     private Set<Role> newRoles;
 }

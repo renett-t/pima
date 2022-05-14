@@ -1,4 +1,4 @@
-package ru.renett.dto;
+package ru.renett.dto.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticlesPage {
-    private List<ArticleDto> articles;
-    private int page;
-    private int limit;
-    private int totalPages;
-    private long totalItems;
+public class UpdateArticleDto {
+    private String title;
+    private String body;
+    private String image;
+    private List<String> tags;
 }

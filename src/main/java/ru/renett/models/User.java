@@ -3,9 +3,6 @@ package ru.renett.models;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,25 +23,18 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Size(min = 5, message = "В имени/фамилии должно быть не менее 5 знаков")
     @Column(name = "first_name")
     private String firstName;
 
-    @Size(min = 5, message = "В имени/фамилии должно быть не менее 5 знаков")
     @Column(name = "second_name")
     private String secondName;
 
-    @Size(min = 5, message = "В имени должно быть не менее 5 знаков")
-//    @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$")
-    @Email
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Size(min = 5, max = 32, message = "Юзернэйм может содержать от 5 до 32 символов включительно")
     @Column(name = "username", nullable = false, unique = true)
     private String userName;
 
-    @Size(min = 5, message = "Пароль должен содержать не мене 5 символов")
     @Column(name = "password_hash", length = 64, nullable = false)
     private String password;
 
