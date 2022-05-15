@@ -7,8 +7,8 @@
 </#assign>
 <@layout.contents title>
     <div class="registration-form-wrapper centered-content-wrapper">
-        <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
-        <form class="registration-form" method="POST" action="<@spring.url'/signUp'/>" >
+        <h1 class="h3 mb-3 fw-normal"><@spring.message 'page.sign_up.form.title'/></h1>
+        <form class="registration-form" method="POST" action="<@spring.url'/signUp'/>">
             <@spring.bind "signUpForm" />
             <p class="message-wrapper">${spring.status.errorMessage}</p>
 
@@ -16,34 +16,59 @@
             <#assign fNamePlaceholder>
                 <@spring.message 'page.sign_up.form.placeholder.firstName'/>
             </#assign>
-            <@spring.formInput 'signUpForm.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" placeholder=${fNamePlaceholder} required'/>
-<#--            <@spring.showErrors "<br>", "error text-danger "/>-->
-            <div class="error-field" id="error-nameInput"></div><br>
+            <@spring.formInput 'signUpForm.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" placeholder=${fNamePlaceholder}'/>
+            <@spring.showErrors "<br>", "error-field error"/>
+            <div class="error-field" id="error-nameInput"></div>
+            <br>
 
-            <label for="name2Input" class="form-label">Ваша фамилия</label><br>
-            <@spring.formInput 'signUpForm.secondName' 'class="input-field form-control" id="name2Input" required'/>
-            <div class="error-field" id="error-nameInput"></div><br>
+            <label for="name2Input"
+                   class="form-label"><@spring.message 'page.sign_up.form.label.secondName'/></label><br>
+            <#assign sNamePlaceholder>
+                <@spring.message 'page.sign_up.form.placeholder.secondName'/>
+            </#assign>
+            <@spring.formInput 'signUpForm.secondName' 'class="input-field form-control" id="name2Input" placeholder=${sNamePlaceholder}'/>
+            <div class="error-field" id="error-nameInput"></div>
+            <br>
 
-            <label for="emailInput" class="form-label">E-mail</label><br>
-            <@spring.formInput 'signUpForm.email' 'class="input-field form-control" id="emailInput" required'/>
-            <div class="error-field" id="error-emailInput"></div><br>
+            <label for="emailInput" class="form-label"><@spring.message 'page.sign_up.form.label.email'/></label><br>
+            <#assign emailPlaceholder>
+                <@spring.message 'page.sign_up.form.placeholder.email'/>
+            </#assign>
+            <@spring.formInput 'signUpForm.email' 'class="input-field form-control" id="emailInput" placeholder=${emailPlaceholder} required'/>
+            <@spring.showErrors "<br>", "error-field error"/>
+            <div class="error-field" id="error-emailInput"></div>
+            <br>
 
-            <label for="loginInput" class="form-label">Юзернейм</label><br>
-            <@spring.formInput 'signUpForm.userName' 'class="input-field form-control" id="loginInput" required'/>
-            <div class="error-field" id="error-loginInput"></div><br>
+            <label for="loginInput" class="form-label"><@spring.message 'page.sign_up.form.label.userName'/></label><br>
+            <#assign userNamePlaceholder>
+                <@spring.message 'page.sign_up.form.placeholder.userName'/>
+            </#assign>
+            <@spring.formInput 'signUpForm.userName' 'class="input-field form-control" id="loginInput" placeholder=${userNamePlaceholder} required'/>
+            <div class="error-field" id="error-loginInput"></div>
+            <br>
 
-            <label for="passwordInput" class="form-label">Пароль</label><br>
-            <@spring.formInput 'signUpForm.password' 'class="input-field form-control" id="passwordInput" type="password" required'/>
-            <div class="error-field" id="error-passwordInput"></div><br>
+            <label for="passwordInput"
+                   class="form-label"><@spring.message 'page.sign_up.form.label.password'/></label><br>
+            <#assign passwordPlaceholder>
+                <@spring.message 'page.sign_up.form.placeholder.password'/>
+            </#assign>
+            <@spring.formPasswordInput 'signUpForm.password' 'class="input-field form-control" id="passwordInput" placeholder=${passwordPlaceholder} required'/>
+            <div class="error-field" id="error-passwordInput"></div>
+            <br>
 
-            <label for="repeatedPasswordInput" class="form-label">Повторите пароль</label><br>
-            <@spring.formInput 'signUpForm.passwordRepeat' 'class="input-field form-control" id="repeatedPasswordInput" type="password" autofocus="true"'/>
-            <div class="error-field" id="error-repeatedPasswordInput"></div><br>
+            <label for="repeatedPasswordInput"
+                   class="form-label"><@spring.message 'page.sign_up.form.label.repeatPassword'/></label><br>
+            <#assign repeatPasswordPlaceholder>
+                <@spring.message 'page.sign_up.form.placeholder.repeatPassword'/>
+            </#assign>
+            <@spring.formPasswordInput 'signUpForm.passwordRepeat' 'class="input-field form-control" id="repeatedPasswordInput" placeholder=${repeatPasswordPlaceholder} autofocus="true"'/>
+            <div class="error-field" id="error-repeatedPasswordInput"></div>
+            <br>
             <br>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="agreement" required>
                 <label class="form-check-label" for="agreement">
-                    Согласен с политикой конфиденциальности и условиями обработки персональных данных
+                    <@spring.message 'page.sign_up.form.label.agreement'/>
                 </label>
             </div>
             <br>
@@ -55,8 +80,7 @@
             </#if>
 
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-
-            <button class="btn btn-primary" type="submit">Зарегистрироваться</button>
+            <button class="btn btn-primary" type="submit"><@spring.message 'page.sign_up.form.btn.submit'/></button>
         </form>
     </div>
 

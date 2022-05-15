@@ -11,5 +11,4 @@
     <#else>
         <@article_layout.contents article/>
     </#if>
-
 </@layout.contents>

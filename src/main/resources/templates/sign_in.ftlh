@@ -2,38 +2,50 @@
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
 
-<@layout.contents "Вход">
+<#assign title>
+    <@spring.message 'page.sign_in.title'/>
+</#assign>
+<@layout.contents title>
     <div class="registration-form-wrapper">
-        <h1 class="h3 mb-3 fw-normal">Войти</h1>
+        <h1 class="h3 mb-3 fw-normal"><@spring.message 'page.sign_in.form.title'/></h1>
         <form class="authorization-form" method="POST" action="<@spring.url'/signIn'/>">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-
             <div class="form-floating">
-                <input type="text" id="userName" name="userName" class="form-control" placeholder="Username" required autofocus>
-                <label for="userName">Ваш логин</label>
+                <#assign userNamePlaceholder>
+                    <@spring.message 'page.sign_in.form.placeholder.userName'/>
+                </#assign>
+                <input type="text" id="userName" name="userName" class="form-control"
+                       placeholder="${userNamePlaceholder}" required autofocus>
+                <label for="userName"><@spring.message 'page.sign_in.form.label.userName'/></label>
             </div>
             <div class="form-floating">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-                <label for="password">Пароль</label>
+                <#assign passwordPlaceholder>
+                    <@spring.message 'page.sign_in.form.placeholder.password'/>
+                </#assign>
+                <input type="password" id="password" name="password" class="form-control"
+                       placeholder="${passwordPlaceholder}" required>
+                <label for="password"><@spring.message 'page.sign_in.form.label.password'/></label>
             </div>
             <div class="form-floating">
-                <label for="rememberMe">Запомнить меня</label>
+                <label for="rememberMe"><@spring.message 'page.sign_in.form.label.rememberMe'/></label>
                 <input type="checkbox" id="rememberMe" name="rememberMe">
             </div>
             <#if error??>
-<#--                https://stackoverflow.com/questions/13261794/display-error-messages-in-spring-login-->
-                <p>Неверный логин или пароль</p>
+                <p><@spring.message 'page.sign_in.form.error'/></p>
             </#if>
             <br>
-            <button class="btn btn-primary" type="submit">Войти</button>
+
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <button class="btn btn-primary" type="submit"><@spring.message 'page.sign_in.form.btn.submit'/></button>
         </form>
         <br>
-            <div>Ещё нет аккаунта? <br> <a class="" href="<@spring.url'/signUp'/>">Регистрация</a>
+        <div><@spring.message 'page.sing_in.no_registration'/><br> <a class="" href="<@spring.url'/signUp'/>">Регистрация</a>
         </div>
         <br>
         <div>
-            <a href="<@spring.url'/vkOauth'/>"><img class="vk-auth-icon" src="<@spring.url'/assets/icons/vk-logo-mediator.png'/>" alt="authorization via vk.com">
-            Зайти через Вконтакте</a>
+            <a href="<@spring.url'/vkOauth'/>"><img class="vk-auth-icon"
+                                                    src="<@spring.url'/assets/icons/vk-logo-mediator.png'/>"
+                                                    alt="authorization via vk.com"><@spring.message 'page.sing_in.via_vk'/>
+            </a>
         </div>
     </div>
 

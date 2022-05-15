@@ -7,10 +7,13 @@
 <#import "macro_layout.ftl" as layout/>
 <#import 'macro_article_card.ftl' as article_card_layout>
 
-<@layout.contents 'Все статьи'>
+<#assign title>
+    <@spring.message 'page.articles.title'/>
+</#assign>
+<@layout.contents title=>
     <div class="articles-wrapper">
         <#if isAuthenticated?? && isAuthenticated == true>
-            <div class="heading-second">Ваши статьи:</div>
+            <div class="heading-second"> <@spring.message 'page.articles.users_articles'/> </div>
             <div class="user-articles-wrapper card-group row row-cols-3 g-4 justify-content-md-center">
                 <#if userArticles?has_content>
                     <#list userArticles as userArticle>
@@ -20,15 +23,16 @@
 
                 <div class="col">
                     <div class="card h-100">
-                        <a href="<@spring.url'/newArticle'/>">
+                        <a href="<@spring.url'/articles/new'/>">
                             <div class="card-img-create-wrapper row">
-                                <div class="col"><img src="<@spring.url'/assets/icons/new.png'/>"
+                                <div class="col">
+                                    <img src="<@spring.url'/assets/icons/new.png'/>"
                                                       class="card-img-top card-img-create"
                                                       alt="create new article image">
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">Создай свою статью</h5>
+                                <h5 class="card-title"><@spring.message 'page.articles.create_new'/></h5>
                             </div>
                         </a>
                     </div>
@@ -39,9 +43,9 @@
             <br>
         </#if>
         <#if searchTag?has_content>
-            <div class="heading-second">Все статьи, найденные по тегу: ${searchTag.title}</div>
+            <div class="heading-second"> <@spring.message 'page.articles.by_tag'/> <b>${searchTag.title}</b>: </div>
         <#else>
-            <div class="heading-second">Все статьи:</div>
+            <div class="heading-second"> <@spring.message 'page.articles.all'/> </div>
         </#if>
 
         <div class="all-articles-wrapper card-group row row-cols-3 g-4 justify-content-md-center">

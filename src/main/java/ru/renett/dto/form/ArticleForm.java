@@ -14,12 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleForm {
-    private Long authorId;
+    private Long authorId; // todo: check input absence
     @NotBlank
     private String title;
     @NotBlank
     private String body;
-    private MultipartFile image;
+    private MultipartFile thumbnailImage;
     @NotBlank
     private List<String> tags;
 }

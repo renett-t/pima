@@ -4,44 +4,43 @@
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
 
-<@layout.contents "Профиль - Редактирование">
-    <form method="POST" class="account-form">
+<#assign title>
+    <@spring.message 'page.profile_edit.title'/>
+</#assign>
+<@layout.contents title>
+    <form method="POST" class="account-form" action="<@spring.url'/profile/edit'/>">
+        <@spring.bind "updateUserForm" />
+        <p class="message-wrapper">${spring.status.errorMessage}</p>
         <div class="row row-cols-2">
             <div class="col">
-                <label for="nameInput" class="form-label">Ваше имя</label><br>
-                <input name="firstName" class="input-field form-control" id="nameInput" type="text"
-                       value="${user.firstName}">
+
+                <label for="nameInput"
+                       class="form-label"><@spring.message 'page.profile_edit.form.label.firstName'/></label><br>
+                <#assign fNamePlaceholder>
+                    <@spring.message 'page.profile_edit.form.placeholder.firstName'/>
+                </#assign>
+                <@spring.formInput 'updateUserForm.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" placeholder="${fNamePlaceholder}" value="${user.firstName}"'/>
+                <@spring.showErrors "<br>", "error-field error"/>
                 <div class="error-field" id="error-nameInput"></div>
-                <br>
-            </div>
-            <div class="col">
-                <label for="name2Input" class="form-label">Ваша фамилия</label><br>
-                <input name="secondName" class="form-control" id="name2Input" type="text" value="${user.secondName}">
-            </div>
-            <div class="col">
-                <label for="emailInput" class="form-label">E-mail</label><br>
-                <input name="email" class="input-field form-control" id="emailInput" type="text" value="${user.email}">
-                <div class="error-field" id="error-emailInput"></div>
-                <br>
-            </div>
-            <div class="col">
-                <label for="loginInput" class="form-label">Логин</label><br>
-                <input name="login" class="input-field form-control" id="loginInput" type="text"
-                       value="${user.userName}">
-                <div class="error-field" id="error-loginInput"></div>
-                <br>
-            </div>
-            <div class="col">
-                <label for="passwordInput" class="form-label">Новый пароль</label><br>
-                <input name="password" class="input-field form-control" id="passwordInput" type="password">
-                <div class="error-field" id="error-passwordInput"></div>
-                <br>
             </div>
             <br>
             <div class="col">
-                <label for="oldPasswordInput" class="form-label">Подтвердите изменение данных вводом прежнего
-                    пароля</label><br>
-                <input name="oldPassword" class="form-control" id="oldPasswordInput" type="password" required>
+                <label for="name2Input"
+                       class="form-label"><@spring.message 'page.profile_edit.form.label.secondName'/></label><br>
+                <#assign sNamePlaceholder>
+                    <@spring.message 'page.profile_edit.form.placeholder.secondName'/>
+                </#assign>
+                <@spring.formInput 'updateUserForm.secondName' 'class="input-field form-control" id="name2Input" placeholder="${sNamePlaceholder}" value="${user.secondName}"'/>
+
+            </div>
+            <br>
+            <div class="col">
+                <label for="oldPasswordInput"
+                       class="form-label"><@spring.message 'page.profile_edit.form.label.password'/></label><br>
+                <#assign passwordPlaceholder>
+                    <@spring.message 'page.profile_edit.form.placeholder.password'/>
+                </#assign>
+                <@spring.formPasswordInput 'signUpForm.password' 'class="input-field form-control" id="oldPasswordInput" placeholder=${passwordPlaceholder} required'/>
             </div>
             <#if message?has_content>
                 <div class="message-wrapper">
@@ -51,13 +50,14 @@
             </#if>
 
             <div class="col">
-                <button type="submit" class="btn btn-info" name="submit" value="edit">Сохранить</button>
+                <button type="submit" class="btn btn-info" name="submit"
+                        value="edit"><@spring.message 'page.profile_edit.form.btn.submit'/></button>
             </div>
         </div>
     </form>
     <br> <br>
     <form method="get" action="<@spring.url'/profile'/>">
-        <button type="submit" class="btn btn-danger">Отмена</button>
+        <button type="submit" class="btn btn-danger"><@spring.message 'page.profile_edit.form.btn.cancel'/></button>
     </form>
     <script src="<@spring.url'/scripts/form-control.js'/>" charset="UTF-8">
     </script>

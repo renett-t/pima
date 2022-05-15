@@ -5,7 +5,10 @@
 <#import "macro_layout.ftl" as layout/>
 <#import 'macro_article_edit.ftl' as article_edit>
 
-<@layout.contents 'Создание статьи'>
-    <div class="heading-second"> Создайте свою статью! </div>
+<#assign title>
+    <@spring.message 'page.article_new.title'/>
+</#assign>
+<@layout.contents title>
+    <div class="heading-second"> <@spring.message 'page.article_new.heading'/> </div>
     <@article_edit.contents article tags/>
 </@layout.contents>

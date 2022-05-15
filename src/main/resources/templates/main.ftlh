@@ -1,18 +1,23 @@
 <#ftl encoding="UTF-8"/>
+<#-- @ftlvariable name="lwai" type="ru.renett.models.Article" -->
+<#-- @ftlvariable name="message" type="java.lang.String" -->
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
 <#import "macro_article_card.ftl" as article/>
 
-<@layout.contents "Welcome!">
+<#assign title>
+    <@spring.message 'page.main.title'/>
+</#assign>
+<@layout.contents title>
     <#if message??>
         <div class="message-wrapper">
-            <h6>${message}</h6><#-- @ftlvariable name="message" type="java.lang.String" -->
+            <h6>${message}</h6>
         </div>
     </#if>
     <div class="articles-wrapper card-group row row-cols-3 g-4">
         <#if lwai??>
-            <p>Последняя просмотренная Вами статья: </p>
-            <@article.contents lwai> <#-- @ftlvariable name="lwai" type="ru.renett.models.Article" -->
+            <p> <@spring.message 'page.main.lwai'/></p>
+            <@article.contents lwai>
             </@article.contents>
         </#if>
     </div>

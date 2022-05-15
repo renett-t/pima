@@ -1,24 +1,24 @@
 <#ftl encoding="UTF-8"/>
-<#-- @ftlvariable name="message" type="java.lang.String" -->
 <#-- Article Card Layout Macro -->
+<#-- @ftlvariable name="message" type="java.lang.String" -->
+<#-- @ftlvariable name="article" type="ru.renett.models.Article" -->
+<#-- @ftlvariable name="tags" type="java.util.List<ru.renett.models.Tag>" -->
 <#import "spring.ftl" as spring />
 <#import "macro_tag.ftl" as tag_layout />
 
-<#macro contents article tags> <#-- @ftlvariable name="article" type="ru.renett.models.Article" -->
-
+<#macro contents article tags>
     <div class="article-edit-wrapper">
-        <form action="<@spring.url'/editArticle'/>" method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
             <br>
-
             <#if article.id?has_content>
                 <input type="hidden" name="articleId" value="${article.id}">
-                <h3>Текущее изображение статьи:</h3>
+                <h3><@spring.message 'page.article_edit.current_thumbnail'/></h3>
                 <img class="article-thumbnail-img" src="<@spring.url'/assets/articles/${article.thumbnailPath}'/>"
                      alt="article thumbnail">
                 <br>
             </#if>
 
-            <label for="thumbnailImage"> Выберите изображение для вашей статьи: </label>
+            <label for="thumbnailImage"> <@spring.message 'page.article_edit.form.label.thumbnail'/> </label>
             <input class="form-control" type="file" name="thumbnailImage" id="thumbnailImage"
                    accept=".jpg, .jpeg, .png">
             <#if message?has_content>
@@ -27,34 +27,47 @@
                 </div>
             </#if>
             <br> <br>
-            <label for="article-title"> Название статьи: </label><br>
+            <label for="article-title"> <@spring.message 'page.article_edit.form.label.title'/> </label>
+            <br>
+            <#assign titlePlaceholder>
+                <@spring.message 'page.article_edit.form.placeholder.title'/>
+            </#assign>
             <input class="form-control form-control-lg" id="article-title" type="text" name="title"
-                   placeholder="Введите название Вашей статьи" value="${article.title}"/>" required>
+                   placeholder="${titlePlaceholder}" value="${article.title}" required>
             <br> <br>
-            <label for="article-body"> Основное содержимое статьи: </label><br>
+            <label for="article-body"> <@spring.message 'page.article_edit.form.label.body'/> </label>
+            <br>
+            <#assign bodyPlaceholder>
+                <@spring.message 'page.article_edit.form.placeholder.body'/>
+            </#assign>
             <textarea id="article-body" name="articleBody"
-                      placeholder="Основное содержимое"> ${article.body}</textarea>
+                      placeholder="${bodyPlaceholder} содержимое"> ${article.body} </textarea>
             <#--<%--        <input id="article-body-input" type="hidden" name="articleBody" value="<c:out default="" value="${article.body}"/>">--%>-->
             <br> <br>
-            <p> Выберите тэги: </p>
+            <p> <@spring.message 'page.article_edit.form.tags'/> </p>
             <div class="tags-wrapper form-check" data-taglist="${article.tags}">
-                <input class="form-check-input" type="checkbox" id="tag-1" name="tag" value="-1">
-                <label class="form-check-label" for="tag-1">Не выбрано</label>
                 <br>
                 <#list tags as tag>
-                    <input class="form-check-input" type="checkbox" id="tag${tag.id}" name="tag" value="${tag.id}">
-                    <label class="form-check-label" for="tag${tag.id}">${tag.title}</label>
+                    <#if tag.title=="-1">
+                        <br>
+                        <input class="form-check-input" type="checkbox" id="tag-1" name="tags" value="-1">
+                        <label class="form-check-label"
+                               for="tag-1"><@spring.message 'page.article_edit.form.label.tags.not_chosen'/></label>
+                    <#else>
+                        <input class="form-check-input" type="checkbox" id="tag${tag.id}" name="tags" value="${tag.id}">
+                        <label class="form-check-label" for="tag${tag.id}">${tag.title}</label>
+                    </#if>
                     <br>
                 </#list>
             </div>
             <div class="centered-content-wrapper">
                 <#if article.id?has_content>
-                    <button id="submit" class="btn btn-success" type="submit" name="submit" value="edit">Отредактировать
-                        статью
+                    <button id="submit" class="btn btn-success" type="submit" name="submit" value="edit">
+                        <@spring.message 'page.article_edit.form.btn.save_changes'/>
                     </button>
                 <#else>
-                    <button id="submit" class="btn btn-success" type="submit" name="submit" value="create">Создать
-                        статью
+                    <button id="submit" class="btn btn-success" type="submit" name="submit" value="create">
+                        <@spring.message 'page.article_edit.form.btn.create'/>
                     </button>
                 </#if>
             </div>
@@ -64,5 +77,4 @@
         <script src="<@spring.url'/scripts/edit-article.js'/>" charset="UTF-8">
         </script>
     </div>
-
 </#macro>

@@ -5,7 +5,10 @@
 <#import "macro_layout.ftl" as layout/>
 <#import 'macro_article_card.ftl' as article_card_layout>
 
-<@layout.contents "Профиль">
+<#assign title>
+    <@spring.message 'page.profile.title'/>
+</#assign>
+<@layout.contents title>
     <div class="profile-wrapper">
         <div class="edit-delete-wrapper">
             <a href="<@spring.url'/editProfile'/>">
@@ -15,18 +18,18 @@
                  alt="delete">
         </div>
         <div class="profile">
-            <h1>Ваш аккаунт @${user.userName}</h1>
+            <h1><@spring.message 'page.profile.info.username_prefix'/>${user.userName}</h1>
             <h3>${user.firstName} ${user.secondName}</h3>
-            <h3>E-mail: ${user.email} </h3>
+            <h3><@spring.message 'page.profile.info.email_prefix'/> ${user.email} </h3>
             <a href="<@spring.url'/logout'/>">
-                <button class="btn btn-dark">Выйти</button>
+                <button class="btn btn-dark"><@spring.message 'page.profile.logout'/></button>
             </a>
         </div>
         <br>
         <hr>
         <div>
             <#if likedArticles?has_content>
-                <div class="heading-second">Понравившиеся статьи:</div>
+                <div class="heading-second"><@spring.message 'page.profile.liked_articles'/></div>
                 <div class="articles-wrapper card-group row row-cols-3 g-4">
                     <#list likedArticles as article>
                         <@article_card_layout.contents article/>

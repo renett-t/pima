@@ -1,8 +1,9 @@
 <#ftl encoding="UTF-8"/>
 <#-- Comment Layout Macro -->
+<#-- @ftlvariable name="comment" type="ru.renett.models.Comment" -->
 <#import "spring.ftl" as spring />
 
-<#macro contents comment> <#-- @ftlvariable name="comment" type="ru.renett.models.Comment" -->
+<#macro contents comment>
     <div class="comment-wrapper">
         <div class="comment-heading-wrapper">
             <img class="comment-profile-icon" src="<@spring.url'/resources/icons/profile.png'/>" alt="profile pic">
@@ -14,8 +15,9 @@
             <p>${comment.body}</p>
         </div>
         <div class="comment-footer-wrapper">
-<#--            check parent id -->
-            <button class="reply-button" id="${comment.id}" data-article="${comment.article.id}" name="parentComment" value="${comment.parentComment.id}">Ответить</button>
+            <#--            check parent id -->
+            <button class="reply-button" id="${comment.id}" data-article="${comment.article.id}" name="parentComment"
+                    value="${comment.parentComment.id}"><@spring.message 'page.comment.reply'/></button>
             <div id="comment-edit-wrapper-${comment.id}"></div>
         </div>
         <div class="child-comments-wrapper">
@@ -24,5 +26,4 @@
             </#list>
         </div>
     </div>
-
 </#macro>

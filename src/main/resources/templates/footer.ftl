@@ -1,8 +1,9 @@
 <#ftl encoding="UTF-8"/>
 <#import "spring.ftl" as spring />
+
 <#macro contents>
     <footer>
         <p class="float-end"></p>
-        <p>&copy; 2022–inf Company, Inc. &middot; <a href="<@spring.url'#'/>">Privacy</a> &middot; <a href="<@spring.url'#'/>">Terms</a></p>
+        <p> <@spring.message 'page.footer.copyright'/> <a target="_blank" href="<@spring.url'#'/>"><@spring.message 'page.footer.privacy'/></a> &middot; <a target="_blank" href="<@spring.url'#'/>"><@spring.message 'page.footer.terms'/></a></p>
     </footer>
 </#macro>
