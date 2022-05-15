@@ -14,7 +14,4 @@ public interface ArticleManageDataService {
     void likeArticle(User user, Article likedArticle);
     void dislikeArticle(User user, Article dislikedArticle);
     void updateViewCount(Article article);
-    void createComment(HttpServletRequest request);
-    void deleteComment(Comment commentToDelete);
-    void editComment(Comment editedComment);
 }

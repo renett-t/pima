@@ -1,10 +1,13 @@
 package ru.renett.utils;
 
-import ru.renett.models.Tag;
+import ru.renett.dto.TagDto;
+
+import java.util.List;
 
 public interface TagsCache {
     boolean containsTag(String tagParam);
 
-    Tag getTagByName(String tagParam);
+    TagDto getTagByName(String tagParam);
 
+    List<TagDto> getTags();
 }

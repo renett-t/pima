@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.renett.dto.ArticleDto;
 import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.models.Article;
@@ -40,12 +41,12 @@ public class ArticleDataController {
                               @AuthenticationPrincipal UserDetails userDetails,
                               ModelMap map) {
         try {
-            Article article = articlesGetDataService.getArticleByIdOrSlug(parameter);
+            ArticleDto article = articlesGetDataService.getArticleByIdOrSlug(parameter);
             if (userDetails == null) {
                 return "redirect:/signIn";
             } else {
                 User user = userService.getUserByEmailOrUserName(userDetails.getUsername());
-                articleManageDataService.likeArticle(user, article);
+                articleManageDataService.likeArticle(user.getId(), article.getId());
             }
         } catch (ArticleNotFoundException ex) {
             map.put(MESSAGE_ATTR, "Article that you requested to like do not exist. Redirected here :)"); // todo: i18n
@@ -56,8 +57,8 @@ public class ArticleDataController {
     @PostMapping("/articles/{article-id}/delete")
     public String deleteArticle(@PathVariable("article-id") String parameter, ModelMap map) {
         try {
-            Article articleToDelete = articlesGetDataService.getArticleByIdOrSlug(parameter);
-            articleManageDataService.deleteArticle(articleToDelete);
+            ArticleDto articleToDelete = articlesGetDataService.getArticleByIdOrSlug(parameter);
+            articleManageDataService.deleteArticle(articleToDelete.getId());
         } catch (ArticleNotFoundException ex) {
             map.put(MESSAGE_ATTR, "Article that you requested to delete do not exist. Redirected here :)"); // todo: i18n
         }
@@ -69,7 +70,7 @@ public class ArticleDataController {
     @GetMapping("/articles/new")
     public String createNewArticle(ModelMap map) {
         map.put("articleDto", new AddArticleDto());
-        map.put(TAGS_ATTR, articlesGetDataService.getAllTags());
+        map.put(TAGS_ATTR, tagsCache.getTags());
 
         return "article_edit";
     }

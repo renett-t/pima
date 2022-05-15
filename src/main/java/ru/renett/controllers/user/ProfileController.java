@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.renett.dto.ArticleDto;
 import ru.renett.dto.form.UpdateUserForm;
 import ru.renett.models.Article;
 import ru.renett.models.User;
@@ -34,7 +35,7 @@ public class ProfileController {
         } else {
             User user = userService.getUserByEmailOrUserName(userDetails.getUsername());
             map.put(USER_ATTR, user);
-            List<Article> liked = articlesGetDataService.getLikedArticles(user);
+            List<ArticleDto> liked = articlesGetDataService.getLikedArticles(user.getId());
             map.put(LIKED_ARTICLES_ATTR, liked);
             return "profile";
         }

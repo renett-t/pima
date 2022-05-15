@@ -1,30 +1,26 @@
 package ru.renett.service.article;
 
+import ru.renett.dto.ArticleDto;
 import ru.renett.exceptions.ArticleNotFoundException;
-import ru.renett.models.Article;
-import ru.renett.models.Comment;
-import ru.renett.models.Tag;
-import ru.renett.models.User;
 
 import java.util.List;
-import java.util.Set;
 
 public interface ArticlesGetDataService {
-    Article getArticleById(Long id) throws ArticleNotFoundException;
-    List<Article> getUsersArticles(User user);
-    List<Article> getLikedArticles(User user);
-    List<Article> getAllArticles();
-    List<Article> getAllArticlesExceptUsers(User user);
-    List<Article> getAllArticlesByTag(Tag tag);
+    ArticleDto getArticleById(Long id) throws ArticleNotFoundException;
 
-    Tag getTagById(Long tagId);
-    List<Tag> getAllTags();
-    Set<Tag> getArticleTags(Article article);
-    boolean isArticleLikedByUser(User user, Article article);
-    long getArticleLikesAmount(Article article);
+    List<ArticleDto> getUsersArticles(Long userId);
 
-    List<Comment> getArticleComments(Article article);
-    List<Comment> rearrangeArticleCommentsList(List<Comment> commentList);
+    List<ArticleDto> getLikedArticles(Long userId);
 
-    Article getArticleByIdOrSlug(String parameter) throws ArticleNotFoundException;
+    List<ArticleDto> getAllArticles();
+
+    List<ArticleDto> getAllArticlesExceptUsers(Long userId);
+
+    List<ArticleDto> getAllArticlesByTag(Long tagId);
+
+    boolean isArticleLikedByUser(Long userId, Long articleId);
+
+    int getArticleLikesAmount(Long articleId);
+
+    ArticleDto getArticleByIdOrSlug(String parameter) throws ArticleNotFoundException;
 }

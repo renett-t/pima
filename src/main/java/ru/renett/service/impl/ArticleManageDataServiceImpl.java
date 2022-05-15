@@ -161,39 +161,4 @@ public class ArticleManageDataServiceImpl implements ArticleManageDataService {
         articlesRepository.updateViewCount(article.getId(), article.getViewAmount());
     }
 
-    @Override
-    public void createComment(HttpServletRequest request) {
-        String body =  request.getParameter("commentBody");
-        String idOfArticle = request.getParameter("articleId");
-        String parenCommentId = request.getParameter("parent");
-
-        Long artId = requestValidator.checkRequestedIdCorrect(idOfArticle);
-
-        Comment parentComment = null;
-        if (parenCommentId != null) {
-            Long parentId = requestValidator.checkRequestedIdCorrect(parenCommentId);
-            parentComment = new Comment(parentId);
-        }
-
-        Comment newComment = Comment.builder()
-                .body(body)
-                .article(new Article(artId))
-                .author((User) request.getSession().getAttribute(Constants.SESSION_USER_ATTRIBUTE_NAME))
-                .parentComment(parentComment)
-                .build();
-
-        if (newComment != null) {
-            commentsRepository.save(newComment);
-        }
-    }
-
-    @Override
-    public void deleteComment(Comment commentToDelete) {
-        throw new UnsupportedOperationException("Method in development");
-    }
-
-    @Override
-    public void editComment(Comment editedComment) {
-        throw new UnsupportedOperationException("Method in development");
-    }
-}
+ }

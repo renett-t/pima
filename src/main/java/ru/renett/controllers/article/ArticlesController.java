@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.renett.dto.ArticleDto;
+import ru.renett.dto.TagDto;
 import ru.renett.exceptions.ArticleNotFoundException;
-import ru.renett.models.Article;
-import ru.renett.models.Tag;
 import ru.renett.models.User;
 import ru.renett.service.article.ArticlesGetDataService;
 import ru.renett.service.user.UserService;
@@ -33,26 +33,26 @@ public class ArticlesController {
 
     @GetMapping
     public String getAllArticles(@RequestParam(defaultValue = "", name = "searchTagParam") String searchTagParam,
-                              @AuthenticationPrincipal UserDetails userDetails,
-                              ModelMap map) {
+                                 @AuthenticationPrincipal UserDetails userDetails,
+                                 ModelMap map) {
         User user = null;
         if (userDetails != null) {
             user = userService.getUserByEmailOrUserName(userDetails.getUsername());
-            List<Article> owned = articlesGetDataService.getUsersArticles(user);
+            List<ArticleDto> owned = articlesGetDataService.getUsersArticles(user.getId());
             map.put(USER_ARTICLES_ATTR, owned);
         }
 
-        List<Article> articles = new ArrayList<>();
+        List<ArticleDto> articles = new ArrayList<>();
 
         if (!searchTagParam.isEmpty()) {
             if (tagsCache.containsTag(searchTagParam)) {
-                Tag tag = tagsCache.getTagByName(searchTagParam);
-                articles = articlesGetDataService.getAllArticlesByTag(tag);
+                TagDto tag = tagsCache.getTagByName(searchTagParam);
+                articles = articlesGetDataService.getAllArticlesByTag(tag.getId());
                 map.put(SEARCH_TAG_ATTR, searchTagParam);
             }
         } else {
             if (user != null)
-                articles = articlesGetDataService.getAllArticlesExceptUsers(user);
+                articles = articlesGetDataService.getAllArticlesExceptUsers(user.getId());
             else
                 articles = articlesGetDataService.getAllArticles();
         }
@@ -61,13 +61,12 @@ public class ArticlesController {
     }
 
 
-
     @GetMapping("/{article-id}")
     public String getArticleById(@PathVariable("article-id") String parameter,
                                  @AuthenticationPrincipal UserDetails userDetails,
                                  ModelMap map) {
         try {
-            Article article = articlesGetDataService.getArticleByIdOrSlug(parameter);
+            ArticleDto article = articlesGetDataService.getArticleByIdOrSlug(parameter);
             // todo: save cookie of last viewed article
             if (userDetails != null) {
                 User user = userService.getUserByEmailOrUserName(userDetails.getUsername());
@@ -76,7 +75,7 @@ public class ArticlesController {
                 }
 
                 map.put(LIKED_ATTR,
-                        articlesGetDataService.isArticleLikedByUser(user, article));
+                        articlesGetDataService.isArticleLikedByUser(user.getId(), article.getId()));
             }
             map.put(ARTICLES_ATTR, article);
         } catch (ArticleNotFoundException ex) {
