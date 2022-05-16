@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import ru.renett.dto.ArticleDto;
 import ru.renett.dto.TagDto;
+import ru.renett.dto.UserDto;
 import ru.renett.dto.form.ArticleForm;
 import ru.renett.dto.form.UpdateArticleForm;
 import ru.renett.exceptions.ArticleNotFoundException;
@@ -54,7 +55,7 @@ public class ArticleDataController {
                                 ArticleForm form,
                                 ModelMap map) {
 
-        User user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
+        UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
         ArticleDto articleDto = null;
         try {
             articleDto = articlesManageDataService.createArticle(form, user.getId());

@@ -37,7 +37,7 @@ public class RegistrationController {
 
         if (bindingResult.hasErrors()) {
             System.out.println("Error Signing up");
-            for(ObjectError error : bindingResult.getAllErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println(error.getDefaultMessage());
             }
             map.put(SIGN_UP_FORM_ATTR, signUpForm);

@@ -3,17 +3,20 @@ package ru.renett.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.renett.dto.UserDto;
 import ru.renett.dto.form.SignUpForm;
-import ru.renett.dto.form.UpdateUserForm;
+import ru.renett.dto.form.SimpleUpdateUserForm;
 import ru.renett.dto.form.UpdateUserRoleForm;
 import ru.renett.dto.form.UpdateUserStateForm;
+import ru.renett.exceptions.EntityNotFoundException;
+import ru.renett.exceptions.PasswordsMismatchException;
 import ru.renett.exceptions.ServiceException;
 import ru.renett.exceptions.SignUpException;
 import ru.renett.models.Role;
 import ru.renett.models.User;
 import ru.renett.repository.RolesRepository;
 import ru.renett.repository.UsersRepository;
-import ru.renett.service.user.UserService;
+import ru.renett.service.user.UsersService;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +24,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UsersServiceImpl implements UsersService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final RolesRepository rolesRepository;
@@ -59,91 +62,90 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserData(UpdateUserForm dto) throws ServiceException {
-        if (checkPasswords(dto.getPassword(), dto.getPasswordRepeat())) {
-            throw new ServiceException("Passwords do not match");
-        } else {
-            Optional<User> fromDb = usersRepository.findById(dto.getId());
-            if (fromDb.isPresent()) {
-                // todo: update User Data without touching roles & state - custom method in repository
-                User user = User.builder()
-                        .id(dto.getId())
-                        .firstName(dto.getFirstName())
-                        .secondName(dto.getSecondName())
-                        .email(dto.getEmail())
-                        .userName(dto.getUserName())
-                        .password(passwordEncoder.encode(dto.getPassword()))
-                        .roles(fromDb.get().getRoles())
-                        .state(fromDb.get().getState())
-                        .build();
-                this.save(user);
-                return user;
+    public UserDto updateBasicUserData(SimpleUpdateUserForm form) throws EntityNotFoundException, PasswordsMismatchException {
+        Optional<User> fromDb = usersRepository.findById(form.getId());
+        if (fromDb.isPresent()) {
+            if (checkPasswords(form.getPassword(), fromDb.get().getPassword())) {
+                throw new PasswordsMismatchException("Passwords do not match");
             } else {
-                throw new ServiceException("User does not exist in DB.");
+                // todo: update User Data without touching roles & state - custom method in repository
+                User user = fromDb.get();
+                user.setFirstName(form.getFirstName());
+                user.setSecondName(form.getSecondName());
+
+                this.save(user);
+                return UserDto.from(user);
             }
+        } else {
+            throw new EntityNotFoundException("User does not exist in DB.");
         }
     }
 
     @Override
-    public User updateUserRole(UpdateUserRoleForm dto) throws ServiceException {
+    public UserDto updateUserRole(UpdateUserRoleForm dto) {
         throw new UnsupportedOperationException("emae");
         // todo update user role method
     }
 
     @Override
-    public User updateUserState(UpdateUserStateForm dto) throws ServiceException {
+    public UserDto updateUserState(UpdateUserStateForm dto) {
         throw new UnsupportedOperationException("o mae ma wu");
         // todo update user state method
     }
 
-    @Override
-    public void save(User user) throws ServiceException {
+    private void save(User user) {
         usersRepository.save(user);
     }
 
     @Override
-    public void delete(User user) throws ServiceException {
-        usersRepository.delete(user);
+    public void delete(Long userId) {
+        usersRepository.deleteById(userId);
     }
 
     @Override
-    public User getUserByEmailOrUserName(String username) {
+    public UserDto getUserByEmailOrUserName(String username) throws EntityNotFoundException {
         Optional<User> userNameUser = usersRepository.findUserByUserName(username);
 
         if (userNameUser.isPresent())
-            return userNameUser.get();
+            return UserDto.from(userNameUser.get());
         else {
             Optional<User> emailUser = usersRepository.findUserByEmail(username);
 
             if (emailUser.isPresent())
-                return emailUser.get();
+                return UserDto.from(emailUser.get());
 
-            throw new ServiceException("No user for '" + username + "' found");
+            throw new EntityNotFoundException("No user for '" + username + "' found");
         }
     }
 
     @Override
-    public Optional<User> getUserById(Long id) throws ServiceException {
-        return usersRepository.findById(id);
+    public UserDto getUserById(Long id) throws EntityNotFoundException {
+        return UserDto.from(usersRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("No user for id =" + id + " found")
+        ));
     }
 
     @Override
-    public List<User> getAllUsers() throws ServiceException {
-        return usersRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        return UserDto.from(usersRepository.findAll());
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) throws ServiceException {
-        return usersRepository.findUserByEmail(email);
+    public UserDto findUserByEmail(String email) throws EntityNotFoundException{
+        return UserDto.from(usersRepository.findUserByEmail(email).orElseThrow(
+                () -> new EntityNotFoundException("No user by email = " + email + " found")
+        ));
     }
 
     @Override
-    public Optional<User> finsUserByUserName(String userName) throws ServiceException {
-        return usersRepository.findUserByUserName(userName);
+    public UserDto finsUserByUserName(String userName) throws EntityNotFoundException{
+        return UserDto.from(usersRepository.findUserByUserName(userName).orElseThrow(
+                () -> new EntityNotFoundException("No user by username = " + userName + " found")
+        ));
     }
 
-    private boolean checkPasswords(String password, String passwordRepeat) {
-        return password.equals(passwordRepeat);
+    private boolean checkPasswords(String password, String encoded) {
+        return passwordEncoder.encode(password).equals(encoded);
     }
 
 }

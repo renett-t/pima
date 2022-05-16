@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.renett.dto.ArticleDto;
 import ru.renett.dto.TagDto;
+import ru.renett.dto.UserDto;
 import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.models.User;
 import ru.renett.service.article.ArticlesManageDataService;
@@ -37,7 +38,7 @@ public class ArticlesController {
     public String getAllArticles(@RequestParam(defaultValue = "", name = "searchTagParam") String searchTagParam,
                                  @AuthenticationPrincipal UserDetails userDetails,
                                  ModelMap map) {
-        User user = null;
+        UserDto user = null;
         if (userDetails != null) {
             user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
             List<ArticleDto> owned = articlesGetDataService.getUsersArticles(user.getId());
@@ -71,7 +72,7 @@ public class ArticlesController {
             ArticleDto article = articlesGetDataService.getArticleByIdOrSlug(parameter);
             // todo: save cookie of last viewed article
             if (userDetails != null) {
-                User user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
+                UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
                 if (user.getId().equals(article.getAuthor().getId())) {
                     map.put(OWNED_ATTR, true);
                 }

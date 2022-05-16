@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.renett.dto.ArticleDto;
+import ru.renett.dto.UserDto;
+import ru.renett.dto.form.SimpleUpdateUserForm;
 import ru.renett.dto.form.UpdateUserForm;
 import ru.renett.models.User;
 import ru.renett.service.article.ArticlesGetDataService;
@@ -32,7 +34,7 @@ public class ProfileController {
         if (userDetails == null) {
             return "redirect:/signIn";
         } else {
-            User user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
+            UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
             map.put(USER_ATTR, user);
             List<ArticleDto> liked = articlesGetDataService.getLikedArticles(user.getId());
             map.put(LIKED_ARTICLES_ATTR, liked);
@@ -42,15 +44,15 @@ public class ProfileController {
 
     @GetMapping("/edit")
     public String getEditingProfilePage(@AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
-        User user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
+        UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
         map.put(USER_ATTR, user);
         return "profile_edit";
     }
 
     @PostMapping("/edit")
-    public String edit(UpdateUserForm updateUserForm, @AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
+    public String edit(SimpleUpdateUserForm updateUserForm, @AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
         // todo: do i have to check id in update data and id in user get by UserDetails
-        User user = usersService.updateBasicUserData(updateUserForm);
+        UserDto user = usersService.updateBasicUserData(updateUserForm);
         map.put(USER_ATTR, user);
         return "redirect:/profile";
     }

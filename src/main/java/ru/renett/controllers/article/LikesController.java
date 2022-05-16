@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.renett.dto.ArticleDto;
+import ru.renett.dto.UserDto;
 import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.models.User;
 import ru.renett.service.article.ArticlesGetDataService;
@@ -33,7 +34,7 @@ public class LikesController {
             if (userDetails == null) {
                 return "redirect:/signIn";
             } else {
-                User user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
+                UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
                 articlesManageDataService.likeArticle(user.getId(), article.getId());
             }
         } catch (ArticleNotFoundException ex) {

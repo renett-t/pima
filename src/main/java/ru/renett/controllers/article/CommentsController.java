@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.renett.dto.CommentDto;
+import ru.renett.dto.UserDto;
 import ru.renett.dto.form.CommentForm;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.models.User;
@@ -30,7 +31,7 @@ public class CommentsController {
                                          CommentForm form,
                                          ModelMap map) {
         try {
-            User user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
+            UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
             CommentDto commentDto = commentsService.createComment(form, user.getId());
             return ResponseEntity
                     .status(HttpStatus.CREATED)
