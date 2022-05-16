@@ -13,12 +13,13 @@ import ru.renett.dto.ArticleDto;
 import ru.renett.dto.TagDto;
 import ru.renett.dto.UserDto;
 import ru.renett.exceptions.ArticleNotFoundException;
-import ru.renett.models.User;
-import ru.renett.service.article.ArticlesManageDataService;
 import ru.renett.service.article.ArticlesGetDataService;
+import ru.renett.service.article.ArticlesManageDataService;
+import ru.renett.service.user.UserPreferencesService;
 import ru.renett.service.user.UsersService;
 import ru.renett.utils.TagsCache;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import static ru.renett.configuration.Constants.*;
 public class ArticlesController {
     private final ArticlesGetDataService articlesGetDataService;
     private final ArticlesManageDataService articlesManageDataService;
+    private final UserPreferencesService userPreferencesService;
     private final UsersService usersService;
 
     private final TagsCache tagsCache;
@@ -67,10 +69,11 @@ public class ArticlesController {
     @GetMapping("/{article-id}")
     public String getArticleById(@PathVariable("article-id") String parameter,
                                  @AuthenticationPrincipal UserDetails userDetails,
+                                 HttpServletResponse response,
                                  ModelMap map) {
         try {
             ArticleDto article = articlesGetDataService.getArticleByIdOrSlug(parameter);
-            // todo: save cookie of last viewed article
+            userPreferencesService.saveLastViewedArticleIdCookie(article.getId(), response);
             if (userDetails != null) {
                 UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
                 if (user.getId().equals(article.getAuthor().getId())) {

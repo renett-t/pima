@@ -5,12 +5,13 @@ import java.io.File;
 public class Constants {
     // COOKIE
     public static final String COOKIE_LAST_VIEWED_ARTICLE = "lwai";
+    public static final int COOKIE_LWAI_MAX_AGE = 60 * 60 * 24 * 100;
     public static final String COOKIE_LOCALE = "locale";
     public static final int COOKIE_LOCALE_MAX_AGE = 60 * 60 * 24 * 365;
     public static final String LOCALE_CHANGE_PARAM = "lang";
 
     // SOURCES
-    public static final String MESSAGES_SOURCE = "classpath:"  + File.separator + "messages";
+    public static final String MESSAGES_SOURCE = "classpath:" + File.separator + "messages";
 
     public static final String STORAGE_URL = File.separator + "static" + File.separator + "thumbnails";
     public static final String CHAR_ENCODING = "UTF-8";
