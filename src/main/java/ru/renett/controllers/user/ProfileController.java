@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.renett.dto.ArticleDto;
 import ru.renett.dto.form.UpdateUserForm;
-import ru.renett.models.Article;
 import ru.renett.models.User;
 import ru.renett.service.article.ArticlesGetDataService;
-import ru.renett.service.user.UserService;
+import ru.renett.service.user.UsersService;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ import static ru.renett.configuration.Constants.*;
 @RequiredArgsConstructor
 public class ProfileController {
 
-    private final UserService userService;
+    private final UsersService usersService;
     private final ArticlesGetDataService articlesGetDataService;
 
     //     @PreAuthorize("isAuthenticated()")
@@ -33,7 +32,7 @@ public class ProfileController {
         if (userDetails == null) {
             return "redirect:/signIn";
         } else {
-            User user = userService.getUserByEmailOrUserName(userDetails.getUsername());
+            User user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
             map.put(USER_ATTR, user);
             List<ArticleDto> liked = articlesGetDataService.getLikedArticles(user.getId());
             map.put(LIKED_ARTICLES_ATTR, liked);
@@ -43,7 +42,7 @@ public class ProfileController {
 
     @GetMapping("/edit")
     public String getEditingProfilePage(@AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
-        User user = userService.getUserByEmailOrUserName(userDetails.getUsername());
+        User user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
         map.put(USER_ATTR, user);
         return "profile_edit";
     }
@@ -51,7 +50,7 @@ public class ProfileController {
     @PostMapping("/edit")
     public String edit(UpdateUserForm updateUserForm, @AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
         // todo: do i have to check id in update data and id in user get by UserDetails
-        User user = userService.updateUserData(updateUserForm);
+        User user = usersService.updateBasicUserData(updateUserForm);
         map.put(USER_ATTR, user);
         return "redirect:/profile";
     }

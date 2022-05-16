@@ -31,4 +31,5 @@ public class Constants {
     public static final String LIKED_ATTR = "liked";
     public static final String OWNED_ATTR = "owned";
     public static final String TAGS_ATTR = "tags";
+    public static final String ARTICLE_ATTR = "article";
 }

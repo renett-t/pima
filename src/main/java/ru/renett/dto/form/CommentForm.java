@@ -15,5 +15,4 @@ public class CommentForm {
     private String body;
     private Long parentId;
     private Long articleId;
-    private Long authorId;
 }

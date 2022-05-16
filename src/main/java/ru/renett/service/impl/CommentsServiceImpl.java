@@ -30,7 +30,7 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     @Transactional
-    public CommentDto createComment(CommentForm form) {
+    public CommentDto createComment(CommentForm form, Long userId) {
         Comment parentComment = null;
         if (form.getParentId() != -1) {
             parentComment = commentsRepository.getById(form.getParentId());
@@ -39,7 +39,7 @@ public class CommentsServiceImpl implements CommentsService {
         Comment newComment = Comment.builder()
                 .body(form.getBody())
                 .article(new Article(form.getArticleId())) // todo: is it ok?
-                .author(new User(form.getAuthorId()))
+                .author(new User(userId))
                 .parentComment(parentComment)
                 .build();
 

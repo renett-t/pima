@@ -13,8 +13,9 @@ import ru.renett.dto.ArticleDto;
 import ru.renett.dto.TagDto;
 import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.models.User;
+import ru.renett.service.article.ArticlesManageDataService;
 import ru.renett.service.article.ArticlesGetDataService;
-import ru.renett.service.user.UserService;
+import ru.renett.service.user.UsersService;
 import ru.renett.utils.TagsCache;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ import static ru.renett.configuration.Constants.*;
 @RequiredArgsConstructor
 public class ArticlesController {
     private final ArticlesGetDataService articlesGetDataService;
-    private final UserService userService;
+    private final ArticlesManageDataService articlesManageDataService;
+    private final UsersService usersService;
 
     private final TagsCache tagsCache;
 
@@ -37,7 +39,7 @@ public class ArticlesController {
                                  ModelMap map) {
         User user = null;
         if (userDetails != null) {
-            user = userService.getUserByEmailOrUserName(userDetails.getUsername());
+            user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
             List<ArticleDto> owned = articlesGetDataService.getUsersArticles(user.getId());
             map.put(USER_ARTICLES_ATTR, owned);
         }
@@ -69,7 +71,7 @@ public class ArticlesController {
             ArticleDto article = articlesGetDataService.getArticleByIdOrSlug(parameter);
             // todo: save cookie of last viewed article
             if (userDetails != null) {
-                User user = userService.getUserByEmailOrUserName(userDetails.getUsername());
+                User user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
                 if (user.getId().equals(article.getAuthor().getId())) {
                     map.put(OWNED_ATTR, true);
                 }
@@ -77,6 +79,7 @@ public class ArticlesController {
                 map.put(LIKED_ATTR,
                         articlesGetDataService.isArticleLikedByUser(user.getId(), article.getId()));
             }
+            articlesManageDataService.incrementViewCount(article.getId());
             map.put(ARTICLES_ATTR, article);
         } catch (ArticleNotFoundException ex) {
             map.put(MESSAGE_ATTR, ex.getMessage()); // todo: message i18n

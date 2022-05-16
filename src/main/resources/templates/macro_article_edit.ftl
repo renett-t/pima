@@ -1,8 +1,8 @@
 <#ftl encoding="UTF-8"/>
 <#-- Article Card Layout Macro -->
 <#-- @ftlvariable name="message" type="java.lang.String" -->
-<#-- @ftlvariable name="article" type="ru.renett.models.Article" -->
-<#-- @ftlvariable name="tags" type="java.util.List<ru.renett.models.Tag>" -->
+<#-- @ftlvariable name="article" type="ru.renett.dto.ArticleDto" -->
+<#-- @ftlvariable name="tags" type="java.util.List<ru.renett.dto.TagDto>" -->
 <#import "spring.ftl" as spring />
 <#import "macro_tag.ftl" as tag_layout />
 
@@ -16,6 +16,8 @@
                 <img class="article-thumbnail-img" src="<@spring.url'/assets/articles/${article.thumbnailPath}'/>"
                      alt="article thumbnail">
                 <br>
+            <#else>
+                <input type="hidden" name="articleId" value="-1">
             </#if>
 
             <label for="thumbnailImage"> <@spring.message 'page.article_edit.form.label.thumbnail'/> </label>
@@ -40,7 +42,7 @@
             <#assign bodyPlaceholder>
                 <@spring.message 'page.article_edit.form.placeholder.body'/>
             </#assign>
-            <textarea id="article-body" name="articleBody"
+            <textarea id="article-body" name="body"
                       placeholder="${bodyPlaceholder} содержимое"> ${article.body} </textarea>
             <#--<%--        <input id="article-body-input" type="hidden" name="articleBody" value="<c:out default="" value="${article.body}"/>">--%>-->
             <br> <br>

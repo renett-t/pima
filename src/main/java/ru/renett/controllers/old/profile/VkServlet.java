@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/vkOauth")
+//@WebServlet("/vkOauth")
 public class VkServlet extends HttpServlet {
     private SecurityService securityService;
     private VkService vkService;

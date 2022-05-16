@@ -10,7 +10,7 @@
 <#assign title>
     <@spring.message 'page.articles.title'/>
 </#assign>
-<@layout.contents title=>
+<@layout.contents title>
     <div class="articles-wrapper">
         <#if isAuthenticated?? && isAuthenticated == true>
             <div class="heading-second"> <@spring.message 'page.articles.users_articles'/> </div>

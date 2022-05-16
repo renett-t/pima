@@ -13,7 +13,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleForm {
+public class UpdateArticleForm {
+    private Long articleId;
     @NotBlank
     private String title;
     @NotBlank

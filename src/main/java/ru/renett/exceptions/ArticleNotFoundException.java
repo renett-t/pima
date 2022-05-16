@@ -1,6 +1,6 @@
 package ru.renett.exceptions;
 
-public class ArticleNotFoundException extends RuntimeException {
+public class ArticleNotFoundException extends EntityNotFoundException {
     public ArticleNotFoundException() {
     }
 

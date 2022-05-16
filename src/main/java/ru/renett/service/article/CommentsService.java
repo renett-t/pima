@@ -8,7 +8,7 @@ import java.util.List;
 public interface CommentsService {
     List<CommentDto> getArticleComments(Long articleId);
 
-    CommentDto createComment(CommentForm form);
+    CommentDto createComment(CommentForm form, Long userId);
 
     void deleteComment(Long commentId);
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.renett.dto.form.SignUpForm;
 import ru.renett.exceptions.ServiceException;
-import ru.renett.service.user.UserService;
+import ru.renett.service.user.UsersService;
 
 import javax.validation.Valid;
 
@@ -22,7 +22,7 @@ import static ru.renett.configuration.Constants.SIGN_UP_FORM_ATTR;
 @RequiredArgsConstructor
 @RequestMapping("/signUp")
 public class RegistrationController {
-    private final UserService userService;
+    private final UsersService usersService;
 
 
     @GetMapping
@@ -45,7 +45,7 @@ public class RegistrationController {
         }
 
         try {
-            userService.signUp(signUpForm);
+            usersService.signUp(signUpForm);
         } catch (ServiceException ex) {
             map.put("message", ex.getMessage());
             return "sign_up";
