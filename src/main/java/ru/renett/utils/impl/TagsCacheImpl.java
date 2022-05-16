@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 public class TagsCacheImpl implements TagsCache {
     private final TagsService tagsService;
 
-    private final Map<String, TagDto> mapOfTags = initializeMapOfTags();
+    private Map<String, TagDto> mapOfTags = new HashMap<>();
+    private boolean isInitialized = false;
 
     private Map<String, TagDto> initializeMapOfTags() {
         Map<String, TagDto> map = new HashMap<>();
@@ -31,15 +32,25 @@ public class TagsCacheImpl implements TagsCache {
     }
 
     public boolean containsTag(String tagParam) {
+        checkInitialization();
         return mapOfTags.containsKey(tagParam);
     }
 
+    private void checkInitialization() {
+        if (!isInitialized) {
+            this.mapOfTags = initializeMapOfTags();
+            isInitialized = true;
+        }
+    }
+
     public TagDto getTagByName(String tagParam) {
+        checkInitialization();
         return mapOfTags.get(tagParam);
     }
 
     @Override
     public List<TagDto> getTags() {
+        checkInitialization();
         return new ArrayList<>(mapOfTags.values());
     }
 }
