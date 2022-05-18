@@ -9,9 +9,21 @@ document.addEventListener("DOMContentLoaded", function() {
     function insertCommentEditField() {
         prevId = this.id;
         articleId = this.dataset.article
-        document.getElementById("comment-edit-wrapper-" + prevId).innerHTML = '<div class="comment-edit-wrapper"><textarea class="comment-body" id="comment-body-' + prevId + '" form="comment-form" name="commentBody" placeholder="Введите текст комментария"></textarea><br><button class="btn" id="reply-button-' + prevId + '" data-article="' + articleId + '" data-parent="' + prevId + '">Отправить комментарий</button></div>';
+        document.getElementById("comment-edit-wrapper-" + prevId).innerHTML = '<div class="comment-edit-wrapper"><textarea class="comment-body" id="comment-body-' + prevId + '" form="comment-form" name="body" placeholder="Введите текст комментария"></textarea><br><button class="btn" id="reply-button-' + prevId + '" data-article="' + articleId + '" data-parent="' + prevId + '">Отправить комментарий</button></div>';
         document.getElementById("reply-button-" + prevId).onclick = sendCommentRequest;
     }
+    //
+    // <form action="<@spring.url'/articles/${articleId}/comments/new'/>" method="POST">
+    //         <textarea className="comment-body" name="commentBody" placeholder="Введите текст комментария"
+    //                   required></textarea>
+    //     <input name="articleId" value="${articleId}" type="hidden">
+    //         <input name="parentId" value="-1" type="hidden">
+    //             <br>
+    //                 <button className="btn" type="submit">
+    //                     <
+    //                     @spring.message 'page.comment.send'/>
+    //                 </button>
+    // </form>
 
     function sendCommentRequest() {
         body = document.getElementById("comment-body-" + this.dataset.parent).value;
