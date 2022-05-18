@@ -19,10 +19,10 @@ public class ArticlesRestController {
     private final ArticlesRestService articlesRestService;
 
     @Value("${defaults.rest.page}")
-    private static final String defaultPage = "";
+    private final String defaultPage = "";
 
     @Value("${defaults.rest.limit}")
-    private static final String defaultLimit = "";
+    private final String defaultLimit = "";
 
     @GetMapping
     public ResponseEntity<ArticlesPage> getArticles(@RequestParam(name = "page", defaultValue = defaultPage) int page, @RequestParam(name = "limit", defaultValue = defaultLimit) int limit) {

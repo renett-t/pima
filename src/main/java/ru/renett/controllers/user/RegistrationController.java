@@ -16,6 +16,7 @@ import ru.renett.service.user.UsersService;
 
 import javax.validation.Valid;
 
+import static ru.renett.configuration.Constants.MESSAGE_ATTR;
 import static ru.renett.configuration.Constants.SIGN_UP_FORM_ATTR;
 
 @Controller
@@ -47,7 +48,8 @@ public class RegistrationController {
         try {
             usersService.signUp(signUpForm);
         } catch (ServiceException ex) {
-            map.put("message", ex.getMessage());
+            map.put(MESSAGE_ATTR, ex.getMessage());
+            map.put(SIGN_UP_FORM_ATTR, signUpForm);
             return "sign_up";
         }
 

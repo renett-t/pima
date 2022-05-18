@@ -44,7 +44,7 @@ public class ArticleDataController {
     public String getCreateArticlePage(ModelMap map) {
         List<TagDto> tagDtos = tagsCache.getTags();
 
-        map.put(ARTICLE_ATTR, new ArticleDto());
+        map.put(ARTICLE_ATTR, ArticleDto.builder().title("").body("").build());
         map.put(TAGS_ATTR, tagDtos);
 
         return "article_edit";
@@ -54,7 +54,8 @@ public class ArticleDataController {
     public String createArticle(@AuthenticationPrincipal UserDetails userDetails,
                                 ArticleForm form,
                                 ModelMap map) {
-
+        System.out.println("--------------- NEW ARTICLE _____________________");
+        System.out.println(form);
         UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
         ArticleDto articleDto = null;
         try {
@@ -90,7 +91,8 @@ public class ArticleDataController {
                               @AuthenticationPrincipal UserDetails userDetails,
                               UpdateArticleForm form,
                               ModelMap map) {
-
+        System.out.println("--------------- EDIT ARTICLE _____________________");
+        System.out.println(form);
         ArticleDto articleDto = null;
         try {
             articleDto = articlesManageDataService.editArticle(form);
