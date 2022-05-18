@@ -16,8 +16,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
-        modelAndView.getModelMap().put(IS_AUTHENTICATED_ATTR, isAuthenticated);
+        if (modelAndView != null) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+            modelAndView.getModelMap().put(IS_AUTHENTICATED_ATTR, isAuthenticated);
+        }
     }
 }
