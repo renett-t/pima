@@ -41,7 +41,7 @@ public class UsersServiceImpl implements UsersService {
         if (userNameUser.isPresent())
             throw new SignUpException("User with username = " + dto.getUserName() + " already exists.");
 
-        if (!checkPasswords(dto.getPassword(), dto.getPasswordRepeat()))
+        if (!checkPasswordsTheSame(dto.getPassword(), dto.getPasswordRepeat()))
             throw new SignUpException("Passwords do not match.");
 
         System.out.println("------------------------ REGISTRATION ------------------------");
@@ -61,6 +61,10 @@ public class UsersServiceImpl implements UsersService {
         this.save(user);
     }
 
+    private boolean checkPasswordsTheSame(String password, String passwordRepeat) {
+        return password != null && password.equals(passwordRepeat);
+    }
+
     @Override
     public UserDto updateBasicUserData(SimpleUpdateUserForm form) throws EntityNotFoundException, PasswordsMismatchException {
         Optional<User> fromDb = usersRepository.findById(form.getId());
@@ -68,7 +72,6 @@ public class UsersServiceImpl implements UsersService {
             if (checkPasswords(form.getPassword(), fromDb.get().getPassword())) {
                 throw new PasswordsMismatchException("Passwords do not match");
             } else {
-                // todo: update User Data without touching roles & state - custom method in repository
                 User user = fromDb.get();
                 user.setFirstName(form.getFirstName());
                 user.setSecondName(form.getSecondName());
