@@ -1,5 +1,5 @@
 <#ftl encoding="UTF-8"/>
-<#-- @ftlvariable name="article" type="ru.renett.models.Article" -->
+<#-- @ftlvariable name="article" type="ru.renett.dto.ArticleDto" -->
 <#-- @ftlvariable name="tags" type="java.util.List" -->
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>

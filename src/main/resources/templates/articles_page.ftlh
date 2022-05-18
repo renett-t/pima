@@ -1,8 +1,8 @@
 <#ftl encoding="UTF-8"/>
-<#-- @ftlvariable name="articles" type="java.util.List<ru.renett.models.Article>" -->
-<#-- @ftlvariable name="searchTag" type="ru.renett.models.Tag" -->
+<#-- @ftlvariable name="articles" type="java.util.List<ru.renett.dto.ArticleDto>" -->
+<#-- @ftlvariable name="searchTag" type="ru.renett.dto.TagDto" -->
 <#-- @ftlvariable name="isAuthenticated" type="java.lang.Boolean" -->
-<#-- @ftlvariable name="userArticles" type="java.util.List<ru.renett.models.Article>" -->
+<#-- @ftlvariable name="userArticles" type="java.util.List<ru.renett.dto.ArticleDto>" -->
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
 <#import 'macro_article_card.ftl' as article_card_layout>

@@ -1,7 +1,7 @@
 <#ftl encoding="UTF-8"/>
 <#-- Article Card Layout Macro -->
 <#-- @ftlvariable name="isBlank" type="java.lang.Boolean" -->
-<#-- @ftlvariable name="tag" type="ru.renett.models.Tag" -->
+<#-- @ftlvariable name="tag" type="ru.renett.dto.TagDto" -->
 <#import "spring.ftl" as spring />
 
 <#macro contents isBlank tag>

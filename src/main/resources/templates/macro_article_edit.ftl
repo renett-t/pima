@@ -13,7 +13,7 @@
             <#if article.id?has_content>
                 <input type="hidden" name="articleId" value="${article.id}">
                 <h3><@spring.message 'page.article_edit.current_thumbnail'/></h3>
-                <img class="article-thumbnail-img" src="<@spring.url'/assets/articles/${article.thumbnailPath}'/>"
+                <img class="article-thumbnail-img" src="<@spring.url'/thumbnails/${article.thumbnail}'/>"
                      alt="article thumbnail">
                 <br>
             <#else>
@@ -47,7 +47,7 @@
             <#--<%--        <input id="article-body-input" type="hidden" name="articleBody" value="<c:out default="" value="${article.body}"/>">--%>-->
             <br> <br>
             <p> <@spring.message 'page.article_edit.form.tags'/> </p>
-            <div class="tags-wrapper form-check" data-taglist="${article.tags}">
+            <div class="tags-wrapper form-check">
                 <br>
                 <#list tags as tag>
                     <#if tag.title=="-1">

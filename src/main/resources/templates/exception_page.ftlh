@@ -15,6 +15,6 @@
         </div>
     </#if>
     <div class="error-wrapper">
-        <img src="<@spring.url'/static/assets/error/500.jpg'/>" alt="Something went wrong.">
+        <img src="<@spring.url'/assets/error/500.jpg'/>" alt="Something went wrong.">
     </div>
 </@layout.contents>

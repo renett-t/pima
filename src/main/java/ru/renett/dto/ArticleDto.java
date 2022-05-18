@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import ru.renett.models.Article;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -25,6 +26,7 @@ public class ArticleDto {
 
     private AuthorDto author;
     private List<CommentDto> comments;
+    private Set<TagDto> tags;
 
     public static ArticleDto from(Article article) {
         return ArticleDto.builder()
@@ -38,6 +40,7 @@ public class ArticleDto {
                 .author(AuthorDto.from(article.getAuthor()))
                 .commentsAmount(article.getCommentAmount())
                 .comments(CommentDto.from(article.getCommentList()))
+                .tags(TagDto.from(article.getTags()))
                 .build();
     }
 

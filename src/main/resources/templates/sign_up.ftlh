@@ -16,7 +16,7 @@
             <#assign fNamePlaceholder>
                 <@spring.message 'page.sign_up.form.placeholder.firstName'/>
             </#assign>
-            <@spring.formInput 'signUpForm.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" placeholder=${fNamePlaceholder}'/>
+            <@spring.formInput 'signUpForm.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" placeholder="${fNamePlaceholder}"'/>
             <@spring.showErrors "<br>", "error-field error"/>
             <div class="error-field" id="error-nameInput"></div>
             <br>
@@ -26,7 +26,7 @@
             <#assign sNamePlaceholder>
                 <@spring.message 'page.sign_up.form.placeholder.secondName'/>
             </#assign>
-            <@spring.formInput 'signUpForm.secondName' 'class="input-field form-control" id="name2Input" placeholder=${sNamePlaceholder}'/>
+            <@spring.formInput 'signUpForm.secondName' 'class="input-field form-control" id="name2Input" placeholder="${sNamePlaceholder}"'/>
             <div class="error-field" id="error-nameInput"></div>
             <br>
 
@@ -34,7 +34,7 @@
             <#assign emailPlaceholder>
                 <@spring.message 'page.sign_up.form.placeholder.email'/>
             </#assign>
-            <@spring.formInput 'signUpForm.email' 'class="input-field form-control" id="emailInput" placeholder=${emailPlaceholder} required'/>
+            <@spring.formInput 'signUpForm.email' 'class="input-field form-control" id="emailInput" placeholder="${emailPlaceholder}" required'/>
             <@spring.showErrors "<br>", "error-field error"/>
             <div class="error-field" id="error-emailInput"></div>
             <br>
@@ -43,7 +43,7 @@
             <#assign userNamePlaceholder>
                 <@spring.message 'page.sign_up.form.placeholder.userName'/>
             </#assign>
-            <@spring.formInput 'signUpForm.userName' 'class="input-field form-control" id="loginInput" placeholder=${userNamePlaceholder} required'/>
+            <@spring.formInput 'signUpForm.userName' 'class="input-field form-control" id="loginInput" placeholder="${userNamePlaceholder}" required'/>
             <div class="error-field" id="error-loginInput"></div>
             <br>
 
@@ -52,7 +52,7 @@
             <#assign passwordPlaceholder>
                 <@spring.message 'page.sign_up.form.placeholder.password'/>
             </#assign>
-            <@spring.formPasswordInput 'signUpForm.password' 'class="input-field form-control" id="passwordInput" placeholder=${passwordPlaceholder} required'/>
+            <@spring.formPasswordInput 'signUpForm.password' 'class="input-field form-control" id="passwordInput" placeholder="${passwordPlaceholder}" required'/>
             <div class="error-field" id="error-passwordInput"></div>
             <br>
 
@@ -61,7 +61,7 @@
             <#assign repeatPasswordPlaceholder>
                 <@spring.message 'page.sign_up.form.placeholder.repeatPassword'/>
             </#assign>
-            <@spring.formPasswordInput 'signUpForm.passwordRepeat' 'class="input-field form-control" id="repeatedPasswordInput" placeholder=${repeatPasswordPlaceholder} autofocus="true"'/>
+            <@spring.formPasswordInput 'signUpForm.passwordRepeat' 'class="input-field form-control" id="repeatedPasswordInput" placeholder="${repeatPasswordPlaceholder}" autofocus="true"'/>
             <div class="error-field" id="error-repeatedPasswordInput"></div>
             <br>
             <br>

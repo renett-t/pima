@@ -1,6 +1,6 @@
 <#ftl encoding="UTF-8"/>
 <#-- @ftlvariable name="message" type="java.lang.String" -->
-<#-- @ftlvariable name="user" type="ru.renett.models.User" -->
+<#-- @ftlvariable name="user" type="ru.renett.dto.UserDto" -->
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
 

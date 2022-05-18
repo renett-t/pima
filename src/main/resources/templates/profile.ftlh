@@ -1,6 +1,6 @@
 <#ftl encoding="UTF-8"/>
-<#-- @ftlvariable name="user" type="ru.renett.models.User" -->
-<#-- @ftlvariable name="likedArticles" type="java.util.List<ru.renett.models.Article>" -->
+<#-- @ftlvariable name="user" type="ru.renett.dto.UserDto" -->
+<#-- @ftlvariable name="likedArticles" type="java.util.List<ru.renett.dto.ArticleDto>" -->
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
 <#import 'macro_article_card.ftl' as article_card_layout>
