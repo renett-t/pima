@@ -11,7 +11,7 @@ public class Constants {
     public static final String LOCALE_CHANGE_PARAM = "lang";
 
     // SOURCES
-    public static final String MESSAGES_SOURCE = "classpath:" + File.separator + "messages";
+    public static final String MESSAGES_SOURCE = "classpath:messages/messages";
 
     public static final String STORAGE_URL = File.separator + "static" + File.separator + "thumbnails";
     public static final String CHAR_ENCODING = "UTF-8";
