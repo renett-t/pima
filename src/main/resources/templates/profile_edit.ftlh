@@ -8,6 +8,7 @@
     <@spring.message 'page.profile_edit.title'/>
 </#assign>
 <@layout.contents title>
+    <h2>@${user.userName}</h2>
     <form method="POST" class="account-form" action="<@spring.url'/profile/edit'/>">
         <@spring.bind "updateUserForm" />
         <p class="message-wrapper">${spring.status.errorMessage}</p>
@@ -19,7 +20,7 @@
                 <#assign fNamePlaceholder>
                     <@spring.message 'page.profile_edit.form.placeholder.firstName'/>
                 </#assign>
-                <@spring.formInput 'updateUserForm.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" placeholder="${fNamePlaceholder}" value="${user.firstName}"'/>
+                <@spring.formInput 'updateUserForm.firstName' 'class="input-field form-control" id="nameInput" autofocus="true" placeholder=${fNamePlaceholder} value="${user.firstName}"'/>
                 <@spring.showErrors "<br>", "error-field error"/>
                 <div class="error-field" id="error-nameInput"></div>
             </div>
@@ -30,17 +31,18 @@
                 <#assign sNamePlaceholder>
                     <@spring.message 'page.profile_edit.form.placeholder.secondName'/>
                 </#assign>
-                <@spring.formInput 'updateUserForm.secondName' 'class="input-field form-control" id="name2Input" placeholder="${sNamePlaceholder}" value="${user.secondName}"'/>
-
+                <@spring.formInput 'updateUserForm.secondName' 'class="input-field form-control" id="name2Input" placeholder=${sNamePlaceholder} value="${user.secondName}"'/>
+                <@spring.showErrors "<br>", "error-field error"/>
             </div>
             <br>
             <div class="col">
-                <label for="oldPasswordInput"
+                <label for="password"
                        class="form-label"><@spring.message 'page.profile_edit.form.label.password'/></label><br>
                 <#assign passwordPlaceholder>
                     <@spring.message 'page.profile_edit.form.placeholder.password'/>
                 </#assign>
-                <@spring.formPasswordInput 'signUpForm.password' 'class="input-field form-control" id="oldPasswordInput" placeholder=${passwordPlaceholder} required'/>
+                <@spring.formPasswordInput "updateUserForm.password" "class='input-field form-control test' placeholder=${passwordPlaceholder} required"/>
+                <@spring.showErrors "<br>", "error-field error"/>
             </div>
             <#if message?has_content>
                 <div class="message-wrapper">
@@ -49,13 +51,14 @@
                 </div>
             </#if>
 
+            <br>
             <div class="col">
-                <button type="submit" class="btn btn-info" name="submit"
-                        value="edit"><@spring.message 'page.profile_edit.form.btn.submit'/></button>
+                <br>
+                <button type="submit" class="btn btn-info" name="submit"><@spring.message 'page.profile_edit.form.btn.submit'/></button>
             </div>
         </div>
     </form>
-    <br> <br>
+    <br>
     <form method="get" action="<@spring.url'/profile'/>">
         <button type="submit" class="btn btn-danger"><@spring.message 'page.profile_edit.form.btn.cancel'/></button>
     </form>

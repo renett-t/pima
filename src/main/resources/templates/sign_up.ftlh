@@ -27,6 +27,7 @@
                 <@spring.message 'page.sign_up.form.placeholder.secondName'/>
             </#assign>
             <@spring.formInput 'signUpForm.secondName' 'class="input-field form-control" id="name2Input" placeholder="${sNamePlaceholder}"'/>
+            <@spring.showErrors "<br>", "error-field error"/>
             <div class="error-field" id="error-nameInput"></div>
             <br>
 
@@ -44,6 +45,7 @@
                 <@spring.message 'page.sign_up.form.placeholder.userName'/>
             </#assign>
             <@spring.formInput 'signUpForm.userName' 'class="input-field form-control" id="loginInput" placeholder="${userNamePlaceholder}" required'/>
+            <@spring.showErrors "<br>", "error-field error"/>
             <div class="error-field" id="error-loginInput"></div>
             <br>
 
@@ -53,6 +55,7 @@
                 <@spring.message 'page.sign_up.form.placeholder.password'/>
             </#assign>
             <@spring.formPasswordInput 'signUpForm.password' 'class="input-field form-control" id="passwordInput" placeholder="${passwordPlaceholder}" required'/>
+            <@spring.showErrors "<br>", "error-field error"/>
             <div class="error-field" id="error-passwordInput"></div>
             <br>
 
@@ -62,6 +65,7 @@
                 <@spring.message 'page.sign_up.form.placeholder.repeatPassword'/>
             </#assign>
             <@spring.formPasswordInput 'signUpForm.passwordRepeat' 'class="input-field form-control" id="repeatedPasswordInput" placeholder="${repeatPasswordPlaceholder}" autofocus="true"'/>
+            <@spring.showErrors "<br>", "error-field error"/>
             <div class="error-field" id="error-repeatedPasswordInput"></div>
             <br>
             <br>

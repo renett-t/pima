@@ -53,7 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .authorizeRequests()
                     .antMatchers("/signUp").permitAll()
-                    .antMatchers("/profile").authenticated()
+                    .antMatchers("/profile/").authenticated()
+                    .antMatchers("/profile/edit").authenticated()
                     .antMatchers("/confirm").hasAuthority(User.State.NOT_CONFIRMED.name()) //todo
                     .antMatchers("/admin/**").hasRole(Role.ROLE.ADMIN.name())
                     .antMatchers("/articles/*/edit").hasRole(Role.ROLE.AUTHOR.name()) //todo

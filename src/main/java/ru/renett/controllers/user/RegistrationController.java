@@ -47,6 +47,7 @@ public class RegistrationController {
 
         try {
             usersService.signUp(signUpForm);
+            System.out.println("____________________-SUCCESSFULY SIGNED UP");
         } catch (ServiceException ex) {
             map.put(MESSAGE_ATTR, ex.getMessage());
             map.put(SIGN_UP_FORM_ATTR, signUpForm);

@@ -11,8 +11,8 @@
 <@layout.contents title>
     <div class="profile-wrapper">
         <div class="edit-delete-wrapper">
-            <a href="<@spring.url'/editProfile'/>">
-                <img class="icon-img edit-icon" src="<@spring.url'/resources/icons/edit.png'/>" alt="edit">
+            <a href="<@spring.url'/profile/edit'/>">
+                <img class="icon-img edit-icon" src="<@spring.url'/assets/icons/edit.png'/>" alt="edit">
             </a>
             <img class="icon-img delete-icon" id="delete-icon-request" src="<@spring.url'/assets/icons/cancel.png'/>"
                  alt="delete">

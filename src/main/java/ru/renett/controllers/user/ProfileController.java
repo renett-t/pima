@@ -46,14 +46,16 @@ public class ProfileController {
     public String getEditingProfilePage(@AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
         UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
         map.put(USER_ATTR, user);
+        map.put(UPDATE_PROFILE_ATTR, new SimpleUpdateUserForm());
         return "profile_edit";
     }
 
     @PostMapping("/edit")
     public String edit(SimpleUpdateUserForm updateUserForm, @AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
-        // todo: do i have to check id in update data and id in user get by UserDetails
-        UserDto user = usersService.updateBasicUserData(updateUserForm);
-        map.put(USER_ATTR, user);
+        System.out.println("\nupDAAAAAAAAAAAAAAAAAAAAATE\n\n");
+        UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
+        UserDto updated = usersService.updateBasicUserData(updateUserForm, user.getId());
+        map.put(USER_ATTR, updated);
         return "redirect:/profile";
     }
 

@@ -1,6 +1,8 @@
 package ru.renett.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.renett.dto.UserDto;
@@ -10,14 +12,15 @@ import ru.renett.dto.form.UpdateUserRoleForm;
 import ru.renett.dto.form.UpdateUserStateForm;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.exceptions.PasswordsMismatchException;
-import ru.renett.exceptions.ServiceException;
 import ru.renett.exceptions.SignUpException;
 import ru.renett.models.Role;
 import ru.renett.models.User;
 import ru.renett.repository.RolesRepository;
 import ru.renett.repository.UsersRepository;
 import ru.renett.service.user.UsersService;
+import ru.renett.utils.RolesCache;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -25,13 +28,16 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
+
+    private final static Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
+
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RolesRepository rolesRepository;
+    private final RolesCache rolesCache;
 
     @Override
     public void signUp(SignUpForm dto) throws SignUpException {
-        // validation (done by Spring)
+        logger.info("New sign up request. Data = " + dto.getUserName() + ", " + dto.getEmail() + ".");
         Optional<User> emailUser = usersRepository.findUserByEmail(dto.getEmail());
         Optional<User> userNameUser = usersRepository.findUserByUserName(dto.getUserName());
 
@@ -44,20 +50,17 @@ public class UsersServiceImpl implements UsersService {
         if (!checkPasswordsTheSame(dto.getPassword(), dto.getPasswordRepeat()))
             throw new SignUpException("Passwords do not match.");
 
-        System.out.println("------------------------ REGISTRATION ------------------------");
-        System.out.println(dto);
         User user = User.builder()
                 .firstName(dto.getFirstName())
                 .secondName(dto.getSecondName())
                 .email(dto.getEmail())
                 .userName(dto.getUserName())
                 .password(passwordEncoder.encode(dto.getPassword()))
-                .roles(Set.of(rolesRepository.getRoleByName(Role.ROLE.USER)))
+                .roles(Set.of(rolesCache.getRoleByName(Role.ROLE.USER)))
                 .state(User.State.NOT_CONFIRMED)
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
 
-        System.out.println("PASSWORD=" + dto.getPassword() + ";ENCODED=" + user.getPassword());
         this.save(user);
     }
 
@@ -66,8 +69,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UserDto updateBasicUserData(SimpleUpdateUserForm form) throws EntityNotFoundException, PasswordsMismatchException {
-        Optional<User> fromDb = usersRepository.findById(form.getId());
+    public UserDto updateBasicUserData(SimpleUpdateUserForm form, Long userId) throws EntityNotFoundException, PasswordsMismatchException {
+        logger.debug("New update user request. Data includes: id=" + userId + ", fn=" + form.getFirstName() + ", sn=" + form.getSecondName() + ".");
+        System.out.println("-------------------");
+        System.out.println(form);
+        Optional<User> fromDb = usersRepository.findById(userId);
         if (fromDb.isPresent()) {
             if (checkPasswords(form.getPassword(), fromDb.get().getPassword())) {
                 throw new PasswordsMismatchException("Passwords do not match");
@@ -96,12 +102,15 @@ public class UsersServiceImpl implements UsersService {
         // todo update user state method
     }
 
-    private void save(User user) {
+    @Transactional
+    void save(User user) {
+        logger.info("Saving user in database. Data = " + user.toString() + ".");
         usersRepository.save(user);
     }
 
     @Override
     public void delete(Long userId) {
+        logger.warn("Deleting user with id = " + userId + ".");
         usersRepository.deleteById(userId);
     }
 

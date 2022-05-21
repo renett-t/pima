@@ -1,6 +1,8 @@
 package ru.renett.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.renett.configuration.Constants;
@@ -31,6 +33,9 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class ArticlesManageDataServiceImpl implements ArticlesManageDataService {
+
+    private final static Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
+
     private final String DEFAULT_THUMBNAIL = Constants.DEFAULT_THUMBNAIL;
 
     private final UsersRepository usersRepository;
@@ -44,6 +49,7 @@ public class ArticlesManageDataServiceImpl implements ArticlesManageDataService 
 
     @Override
     public ArticleDto createArticle(ArticleForm form, Long authorId) throws FileUploadException {
+        logger.info("Creating new article. Data: user id =" + authorId + ", contents = " + form.toString() + ".");
         Article newArticle = Article.builder()
                 .title(form.getTitle())
                 .body(htmlTagsValidator.checkStringInputTags(form.getBody()))
@@ -66,6 +72,7 @@ public class ArticlesManageDataServiceImpl implements ArticlesManageDataService 
                 imageFileName = DEFAULT_THUMBNAIL;
             }
         } catch (IOException e) {
+            logger.warn("Unable to save image from article create request. Exception " + e.getClass() + " happened. Message:" + e.getMessage());
             throw new FileUploadException("Проблемы с загрузкой изображения", e);
         }
 

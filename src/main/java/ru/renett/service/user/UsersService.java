@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UsersService {
     void signUp(SignUpForm signUpForm) throws SignUpException;
 
-    UserDto updateBasicUserData(SimpleUpdateUserForm dto) throws EntityNotFoundException, PasswordsMismatchException;
+    UserDto updateBasicUserData(SimpleUpdateUserForm dto, Long userId) throws EntityNotFoundException, PasswordsMismatchException;
 
     UserDto updateUserRole(UpdateUserRoleForm dto);
 

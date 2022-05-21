@@ -13,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SimpleUpdateUserForm {
-    private Long id;
     @NotBlank
     @Length(min = 5, message = "{valid.name}")
     private String firstName;
