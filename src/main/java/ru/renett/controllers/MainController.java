@@ -1,6 +1,8 @@
 package ru.renett.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -10,6 +12,7 @@ import ru.renett.configuration.Constants;
 import ru.renett.dto.ArticleDto;
 import ru.renett.models.Article;
 import ru.renett.service.article.ArticlesGetDataService;
+import ru.renett.service.impl.UsersServiceImpl;
 
 @Controller
 @RequestMapping(value = {"/", "/main"})
