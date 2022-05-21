@@ -11,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "users")
+@ToString(exclude = "users")
 @Entity
 @Table(name = "t_role")
 public class Role implements GrantedAuthority {
