@@ -74,6 +74,7 @@ public class ArticlesController {
         try {
             ArticleDto article = articlesGetDataService.getArticleByIdOrSlug(parameter);
             userPreferencesService.saveLastViewedArticleIdCookie(article.getId(), response);
+
             if (userDetails != null) {
                 UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
                 if (user.getId().equals(article.getAuthor().getId())) {
@@ -83,8 +84,9 @@ public class ArticlesController {
                 map.put(LIKED_ATTR,
                         articlesGetDataService.isArticleLikedByUser(user.getId(), article.getId()));
             }
-            articlesManageDataService.incrementViewCount(article.getId());
-            map.put(ARTICLES_ATTR, article);
+
+            article.setViews(Math.toIntExact(articlesManageDataService.incrementViewCount(article.getId())));
+            map.put(ARTICLE_ATTR, article);
         } catch (ArticleNotFoundException ex) {
             map.put(MESSAGE_ATTR, ex.getMessage()); // todo: message i18n
         }

@@ -42,7 +42,7 @@ public class Comment {
 
     // todo: check relations, cascade operations, LinkedSet to list?
 //    @Transient
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Comment> childComments;
 
     public Comment(String body, Article article, User author, Comment parentComment) {

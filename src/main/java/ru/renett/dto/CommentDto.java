@@ -20,6 +20,7 @@ public class CommentDto {
     private String publishedAt;
     private Long authorId;
     private String authorUserName;
+    private List<CommentDto> childComments;
 
     public static CommentDto from(Comment comment) {
         Comment parent = comment.getParentComment();
@@ -34,6 +35,7 @@ public class CommentDto {
                 .publishedAt(comment.getPublishedAt().toString())
                 .authorId(comment.getAuthor().getId())
                 .authorUserName(comment.getAuthor().getUserName())
+                .childComments(CommentDto.from(comment.getChildComments()))
                 .build();
     }
 

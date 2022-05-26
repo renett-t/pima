@@ -14,7 +14,7 @@
 <#macro contents article>
     <div class="article-wrapper">
         <div class="article-thumbnail">
-            <img class="article-thumbnail-img" src="<@spring.url'/assets/articles/${article.thumbnail}'/>"
+            <img class="article-thumbnail-img" src="<@spring.url'/thumbnails/${article.thumbnail}'/>"
                  alt="article thumbnail">
         </div>
         <div class="article-heading-elements">
@@ -38,9 +38,7 @@
         </div>
         <hr>
         <div class="article-body">
-            <#outputformat "HTML">
-                ${article.body}
-            </#outputformat>
+            ${article.body}
         </div>
         <hr>
         <div class="article-footer-wrapper">
@@ -74,19 +72,19 @@
             <hr>
             <br>
             <#if isAuthenticated?? && isAuthenticated == true>
+                <@comment_edit.contents article.id />
+                <br>
+                <script src="<@spring.url'/scripts/article-display-scripts-auth.js'/>" charset="UTF-8">
+                </script>
+            <#else>
                 <div>
                     <@spring.message 'page.article.comments.no_authentication'/>
                     <a class="" href="<@spring.url'/signIn'/>">
                         <@spring.message 'page.article.comments.sing_in'/>
                     </a>
                 </div>
-                <br>
+            <br>
                 <script src="<@spring.url'/scripts/article-display-script-non-auth.js'/>" charset="UTF-8">
-                </script>
-            <#else>
-                <@comment_edit.contents article.id />
-                <br>
-                <script src="<@spring.url'/scripts/article-display-scripts-auth.js'/>" charset="UTF-8">
                 </script>
             </#if>
         </div>

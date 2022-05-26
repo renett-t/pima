@@ -13,16 +13,14 @@ import ru.renett.dto.form.UpdateArticleForm;
 import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.exceptions.FileUploadException;
-import ru.renett.models.Article;
-import ru.renett.models.Like;
-import ru.renett.models.Tag;
-import ru.renett.models.User;
+import ru.renett.models.*;
 import ru.renett.repository.*;
 import ru.renett.service.article.ArticlesManageDataService;
 import ru.renett.service.file.FileManager;
 import ru.renett.utils.HtmlTagsValidator;
 import ru.renett.utils.TagsCache;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -195,10 +193,13 @@ public class ArticlesManageDataServiceImpl implements ArticlesManageDataService 
     }
 
     @Override
-    public void incrementViewCount(Long articleId) {
+    public Long incrementViewCount(Long articleId) {
         Article article = articlesRepository.findById(articleId)
                 .orElseThrow(() -> new EntityNotFoundException("Article with id = " + articleId + " not found"));
 
-        articlesRepository.updateViewCount(articleId, article.getViewAmount() + 1);
+        // почему-то этот способ не прокатывает(
+        // articlesRepository.updateViewCount(articleId, article.getViewAmount() + 1);
+        article.setViewAmount(article.getViewAmount() + 1);
+        return articlesRepository.save(article).getViewAmount();
     }
 }

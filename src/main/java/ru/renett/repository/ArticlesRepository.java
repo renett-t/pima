@@ -1,9 +1,13 @@
 package ru.renett.repository;
 
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import ru.renett.models.Article;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface ArticlesRepository extends JpaRepository<Article, Long> {
@@ -16,18 +20,26 @@ public interface ArticlesRepository extends JpaRepository<Article, Long> {
     @Query(value = "SELECT * FROM like_article LEFT JOIN article a on a.id = like_article.article_id WHERE like_article.user_id = ? ORDER BY a.id;", nativeQuery = true)
     List<Article> findAllLikedArticles(Long userId);
 
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Transactional
     @Query(value = "INSERT INTO like_article VALUES (?, ?);", nativeQuery = true)
     void updateLikesAmount(Long userId, Long articleId);
 
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Transactional
     @Query(value = "DELETE FROM like_article WHERE user_id = ? AND article_id = ?;", nativeQuery = true)
     void removeLikeFromArticle(Long userId, Long articleId);
 
     @Query(value = "SELECT COUNT(user_id) FROM like_article WHERE article_id = ?;", nativeQuery = true)
     long getLikesAmount(Long articleId);
 
-    @Query(value = "UPDATE article set view_count = ? WHERE id=?;", nativeQuery = true)
-    void updateViewCount(Long articleId, Long viewCount);
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Transactional
+    @Query(value = "UPDATE article set view_count = ? WHERE id = ?;", nativeQuery = true)
+    void updateViewCount(Long viewCount, Long articleId);
 
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Transactional
     @Query(value = "UPDATE article set title = ?, body = ? WHERE id=?;", nativeQuery = true)
     void updateWithoutThumbnail(Article article);
 }

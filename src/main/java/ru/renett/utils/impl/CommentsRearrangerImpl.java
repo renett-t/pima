@@ -15,23 +15,17 @@ public class CommentsRearrangerImpl implements CommentsRearranger {
             if (child.getParentComment() != null) {
                 commentList.remove(i);
                 for (int k = 0; k < commentList.size(); k++) {
-                    if (commentList.get(k).getId().equals(child.getParentComment().getId())){
-                        commentList.get(k).getChildComments().add(child);
+                    if (commentList.get(k).getId().equals(child.getParentComment().getId())) {
+                        if (!commentList.get(k).getChildComments().contains(child))
+                            commentList.get(k).getChildComments().add(child);
                         break;
                     }
                 }
             }
         }
 
-        for (int j = 0; j < commentList.size(); j++) {
-            List<Comment> listToReverse = commentList.get(j).getChildComments();
-            for (int i = 0; i < listToReverse.size() / 2; i++) {
-                Comment temp = listToReverse.get(i);
-                listToReverse.set(i, listToReverse.get(listToReverse.size() - i - 1));
-                listToReverse.set(listToReverse.size() - i - 1, temp);
-            }
+        // todo: add comment list sorting - id comparator
 
-        }
         return commentList;
     }
 }

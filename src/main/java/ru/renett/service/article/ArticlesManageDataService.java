@@ -12,5 +12,5 @@ public interface ArticlesManageDataService {
     void deleteArticle(Long articleId);
     void likeArticle(Long userId, Long articleId);
     void dislikeArticle(Long user, Long articleId);
-    void incrementViewCount(Long articleId);
+    Long incrementViewCount(Long articleId);
 }

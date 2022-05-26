@@ -3,6 +3,7 @@ package ru.renett.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.renett.dto.ArticleDto;
+import ru.renett.dto.CommentDto;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.models.*;
 import ru.renett.repository.*;
@@ -29,7 +30,12 @@ public class ArticlesGetDataServiceImpl implements ArticlesGetDataService {
                 .orElseThrow(() -> new EntityNotFoundException("Article with id = " + id + " not found."));
 
         initializeArticleWithBasicInfo(article);
-        return ArticleDto.from(article);
+
+        System.out.println("REARRANGING COMMENTS");
+        List<Comment> comments = commentsRearranger.rearrangeCommentsList(new ArrayList(article.getCommentList()));
+        ArticleDto articleDto = ArticleDto.from(article);
+        articleDto.setComments(CommentDto.from(comments));
+        return articleDto;
     }
 
     @Override

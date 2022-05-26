@@ -10,6 +10,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = "articles")
 @Entity
 @Table(name = "tag")
 public class Tag {
