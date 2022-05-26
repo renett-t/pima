@@ -10,7 +10,7 @@ public interface ArticlesManageDataService {
     ArticleDto createArticle(ArticleForm form, Long authorId) throws FileUploadException;
     ArticleDto editArticle(UpdateArticleForm form) throws FileUploadException, ArticleNotFoundException;
     void deleteArticle(Long articleId);
-    void likeArticle(Long userId, Long articleId);
+    boolean likeArticle(Long userId, Long articleId); // возвращает true - если был поставлен лайк, false - лайк удалён
     void dislikeArticle(Long user, Long articleId);
     Long incrementViewCount(Long articleId);
 }

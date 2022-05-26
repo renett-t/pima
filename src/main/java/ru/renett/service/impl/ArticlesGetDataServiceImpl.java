@@ -31,7 +31,6 @@ public class ArticlesGetDataServiceImpl implements ArticlesGetDataService {
 
         initializeArticleWithBasicInfo(article);
 
-        System.out.println("REARRANGING COMMENTS");
         List<Comment> comments = commentsRearranger.rearrangeCommentsList(new ArrayList(article.getCommentList()));
         ArticleDto articleDto = ArticleDto.from(article);
         articleDto.setComments(CommentDto.from(comments));

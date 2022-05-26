@@ -1,7 +1,5 @@
 package ru.renett.repository;
 
-import org.hibernate.annotations.NamedNativeQueries;
-import org.hibernate.annotations.NamedNativeQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,11 +17,6 @@ public interface ArticlesRepository extends JpaRepository<Article, Long> {
 
     @Query(value = "SELECT * FROM like_article LEFT JOIN article a on a.id = like_article.article_id WHERE like_article.user_id = ? ORDER BY a.id;", nativeQuery = true)
     List<Article> findAllLikedArticles(Long userId);
-
-    @Modifying(flushAutomatically = true, clearAutomatically = true)
-    @Transactional
-    @Query(value = "INSERT INTO like_article VALUES (?, ?);", nativeQuery = true)
-    void updateLikesAmount(Long userId, Long articleId);
 
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Transactional

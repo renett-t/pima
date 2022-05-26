@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf()
                     .ignoringAntMatchers("/api/**")
-//                    .ignoringAntMatchers("/articles")
+//                    .ignoringAntMatchers("/ajax/**")
                     .and()
                 .authorizeRequests()
                     .antMatchers("/signUp").permitAll()
@@ -57,10 +57,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/profile/edit").authenticated()
                     .antMatchers("/confirm").hasAuthority(User.State.NOT_CONFIRMED.name()) //todo
                     .antMatchers("/admin/**").hasRole(Role.ROLE.ADMIN.name())
-                    .antMatchers("/articles/*/edit").hasRole(Role.ROLE.AUTHOR.name()) //todo
+                    .antMatchers("/articles/*/edit").authenticated()
                     .antMatchers("/articles/new").authenticated()
+                    .antMatchers("/articles/*/comments").authenticated()
                     .antMatchers("/", "/main", "/resources/**", "/articles").permitAll()
                     .antMatchers("/api/**").permitAll()
+                    .antMatchers("/ajax/**").permitAll()
                 .anyRequest().permitAll()
                     .and()
                 .formLogin()

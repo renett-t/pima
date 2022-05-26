@@ -51,7 +51,7 @@ public class Article {
     @Column(name = "view_count", nullable = false)
     private Long viewAmount;
 
-    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Like> likes;
 
     @Transient

@@ -35,4 +35,6 @@ public class Constants {
     public static final String ARTICLE_ATTR = "article";
     public static final String UPDATE_PROFILE_ATTR = "updateUserForm";
 
+    public static final String LIKE_SOURCE = "/assets/icons/like-active.png";
+    public static final String DISLIKE_SOURCE = "/assets/icons/like.png";
 }

@@ -54,10 +54,12 @@
 
                 <#if liked?? && liked == true>
                     <img class="icon-img like-icon liked" id="like-icon-request"
-                         src="<@spring.url'/assets/icons/like-active.png'/>" alt="likes count icon">
+                         src="<@spring.url'/assets/icons/like-active.png'/>" alt="likes count icon"
+                         data-article="${article.id}">
                 <#else>
                     <img class="icon-img like-icon" id="like-icon-request"
-                         src="<@spring.url'/assets/icons/like.png'/>" alt="likes count icon">
+                         src="<@spring.url'/assets/icons/like.png'/>" alt="likes count icon"
+                         data-article="${article.id}">
                 </#if>
                 <input type="hidden" id="article-id" value="${article.id}">
             </div>
@@ -74,8 +76,8 @@
             <#if isAuthenticated?? && isAuthenticated == true>
                 <@comment_edit.contents article.id />
                 <br>
-                <script src="<@spring.url'/scripts/article-display-scripts-auth.js'/>" charset="UTF-8">
-                </script>
+            <#--                <script src="<@spring.url'/scripts/article-display-scripts-auth.js'/>" charset="UTF-8">-->
+            <#--                </script>-->
             <#else>
                 <div>
                     <@spring.message 'page.article.comments.no_authentication'/>
@@ -84,9 +86,9 @@
                     </a>
                 </div>
             <br>
-                <script src="<@spring.url'/scripts/article-display-script-non-auth.js'/>" charset="UTF-8">
-                </script>
             </#if>
         </div>
     </div>
+    <script src="<@spring.url'/scripts/create-like.js'/>" charset="UTF-8">
+    </script>
 </#macro>

@@ -13,14 +13,16 @@ import ru.renett.dto.form.UpdateArticleForm;
 import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.exceptions.FileUploadException;
-import ru.renett.models.*;
+import ru.renett.models.Article;
+import ru.renett.models.Like;
+import ru.renett.models.Tag;
+import ru.renett.models.User;
 import ru.renett.repository.*;
 import ru.renett.service.article.ArticlesManageDataService;
 import ru.renett.service.file.FileManager;
 import ru.renett.utils.HtmlTagsValidator;
 import ru.renett.utils.TagsCache;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -82,9 +84,9 @@ public class ArticlesManageDataServiceImpl implements ArticlesManageDataService 
                     TagDto tagDto = tagsCache.getTagByName(tag);
                     newArticle.getTags().add(
                             Tag.builder()
-                            .id(tagDto.getId())
-                            .title(tagDto.getTitle())
-                            .build()
+                                    .id(tagDto.getId())
+                                    .title(tagDto.getTitle())
+                                    .build()
                     );
                 } else {
                     newArticle.setTags(new HashSet<>());
@@ -134,9 +136,9 @@ public class ArticlesManageDataServiceImpl implements ArticlesManageDataService 
                 if (!tag.equals("-1")) {
                     TagDto tagDto = tagsCache.getTagByName(tag);
                     Tag real = Tag.builder()
-                                    .id(tagDto.getId())
-                                    .title(tagDto.getTitle())
-                                    .build();
+                            .id(tagDto.getId())
+                            .title(tagDto.getTitle())
+                            .build();
                     newTags.add(real);
                     leftTags.add(real);
                 } else {
@@ -167,17 +169,22 @@ public class ArticlesManageDataServiceImpl implements ArticlesManageDataService 
     }
 
     @Override
-    public void likeArticle(Long userId, Long articleId) {
+    public boolean likeArticle(Long userId, Long articleId) {
         Optional<Like> like = likesRepository.findByUserIdAndArticleId(userId, articleId);
         if (like.isPresent()) {
-            likesRepository.delete(like.get());
+            likesRepository.deleteById(like.get().getId());
+            return false;
         } else {
 //            Like newLike = Like.builder()
 //                    .user(usersRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User with id = " + userId + " not found")))
 //                    .article(articlesRepository.findById(articleId).orElseThrow(() -> new EntityNotFoundException("Article with id = " + articleId + " not found")))
 //                    .build();
-//            likesRepository.save(newLike);
-            articlesRepository.updateLikesAmount(userId, articleId);
+            Like newLike = Like.builder()
+                    .user(new User(userId))
+                    .article(new Article(articleId))
+                    .build();
+            likesRepository.save(newLike);
+            return true;
         }
     }
 
