@@ -1,41 +1,53 @@
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("submit").onclick = editor.updateSourceElement();
-
-    tagString = document.getElementsByClassName("tags-wrapper")[0].dataset.taglist;
-    let regexToGetArray = /(\d+)/ig
-    let tagList = tagString.match(regexToGetArray);
-    if (tagList !== null) {
-        for (let i = 0; i < tagList.length; i++) {
-            document.getElementById("tag" + tagList[i]).checked = true;
+function enableCheckBoxes() {
+    console.log("ABOUT TO ENABLE CHECKBOXES")
+    var tags = $("#tags-wrapper").data("tags")
+    if (tags != null && tags.length > 0) {
+        for (let i = 0; i < tags.length; i++) {
+            console.log("Enabled " + tags[i].id)
+            $("#tag" + tags[i].id).checked = true
         }
     }
+}
 
-    specialCbsId = "tag-1";
-    document.getElementById(specialCbsId).onclick = disableOtherCheckBoxes;
-
-    function disableOtherCheckBoxes() {
-        check(false);
-    }
+function enableCheckBoxesListeners() {
+    var specialCbsId = "tag-1";
+    let cbs = $("input[name=tags]");
 
     function check(checked) {
-        const cbs = document.querySelectorAll('input[name="tag"]');
-        cbs.forEach((cb) => {
-            if (cb.id !== specialCbsId) {
-                cb.checked = checked;
+        cbs.each(function () {
+            if (this.id !== specialCbsId) {
+                this.checked = checked;
             }
         });
     }
 
-    function setSpecialChsUnchecked() {
-        const cbs = document.querySelectorAll('input[name="tag"]');
-        cbs.forEach((cb) => {
-            if (cb.id !== specialCbsId) {
-                if (cb.checked) {
-                    document.getElementById(specialCbsId).checked = false;
-                }
-            }
-        });
+    function disableOtherCheckBoxes() {
+        if (this.checked)
+            check(false);
     }
 
-    setInterval(setSpecialChsUnchecked, 500)
+    function disableCheckbox() {
+        $("#tag-1").checked = false;
+    }
+
+    function checkBoxesListeners() {
+        cbs.each(function () {
+            if (this.id !== specialCbsId) {
+                this.change(function () {
+                    if (this.checked) {
+                        console.log("disabling tag-1")
+                        disableCheckbox()
+                    }
+                })
+            }
+        })
+    }
+
+    $("#tag-1").click(disableOtherCheckBoxes);
+    checkBoxesListeners()
+}
+
+$(document).ready(function () {
+    enableCheckBoxes();
+    enableCheckBoxesListeners();
 });

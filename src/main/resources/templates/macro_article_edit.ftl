@@ -47,20 +47,22 @@
             <#--<%--        <input id="article-body-input" type="hidden" name="articleBody" value="<c:out default="" value="${article.body}"/>">--%>-->
             <br> <br>
             <p> <@spring.message 'page.article_edit.form.tags'/> </p>
-            <div class="tags-wrapper form-check">
+            <#if article.tags?has_content>
+                <div class="tags-wrapper form-check" id="tags-wrapper" data-tags="${article.tags}">
+            <#else>
+                <div class="tags-wrapper form-check" id="tags-wrapper">
+            </#if>
                 <br>
-                <#list tags as tag>
-                    <#if tag.title=="-1">
-                        <br>
-                        <input class="form-check-input" type="checkbox" id="tag-1" name="tags" value="-1">
-                        <label class="form-check-label"
-                               for="tag-1"><@spring.message 'page.article_edit.form.label.tags.not_chosen'/></label>
-                    <#else>
+                    <#list tags as tag>
                         <input class="form-check-input" type="checkbox" id="tag${tag.id}" name="tags" value="${tag.id}">
                         <label class="form-check-label" for="tag${tag.id}">${tag.title}</label>
-                    </#if>
-                    <br>
-                </#list>
+                        <br>
+                    </#list>
+                <br>
+                <input class="form-check-input form-check-input-special" type="checkbox" id="tag-1" name="tags" value="-1">
+                <label class="form-check-label"
+                       for="tag-1"><@spring.message 'page.article_edit.form.label.tags.not_chosen'/></label>
+                <br>
             </div>
             <div class="centered-content-wrapper">
                 <#if article.id?has_content>

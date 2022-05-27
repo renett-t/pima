@@ -25,6 +25,7 @@ import ru.renett.service.article.ArticlesManageDataService;
 import ru.renett.service.user.UsersService;
 import ru.renett.utils.TagsCache;
 
+import java.util.HashSet;
 import java.util.List;
 
 import static ru.renett.configuration.Constants.*;
