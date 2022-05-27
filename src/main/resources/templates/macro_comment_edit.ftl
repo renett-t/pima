@@ -6,16 +6,17 @@
 
 <#macro contents articleId>
     <div class="comment-edit-wrapper">
-        <form action="<@spring.url'/articles/${articleId}/comments'/>" method="POST">
+        <form>
             <#assign commentBodyPlaceholder>
                 <@spring.message 'page.article.comments.body'/>
             </#assign>
-            <textarea class="comment-body" name="commentBody" placeholder="${commentBodyPlaceholder}"
+            <textarea id="commentBody" class="comment-body" name="commentBody" placeholder="${commentBodyPlaceholder}"
                       required></textarea>
-            <input name="articleId" value="${articleId}" type="hidden">
-            <input name="parentId" value="-1" type="hidden">
-            <br>
-            <button class="btn" type="submit"><@spring.message 'page.comment.send'/></button>
+            <input id="articleId" name="articleId" value="${articleId}" type="hidden" required>
+            <input id="parentId" name="parentId" value="-1" type="hidden" required>
         </form>
+        <br>
+        <button id="create-comment-request" class="btn" type="submit"
+                data-article="${articleId}"><@spring.message 'page.comment.send'/></button>
     </div>
 </#macro>

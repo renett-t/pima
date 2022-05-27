@@ -1,6 +1,9 @@
 package ru.renett.models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -22,17 +25,17 @@ public class Comment {
 
     @Column(name = "body", nullable = false, columnDefinition = "text")
     private String body;
-// todo: check cascade operaions
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "article_id", referencedColumnName = "id", nullable = false)
     private Article article;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
     @Temporal(TemporalType.TIMESTAMP)
-//    @CreationTimestamp
+    @CreationTimestamp
     @Column(name = "published_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP default current_timestamp")
     private Date publishedAt;
 
@@ -40,8 +43,6 @@ public class Comment {
     @JoinColumn(name = "parent_comment_id", nullable = true, referencedColumnName = "id")
     private Comment parentComment;
 
-    // todo: check relations, cascade operations, LinkedSet to list?
-//    @Transient
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Comment> childComments;
 

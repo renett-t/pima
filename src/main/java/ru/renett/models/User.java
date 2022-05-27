@@ -3,6 +3,7 @@ package ru.renett.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -10,6 +11,8 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = "commentList")
+@EqualsAndHashCode(exclude = "commentList")
 @Entity
 @Table(name = "t_user")
 public class User {
@@ -46,6 +49,9 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     private State state;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> commentList;
 
     public User(String firstName, String secondName, String email, String username) {
         this.firstName = firstName;

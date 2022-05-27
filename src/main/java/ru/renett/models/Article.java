@@ -39,7 +39,7 @@ public class Article {
     @Column(name = "thumbnail_path", nullable = false)
     private String thumbnailPath;
 
-    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> commentList;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -66,18 +66,20 @@
         </div>
         <hr>
         <div class="article-comments-wrapper">
-            <p class="comments-heading"> <@spring.message 'page.article.comments'/> </p>
-            <#list article.comments as comment>
-                <@comment_layout.contents comment />
-            </#list>
+            <div id="article-comments-section">
+                <p class="comments-heading"> <@spring.message 'page.article.comments'/> </p>
+                <#list article.comments as comment>
+                    <@comment_layout.contents comment />
+                </#list>
+            </div>
             <br>
             <hr>
             <br>
             <#if isAuthenticated?? && isAuthenticated == true>
                 <@comment_edit.contents article.id />
                 <br>
-            <#--                <script src="<@spring.url'/scripts/article-display-scripts-auth.js'/>" charset="UTF-8">-->
-            <#--                </script>-->
+                <script src="<@spring.url'/scripts/create-comment.js'/>" charset="UTF-8">
+                </script>
             <#else>
                 <div>
                     <@spring.message 'page.article.comments.no_authentication'/>
@@ -85,7 +87,7 @@
                         <@spring.message 'page.article.comments.sing_in'/>
                     </a>
                 </div>
-            <br>
+                <br>
             </#if>
         </div>
     </div>

@@ -14,11 +14,11 @@
         <div class="comment-body-wrapper">
             <p>${comment.body}</p>
         </div>
-        <div class="comment-footer-wrapper">
+        <div id="comment-footer-wrapper-${comment.id}" class="comment-footer-wrapper">
             <button class="reply-button" id="${comment.id}" name="parentComment"
                     value="${comment.id}"><@spring.message 'page.comment.reply'/></button>
-            <div id="comment-edit-wrapper-${comment.id}"></div>
         </div>
+        <div id="comment-edit-wrapper-${comment.id}" class="comment-edit-wrapper"></div>
         <div class="child-comments-wrapper">
             <#if comment.childComments?has_content>
                 <#list comment.childComments as child>
