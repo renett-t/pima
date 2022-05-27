@@ -2,6 +2,7 @@
 <#-- @ftlvariable name="articles" type="java.util.List<ru.renett.dto.ArticleDto>" -->
 <#-- @ftlvariable name="searchTag" type="ru.renett.dto.TagDto" -->
 <#-- @ftlvariable name="isAuthenticated" type="java.lang.Boolean" -->
+<#-- @ftlvariable name="message" type="java.lang.String" -->
 <#-- @ftlvariable name="userArticles" type="java.util.List<ru.renett.dto.ArticleDto>" -->
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
@@ -27,8 +28,8 @@
                             <div class="card-img-create-wrapper row">
                                 <div class="col">
                                     <img src="<@spring.url'/assets/icons/new.png'/>"
-                                                      class="card-img-top card-img-create"
-                                                      alt="create new article image">
+                                         class="card-img-top card-img-create"
+                                         alt="create new article image">
                                 </div>
                             </div>
                             <div class="card-body">
@@ -43,9 +44,15 @@
             <br>
         </#if>
         <#if searchTag?has_content>
-            <div class="heading-second"> <@spring.message 'page.articles.by_tag'/> <b>${searchTag.title}</b>: </div>
+            <div class="heading-second"> <@spring.message 'page.articles.by_tag'/> <b>${searchTag.title}</b>:</div>
         <#else>
-            <div class="heading-second"> <@spring.message 'page.articles.all'/> </div>
+            <#if message?has_content>
+                <div class="heading-second">
+                    <h6 class="mx-3">${message}</h6>
+                </div>
+            <#else>
+                <div class="heading-second"> <@spring.message 'page.articles.all'/> </div>
+            </#if>
         </#if>
 
         <div class="all-articles-wrapper card-group row row-cols-3 g-4 justify-content-md-center">

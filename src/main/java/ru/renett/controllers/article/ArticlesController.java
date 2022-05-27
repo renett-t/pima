@@ -1,6 +1,8 @@
 package ru.renett.controllers.article;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -36,8 +38,10 @@ public class ArticlesController {
 
     private final TagsCache tagsCache;
 
+    private final MessageSource messageSource;
+
     @GetMapping
-    public String getAllArticles(@RequestParam(defaultValue = "", name = "searchTagParam") String searchTagParam,
+    public String getAllArticles(@RequestParam(defaultValue = "", name = "tag") String searchTagParam,
                                  @AuthenticationPrincipal UserDetails userDetails,
                                  ModelMap map) {
         UserDto user = null;
@@ -50,10 +54,13 @@ public class ArticlesController {
         List<ArticleDto> articles = new ArrayList<>();
 
         if (!searchTagParam.isEmpty()) {
-            if (tagsCache.containsTag(searchTagParam)) {
-                TagDto tag = tagsCache.getTagByName(searchTagParam);
+            String param = getSearchTagName(searchTagParam);
+            if (tagsCache.containsTag(param)) {
+                TagDto tag = tagsCache.getTagByName(param);
                 articles = articlesGetDataService.getAllArticlesByTag(tag.getId());
-                map.put(SEARCH_TAG_ATTR, searchTagParam);
+                map.put(SEARCH_TAG_ATTR, tag);
+            } else {
+                map.put(MESSAGE_ATTR, messageSource.getMessage("page.articles.by_tag.not_found", null, LocaleContextHolder.getLocale()));
             }
         } else {
             if (user != null)
@@ -65,6 +72,18 @@ public class ArticlesController {
         return "articles_page";
     }
 
+    private String getSearchTagName(String searchTagParam) {
+        switch (searchTagParam) {
+            case "guitar":
+                return "Гитара";
+            case "music-theory":
+                return "Теория музыки";
+            case "songs":
+                return "Разбор песни";
+            default:
+                return searchTagParam;
+        }
+    }
 
     @GetMapping("/{article-id}")
     public String getArticleById(@PathVariable("article-id") String parameter,
@@ -88,7 +107,7 @@ public class ArticlesController {
             article.setViews(Math.toIntExact(articlesManageDataService.incrementViewCount(article.getId())));
             map.put(ARTICLE_ATTR, article);
         } catch (ArticleNotFoundException ex) {
-            map.put(MESSAGE_ATTR, ex.getMessage()); // todo: message i18n
+            map.put(MESSAGE_ATTR, messageSource.getMessage("page.articles.not_found", null, LocaleContextHolder.getLocale()));
         }
 
         return "article_display";
