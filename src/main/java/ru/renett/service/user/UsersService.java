@@ -6,6 +6,8 @@ import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.exceptions.PasswordsMismatchException;
 import ru.renett.exceptions.SignUpException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +31,6 @@ public interface UsersService {
     UserDto findUserByEmail(String email) throws EntityNotFoundException;
 
     UserDto finsUserByUserName(String userName) throws EntityNotFoundException;
+
+    void logout(HttpServletRequest request, HttpServletResponse response);
 }

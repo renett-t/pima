@@ -20,6 +20,9 @@ import ru.renett.repository.UsersRepository;
 import ru.renett.service.user.UsersService;
 import ru.renett.utils.RolesCache;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -111,7 +114,12 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public void delete(Long userId) {
         logger.warn("Deleting user with id = " + userId + ".");
-        usersRepository.deleteById(userId);
+//        usersRepository.deleteById(userId);
+
+        User user = usersRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with id = " + userId + " not found."));
+        user.setState(User.State.DELETED);
+        usersRepository.save(user);
     }
 
     @Override
@@ -154,6 +162,15 @@ public class UsersServiceImpl implements UsersService {
         return UserDto.from(usersRepository.findUserByUserName(userName).orElseThrow(
                 () -> new EntityNotFoundException("No user by username = " + userName + " found")
         ));
+    }
+
+    @Override
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            request.logout();
+        } catch (ServletException ignored) {
+            logger.error("Error while logging user out programmatically.");
+        }
     }
 
     private boolean checkPasswords(String password, String encoded) {

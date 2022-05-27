@@ -5,17 +5,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.renett.dto.ArticleDto;
 import ru.renett.dto.UserDto;
 import ru.renett.dto.form.SimpleUpdateUserForm;
-import ru.renett.dto.form.UpdateUserForm;
-import ru.renett.models.User;
 import ru.renett.service.article.ArticlesGetDataService;
 import ru.renett.service.user.UsersService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import static ru.renett.configuration.Constants.*;
@@ -52,11 +50,19 @@ public class ProfileController {
 
     @PostMapping("/edit")
     public String edit(SimpleUpdateUserForm updateUserForm, @AuthenticationPrincipal UserDetails userDetails, ModelMap map) {
-        System.out.println("\nupDAAAAAAAAAAAAAAAAAAAAATE\n\n");
         UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
         UserDto updated = usersService.updateBasicUserData(updateUserForm, user.getId());
         map.put(USER_ATTR, updated);
         return "redirect:/profile";
     }
 
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public String delete(@AuthenticationPrincipal UserDetails userDetails, HttpServletRequest request, HttpServletResponse response) {
+        UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
+        usersService.delete(user.getId());
+        usersService.logout(request, response);
+
+        return "profile";
+    }
 }
