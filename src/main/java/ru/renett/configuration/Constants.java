@@ -1,7 +1,5 @@
 package ru.renett.configuration;
 
-import java.io.File;
-
 public class Constants {
     // COOKIE
     public static final String COOKIE_LAST_VIEWED_ARTICLE = "lwai";
@@ -13,7 +11,6 @@ public class Constants {
     // SOURCES
     public static final String MESSAGES_SOURCE = "classpath:messages/messages";
 
-    public static final String STORAGE_URL = File.separator + "static" + File.separator + "thumbnails";
     public static final String CHAR_ENCODING = "UTF-8";
     public static final String DEFAULT_THUMBNAIL = "guitar-background.jpg";
 

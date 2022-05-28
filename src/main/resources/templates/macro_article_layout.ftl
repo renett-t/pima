@@ -22,11 +22,18 @@
                 <h3>${article.title}</h3>
                 <#if owned?? && owned == true>
                     <div class="edit-delete-wrapper">
-                        <a href="<@spring.url'/articles/${article.id}/edit'/>" target="_blank">
-                            <img class="icon-img edit-icon" src="<@spring.url'/assets/icons/edit.png'/>" alt="edit">
-                        </a>
-                        <img class="icon-img delete-icon" id="delete-icon-request" data-id="${article.id}"
-                             src="<@spring.url'/assets/icons/cancel.png'/>" alt="delete">
+                        <form action="<@spring.url'/articles/${article.id}/edit'/>" method="GET">
+                            <button class="image-button">
+                                <img class="icon-img edit-icon" src="<@spring.url'/assets/icons/edit.png'/>" alt="edit">
+                            </button>
+                        </form>
+                        <form action="<@spring.url'/articles/${article.id}/delete'/>" method="POST">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                            <button class="image-button">
+                                <img class="icon-img delete-icon" id="delete-icon-request" data-id="${article.id}"
+                                     src="<@spring.url'/assets/icons/cancel.png'/>" alt="delete">
+                            </button>
+                        </form>
                     </div>
                 </#if>
             </div>
@@ -87,7 +94,7 @@
                         <@spring.message 'page.article.comments.sing_in'/>
                     </a>
                 </div>
-                <br>
+            <br>
             </#if>
         </div>
     </div>

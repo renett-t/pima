@@ -9,6 +9,12 @@
 <#macro contents article tags>
     <div class="article-edit-wrapper">
         <form method="POST" enctype="multipart/form-data">
+            <#if message?has_content>
+                <div class="message-wrapper">
+                    <h6>${message}</h6>
+                </div>
+            </#if>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <br>
             <#if article.id?has_content>
                 <input type="hidden" name="articleId" value="${article.id}">
@@ -23,11 +29,6 @@
             <label for="thumbnailImage"> <@spring.message 'page.article_edit.form.label.thumbnail'/> </label>
             <input class="form-control" type="file" name="thumbnailImage" id="thumbnailImage"
                    accept=".jpg, .jpeg, .png">
-            <#if message?has_content>
-                <div class="message-wrapper">
-                    <h6>${message}</h6>
-                </div>
-            </#if>
             <br> <br>
             <label for="article-title"> <@spring.message 'page.article_edit.form.label.title'/> </label>
             <br>
@@ -48,7 +49,7 @@
             <br> <br>
             <p> <@spring.message 'page.article_edit.form.tags'/> </p>
             <#if article.tags?has_content>
-                <div class="tags-wrapper form-check" id="tags-wrapper" data-tags="${article.tags}">
+                <div class="tags-wrapper form-check" id="tags-wrapper" data-tags="${article.tags?join(";")}">
             <#else>
                 <div class="tags-wrapper form-check" id="tags-wrapper">
             </#if>

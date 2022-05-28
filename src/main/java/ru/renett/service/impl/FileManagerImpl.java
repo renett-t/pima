@@ -1,7 +1,10 @@
 package ru.renett.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.renett.configuration.Constants;
+import org.springframework.web.multipart.MultipartFile;
 import ru.renett.exceptions.FileUploadException;
 import ru.renett.service.file.FileManager;
 
@@ -9,15 +12,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
 public class FileManagerImpl implements FileManager {
-    private final String storageUrl;
+    private final static Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
 
-    public FileManagerImpl() {
-        this.storageUrl = Constants.STORAGE_URL;
-    }
+    @Value("${defaults.storage-path}")
+    private String storageUrl;
 
     @Override
     public String saveFile(String fileName, InputStream fileInputStream) {
@@ -28,7 +33,34 @@ public class FileManagerImpl implements FileManager {
     }
 
     private String getNameForFile(String fileName) {
-        return UUID.randomUUID() + fileName;
+        String ext = fileName.substring(fileName.lastIndexOf("."));
+        return UUID.randomUUID() + ext;
+    }
+
+    @Override
+    public String saveFile(MultipartFile multipart) {
+        String fileName = getNameForFile(multipart.getOriginalFilename());
+
+        // todo in future: save file info into database to return files to client
+        try {
+
+            Path pathToSave = Paths.get(getStoragePath()).resolve(fileName)
+                    .normalize().toAbsolutePath();
+            System.out.println(pathToSave);
+            try (InputStream inputStream = multipart.getInputStream()) {
+                Files.copy(inputStream, pathToSave,
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException e) {
+            logger.error("Error saving file. MultiPart = " + multipart + "; Error: " + e.getMessage());
+            throw new FileUploadException("Unable to upload file. Message = " + e.getMessage());
+        }
+
+        return fileName;
+    }
+
+    private String getStoragePath() {
+        return Paths.get("src/main/resources/static").resolve(storageUrl).toString();     // =)
     }
 
     private void upload(String filename, InputStream fileInputStream) {
@@ -43,16 +75,4 @@ public class FileManagerImpl implements FileManager {
             throw new FileUploadException("Проблема при отправке изображения, попробуйте ещё разочек", e);
         }
     }
-    // MultipartFile multipartFile = form.getFile();
-    //        String filename = UUID.randomUUID().toString() + ".png";
-    //        Path pathToSave = Paths.get(repositoryPath).resolve(filename);
-    //
-    //        File file = new File(String.valueOf(pathToSave));
-    //        try {
-    //            file.createNewFile();
-    //            multipartFile.transferTo(file);
-    //        } catch (IOException ioException) {
-    //            log.error(ioException.getMessage());
-    //        }
-    //        return filename;
 }

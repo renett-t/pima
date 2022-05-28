@@ -1,10 +1,10 @@
 function enableCheckBoxes() {
-    console.log("ABOUT TO ENABLE CHECKBOXES")
-    var tags = $("#tags-wrapper").data("tags")
+    var tags = $("#tags-wrapper").data("tags").match(/\(id=(\d+),/gi)
     if (tags != null && tags.length > 0) {
         for (let i = 0; i < tags.length; i++) {
-            console.log("Enabled " + tags[i].id)
-            $("#tag" + tags[i].id).checked = true
+            var selector = "#tag" + tags[i].match(/(\d+)/gi)
+            // strange but OKAAAY
+            $(selector)[0].checked = true
         }
     }
 }

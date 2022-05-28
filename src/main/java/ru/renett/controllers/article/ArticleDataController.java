@@ -11,21 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import ru.renett.dto.ArticleDto;
 import ru.renett.dto.TagDto;
 import ru.renett.dto.UserDto;
 import ru.renett.dto.form.ArticleForm;
 import ru.renett.dto.form.UpdateArticleForm;
 import ru.renett.exceptions.ArticleNotFoundException;
+import ru.renett.exceptions.DuplicateParameterException;
 import ru.renett.exceptions.FileUploadException;
-import ru.renett.models.User;
 import ru.renett.service.article.ArticlesGetDataService;
 import ru.renett.service.article.ArticlesManageDataService;
 import ru.renett.service.user.UsersService;
 import ru.renett.utils.TagsCache;
 
-import java.util.HashSet;
 import java.util.List;
 
 import static ru.renett.configuration.Constants.*;
@@ -55,8 +53,6 @@ public class ArticleDataController {
     public String createArticle(@AuthenticationPrincipal UserDetails userDetails,
                                 ArticleForm form,
                                 ModelMap map) {
-        System.out.println("--------------- NEW ARTICLE _____________________");
-        System.out.println(form);
         UserDto user = usersService.getUserByEmailOrUserName(userDetails.getUsername());
         ArticleDto articleDto = null;
         try {
@@ -71,10 +67,19 @@ public class ArticleDataController {
             map.put(TAGS_ATTR, tagsCache.getTags());
 
             return "article_edit";
+        } catch (DuplicateParameterException ex) {
+            map.put(MESSAGE_ATTR, messageSource.getMessage("error.duplicate_title", null, LocaleContextHolder.getLocale()));
+
+            map.put(ARTICLE_ATTR, ArticleDto.builder()
+                    .body(form.getBody())
+                    .title(form.getTitle())
+                    .build());
+            map.put(TAGS_ATTR, tagsCache.getTags());
+
+            return "article_edit";
         }
 
-        System.out.println(MvcUriComponentsBuilder.fromMappingName("AC#getArticleById").arg(0, articleDto.getId()).build());
-        return "redirect:/" + MvcUriComponentsBuilder.fromMappingName("AC#getArticleById").arg(0, articleDto.getId()).build();
+        return "redirect:/articles/" + articleDto.getId();
     }
 
     @GetMapping("/{article-id}/edit")
@@ -92,8 +97,6 @@ public class ArticleDataController {
                               @AuthenticationPrincipal UserDetails userDetails,
                               UpdateArticleForm form,
                               ModelMap map) {
-        System.out.println("--------------- EDIT ARTICLE _____________________");
-        System.out.println(form);
         ArticleDto articleDto = null;
         try {
             articleDto = articlesManageDataService.editArticle(form);
@@ -108,10 +111,19 @@ public class ArticleDataController {
             map.put(TAGS_ATTR, tagDtos);
 
             return "article_edit";
+        } catch (DuplicateParameterException ex) {
+            map.put(MESSAGE_ATTR, messageSource.getMessage("error.duplicate_title", null, LocaleContextHolder.getLocale()));
+
+            articleDto = articlesGetDataService.getArticleByIdOrSlug(parameter);
+            articleDto.setTitle(form.getTitle());
+            articleDto.setBody(form.getBody());
+            map.put(ARTICLE_ATTR, articleDto);
+            map.put(TAGS_ATTR, tagsCache.getTags());
+
+            return "article_edit";
         }
 
-        System.out.println(MvcUriComponentsBuilder.fromMappingName("AC#getArticleById").arg(0, articleDto.getId()).build());
-        return "redirect:/" + MvcUriComponentsBuilder.fromMappingName("AC#getArticleById").arg(0, articleDto.getId()).build();
+        return "redirect:/articles/" + articleDto.getId();
     }
 
     @PostMapping("/{article-id}/delete")
@@ -120,7 +132,7 @@ public class ArticleDataController {
             ArticleDto articleToDelete = articlesGetDataService.getArticleByIdOrSlug(parameter);
             articlesManageDataService.deleteArticle(articleToDelete.getId());
         } catch (ArticleNotFoundException ex) {
-            map.put(MESSAGE_ATTR, "Article that you requested to delete do not exist. Redirected here :)"); // todo: i18n
+            map.put(MESSAGE_ATTR, messageSource.getMessage("error.no_article", null, LocaleContextHolder.getLocale()));
         }
 
         return "redirect:/articles";

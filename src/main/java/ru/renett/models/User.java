@@ -8,11 +8,12 @@ import java.util.Objects;
 import java.util.Set;
 
 @Builder
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "commentList")
-@EqualsAndHashCode(exclude = "commentList")
+@ToString(exclude = {"commentList", "articles"})
+@EqualsAndHashCode(exclude = {"commentList", "articles"})
 @Entity
 @Table(name = "t_user")
 public class User {
@@ -52,6 +53,7 @@ public class User {
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> commentList;
+
 
     public User(String firstName, String secondName, String email, String username) {
         this.firstName = firstName;

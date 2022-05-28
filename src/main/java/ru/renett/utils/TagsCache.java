@@ -10,4 +10,6 @@ public interface TagsCache {
     TagDto getTagByName(String tagParam);
 
     List<TagDto> getTags();
+
+    TagDto getTagById(String id);
 }
