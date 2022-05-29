@@ -8,6 +8,7 @@ import ru.renett.dto.ArticleDto;
 import ru.renett.dto.CommentDto;
 import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.dto.rest.ArticlesPage;
+import ru.renett.dto.rest.CommentsPage;
 import ru.renett.dto.rest.UpdateArticleDto;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.exceptions.InvalidArticlesRequestException;
@@ -15,6 +16,7 @@ import ru.renett.models.Article;
 import ru.renett.models.Tag;
 import ru.renett.models.User;
 import ru.renett.repository.ArticlesRepository;
+import ru.renett.repository.CommentsRepository;
 import ru.renett.repository.TagsRepository;
 import ru.renett.repository.UsersRepository;
 import ru.renett.service.article.ArticlesRestService;
@@ -31,6 +33,7 @@ import java.util.Set;
 public class ArticlesRestServiceImpl implements ArticlesRestService {
     private final ArticlesRepository articlesRepository;
     private final CommentsRearranger commentsRearranger;
+    private final CommentsRepository commentsRepository;
     private final UsersRepository usersRepository;
     private final TagsRepository tagsRepository;
 
@@ -59,6 +62,21 @@ public class ArticlesRestServiceImpl implements ArticlesRestService {
         result.setMessage("Ok =)");
 
         return result;
+    }
+
+    @Override
+    public CommentsPage getCommentsByArticleId(Long id) throws EntityNotFoundException {
+        Article article = articlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Article with id = " + id + " not found."));
+        List<CommentDto> list = CommentDto.from(
+                commentsRearranger.rearrangeCommentsList(
+                        commentsRepository.findCommentsByArticleIdRecursive(article.getId())));
+
+        return CommentsPage.builder()
+                .comments(list)
+                .totalItems(article.getCommentAmount())
+                .message("")
+                .build();
     }
 
 

@@ -8,6 +8,7 @@ import ru.renett.configuration.Constants;
 import ru.renett.dto.ArticleDto;
 import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.dto.rest.ArticlesPage;
+import ru.renett.dto.rest.CommentsPage;
 import ru.renett.dto.rest.UpdateArticleDto;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.exceptions.InvalidArticlesRequestException;
@@ -46,6 +47,15 @@ public class ArticlesRestController {
     public ResponseEntity<ArticleDto> getArticleById(@PathVariable("article-id") Long id) {
         try {
             return ResponseEntity.ok(articlesRestService.getArticleById(id));
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{article-id}/comments")
+    public ResponseEntity<CommentsPage> getCommentsByArticleId(@PathVariable("article-id") Long id) {
+        try {
+            return ResponseEntity.ok(articlesRestService.getCommentsByArticleId(id));
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }

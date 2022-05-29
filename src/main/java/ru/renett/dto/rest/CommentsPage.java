@@ -4,19 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.renett.dto.ArticleDto;
+import ru.renett.dto.CommentDto;
 
 import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class ArticlesPage {
+@AllArgsConstructor
+public class CommentsPage {
     private String message;
-    private List<ArticleDto> articles;
-    private int page;
-    private int limit;
-    private int totalPages;
+    private List<CommentDto> comments;
     private long totalItems;
 }

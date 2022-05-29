@@ -1,15 +1,20 @@
 package ru.renett.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import ru.renett.models.Comment;
 
 import java.util.List;
 
 public interface CommentsRepository extends JpaRepository<Comment, Long> {
+
     List<Comment> findCommentsByArticleId(Long id);
 
+    @Query(value = SQL_FIND_ALL_COMMENTS_BY_ARTICLE_ID, nativeQuery = true)
+    List<Comment> findCommentsByArticleIdRecursive(Long id);
+
     //language=sql
-   String SQL_FIND_ALL_COMMENTS_BY_ARTICLE_ID = "WITH RECURSIVE _comment AS\n" +
+    String SQL_FIND_ALL_COMMENTS_BY_ARTICLE_ID = "WITH RECURSIVE _comment AS\n" +
             "                   (SELECT id, body, author_id, article_id, parent_comment_id, published_at,\n" +
             "                           1 AS level\n" +
             "                    FROM comment\n" +
