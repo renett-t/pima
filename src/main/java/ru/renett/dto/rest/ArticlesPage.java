@@ -18,4 +18,5 @@ public class ArticlesPage {
     private int limit;
     private int totalPages;
     private long totalItems;
+    private String message;
 }

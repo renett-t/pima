@@ -4,10 +4,12 @@ import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.dto.ArticleDto;
 import ru.renett.dto.rest.ArticlesPage;
 import ru.renett.dto.rest.UpdateArticleDto;
+import ru.renett.exceptions.EntityNotFoundException;
+import ru.renett.exceptions.InvalidArticlesRequestException;
 
 public interface ArticlesRestService {
 
-    ArticlesPage getArticles(int page, int limit);
+    ArticlesPage getArticles(int page, int limit) throws InvalidArticlesRequestException, EntityNotFoundException;
 
     ArticleDto addNewArticle(AddArticleDto addArticleDto);
 

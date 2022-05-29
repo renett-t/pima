@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.dto.ArticleDto;
+import ru.renett.dto.CommentDto;
+import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.dto.rest.ArticlesPage;
 import ru.renett.dto.rest.UpdateArticleDto;
 import ru.renett.exceptions.EntityNotFoundException;
+import ru.renett.exceptions.InvalidArticlesRequestException;
 import ru.renett.models.Article;
 import ru.renett.models.Tag;
 import ru.renett.models.User;
@@ -16,28 +18,47 @@ import ru.renett.repository.ArticlesRepository;
 import ru.renett.repository.TagsRepository;
 import ru.renett.repository.UsersRepository;
 import ru.renett.service.article.ArticlesRestService;
+import ru.renett.utils.CommentsRearranger;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class ArticlesRestServiceImpl implements ArticlesRestService {
     private final ArticlesRepository articlesRepository;
-//    private final CommentsRepository commentsRepository;
+    private final CommentsRearranger commentsRearranger;
     private final UsersRepository usersRepository;
     private final TagsRepository tagsRepository;
 
     @Override
-    public ArticlesPage getArticles(int page, int limit) {
+    public ArticlesPage getArticles(int page, int limit) throws InvalidArticlesRequestException, EntityNotFoundException {
         PageRequest pageRequest = PageRequest.of(page, limit);
         Page<Article> articlePage = articlesRepository.findAll(pageRequest);
 
+        System.out.println(articlePage);
+        ArticlesPage result = ArticlesPage.builder()
+                .articles(ArticleDto.from(articlePage.getContent()))
+                .page(articlePage.getNumber())
+                .limit(articlePage.getSize())
+                .totalPages(articlePage.getTotalPages())
+                .totalItems(articlePage.getTotalElements())
+                .build();
         if (articlePage.isEmpty()) {
-            throw new EntityNotFoundException("Articles not found");
+            if (articlePage.getTotalElements() > limit || articlePage.getTotalPages() < ++page) {
+                result.setMessage("Exceeded limits. Not enough required elements found.");
+                throw new InvalidArticlesRequestException(result);
+            } else {
+                result.setMessage("No required elements found.");
+                throw new EntityNotFoundException("Articles not found");
+            }
         }
+        result.setMessage("Ok =)");
 
-        return ArticlesPage.builder().articles(ArticleDto.from(articlePage.getContent())).page(articlePage.getNumber()).limit(articlePage.getSize()).totalPages(articlePage.getTotalPages()).totalItems(articlePage.getTotalElements()).build();
+        return result;
     }
 
 
@@ -106,10 +127,10 @@ public class ArticlesRestServiceImpl implements ArticlesRestService {
 
     @Override
     public ArticleDto getArticleById(Long id) {
-        System.out.println("Searching for article, id = " + id);
         Article article = articlesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Article with id = " + id + " not found."));
-
-        return ArticleDto.from(article);
+        ArticleDto dto = ArticleDto.from(article);
+        dto.setComments(CommentDto.from(commentsRearranger.rearrangeCommentsList(article.getCommentList())));
+        return dto;
     }
 }

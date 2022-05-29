@@ -1,15 +1,16 @@
 package ru.renett.controllers.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.renett.dto.rest.AddArticleDto;
+import ru.renett.configuration.Constants;
 import ru.renett.dto.ArticleDto;
+import ru.renett.dto.rest.AddArticleDto;
 import ru.renett.dto.rest.ArticlesPage;
 import ru.renett.dto.rest.UpdateArticleDto;
 import ru.renett.exceptions.EntityNotFoundException;
+import ru.renett.exceptions.InvalidArticlesRequestException;
 import ru.renett.service.article.ArticlesRestService;
 
 @RestController
@@ -18,29 +19,17 @@ import ru.renett.service.article.ArticlesRestService;
 public class ArticlesRestController {
     private final ArticlesRestService articlesRestService;
 
-    @Value("${defaults.rest.page}")
-    private final String defaultPage = "";
-
-    @Value("${defaults.rest.limit}")
-    private final String defaultLimit = "";
-
     @GetMapping
-    public ResponseEntity<ArticlesPage> getArticles(@RequestParam(name = "page", defaultValue = defaultPage) int page, @RequestParam(name = "limit", defaultValue = defaultLimit) int limit) {
+    public ResponseEntity<ArticlesPage> getArticles(@RequestParam(name = "page", defaultValue = Constants.REST_DEFAULT_PAGE) int page, @RequestParam(name = "limit", defaultValue = Constants.REST_DEFAULT_LIMIT) int limit) {
         try {
             return ResponseEntity.ok(articlesRestService.getArticles(page, limit));
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
+        } catch (InvalidArticlesRequestException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ex.getResult());
         }
     }
-
-//    @GetMapping
-//    public ResponseEntity<ArticlesPage> getArticlesDefaults() {
-//        try {
-//            return ResponseEntity.ok(articlesRestService.getArticles(defaultPage, defaultLimit));
-//        } catch (EntityNotFoundException ex) {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
 
     @PostMapping
     public ResponseEntity<?> addNewArticle(@RequestBody AddArticleDto addArticleDto) {

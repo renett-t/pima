@@ -12,7 +12,11 @@ public class Constants {
     public static final String MESSAGES_SOURCE = "classpath:messages/messages";
 
     public static final String CHAR_ENCODING = "UTF-8";
+
     public static final String DEFAULT_THUMBNAIL = "guitar-background.jpg";
+
+    public static final String REST_DEFAULT_PAGE = "0";
+    public static final String REST_DEFAULT_LIMIT = "5";
 
     // SECURITY CONFIG
     public static final int SECURITY_TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * 365;
