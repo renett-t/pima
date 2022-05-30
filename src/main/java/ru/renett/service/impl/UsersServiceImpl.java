@@ -74,8 +74,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public UserDto updateBasicUserData(SimpleUpdateUserForm form, Long userId) throws EntityNotFoundException, PasswordsMismatchException {
         logger.debug("New update user request. Data includes: id=" + userId + ", fn=" + form.getFirstName() + ", sn=" + form.getSecondName() + ".");
-        System.out.println("-------------------");
-        System.out.println(form);
+
         Optional<User> fromDb = usersRepository.findById(userId);
         if (fromDb.isPresent()) {
             if (checkPasswords(form.getPassword(), fromDb.get().getPassword())) {

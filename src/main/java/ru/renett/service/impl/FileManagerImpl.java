@@ -46,10 +46,11 @@ public class FileManagerImpl implements FileManager {
 
             Path pathToSave = Paths.get(getStoragePath()).resolve(fileName)
                     .normalize().toAbsolutePath();
-            System.out.println(pathToSave);
+
             try (InputStream inputStream = multipart.getInputStream()) {
                 Files.copy(inputStream, pathToSave,
                         StandardCopyOption.REPLACE_EXISTING);
+                logger.info("Saved new file: " + pathToSave);
             }
         } catch (IOException e) {
             logger.error("Error saving file. MultiPart = " + multipart + "; Error: " + e.getMessage());

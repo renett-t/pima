@@ -48,7 +48,6 @@ public class VkRepositoryImpl implements VkRepository {
 //        call.enqueue(new Callback() {
 //            public void onResponse(Call call, Response resp)
 //                    throws IOException {
-//                System.out.println(resp);
 //                String response = resp.body().string();
 //                TokenResponse tokens = TokenResponse.builder()
 //                        .accessToken(parser.getTokenFromServerResponse(response))
@@ -94,7 +93,6 @@ public class VkRepositoryImpl implements VkRepository {
 //        call.enqueue(new Callback() {
 //            public void onResponse(Call call, Response resp)
 //                    throws IOException {
-//                System.out.println(resp);
 //                String response = resp.body().string();
 //                TokenResponse tokens = TokenResponse.builder()
 //                        .accessToken(parser.getTokenFromServerResponse(response))

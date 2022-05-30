@@ -42,7 +42,6 @@ public class ArticlesRestServiceImpl implements ArticlesRestService {
         PageRequest pageRequest = PageRequest.of(page, limit);
         Page<Article> articlePage = articlesRepository.findAll(pageRequest);
 
-        System.out.println(articlePage);
         ArticlesPage result = ArticlesPage.builder()
                 .articles(ArticleDto.from(articlePage.getContent()))
                 .page(articlePage.getNumber())

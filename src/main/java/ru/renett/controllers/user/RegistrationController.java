@@ -34,20 +34,14 @@ public class RegistrationController {
 
     @PostMapping
     public String addUser(@ModelAttribute @Valid SignUpForm signUpForm, BindingResult bindingResult, ModelMap map) {
-        System.out.println(signUpForm);
 
         if (bindingResult.hasErrors()) {
-            System.out.println("Error Signing up");
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                System.out.println(error.getDefaultMessage());
-            }
             map.put(SIGN_UP_FORM_ATTR, signUpForm);
             return "sign_up";
         }
 
         try {
             usersService.signUp(signUpForm);
-            System.out.println("____________________-SUCCESSFULY SIGNED UP");
         } catch (ServiceException ex) {
             map.put(MESSAGE_ATTR, ex.getMessage());
             map.put(SIGN_UP_FORM_ATTR, signUpForm);
