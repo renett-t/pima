@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import ru.renett.utils.Parser;
+import org.springframework.stereotype.Component;
+import ru.renett.utils.OauthDataParser;
 
-public class VkParser implements Parser {
+@Component
+public class VkOauthDataParser implements OauthDataParser {
     private final Gson gson;
 
-    public VkParser() {
+    public VkOauthDataParser() {
         this.gson = new Gson();
     }
 

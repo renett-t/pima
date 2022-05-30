@@ -60,7 +60,7 @@ public class UsersServiceImpl implements UsersService {
                 .userName(dto.getUserName())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .roles(Set.of(rolesCache.getRoleByName(Role.ROLE.USER)))
-                .state(User.State.NOT_CONFIRMED)
+                .state(User.State.CONFIRMED)
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
 

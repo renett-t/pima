@@ -1,4 +1,5 @@
 <#ftl encoding="UTF-8"/>
+<#-- @ftlvariable name="vkOauthUrl" type="java.lang.String" -->
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
 
@@ -29,10 +30,14 @@
                 <label for="rememberMe"><@spring.message 'page.sign_in.form.label.rememberMe'/></label>
                 <input type="checkbox" id="rememberMe" name="rememberMe">
             </div>
-            <#if error??>
-                <p><@spring.message 'page.sign_in.form.error'/></p>
-            </#if>
+
             <br>
+            <#if error??>
+                <div class="message-wrapper">
+                    <h6 class="mx-3"><@spring.message 'page.sign_in.form.error'/></h6>
+                    <br>
+                </div>
+            </#if>
 
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <button class="btn btn-primary" type="submit"><@spring.message 'page.sign_in.form.btn.submit'/></button>
@@ -42,9 +47,9 @@
         </div>
         <br>
         <div>
-            <a href="<@spring.url'/vkOauth'/>"><img class="vk-auth-icon"
-                                                    src="<@spring.url'/assets/icons/vk-logo-mediator.png'/>"
-                                                    alt="authorization via vk.com"><@spring.message 'page.sing_in.via_vk'/>
+            <a href="${vkOauthUrl}"><img class="vk-auth-icon"
+                                         src="<@spring.url'/assets/icons/vk-logo-mediator.png'/>"
+                                         alt="authorization via vk.com"><@spring.message 'page.sing_in.via_vk'/>
             </a>
         </div>
     </div>

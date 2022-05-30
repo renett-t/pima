@@ -45,7 +45,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !state.equals(User.State.BANNED.name());
+        return !state.equals(User.State.BANNED.name()) && !state.equals(User.State.DELETED.name());
     }
 
     @Override

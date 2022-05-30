@@ -21,7 +21,13 @@ public class Constants {
     // SECURITY CONFIG
     public static final int SECURITY_TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * 365;
 
+
+    public static final String CODE_AUTH_ATTR = "code";
+
+
     // ATTRIBUTES FOR VIEW
+    public static final String VK_OAUTH_URL_ATTR = "vkOauthUrl";
+
     public static final String IS_AUTHENTICATED_ATTR = "isAuthenticated";
     public static final String SIGN_UP_FORM_ATTR = "signUpForm";
     public static final String USER_ATTR = "user";
@@ -30,6 +36,8 @@ public class Constants {
     public static final String USER_ARTICLES_ATTR = "userArticles";
     public static final String ARTICLES_ATTR = "articles";
     public static final String MESSAGE_ATTR = "message";
+    public static final String ERROR_ATTR = "error";
+
     public static final String LIKED_ATTR = "liked";
     public static final String OWNED_ATTR = "owned";
     public static final String TAGS_ATTR = "tags";

@@ -1,6 +1,6 @@
 package ru.renett.utils;
 
-public interface Parser {
+public interface OauthDataParser {
     String getTokenFromServerResponse(String tokenidemail);
     String getIdFromServerResponse(String tokenidemail);
     String getEmailFromServerResponse(String tokenidemail);

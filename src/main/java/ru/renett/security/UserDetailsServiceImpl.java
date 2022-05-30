@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.repository.UsersRepository;
 
-@Service("CustomUserDetailsService")
+@Service("MainUserDetailsService")
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -19,12 +19,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (username.contains("@")) {
             return new UserDetailsImpl(
                     usersRepository.findUserByEmail(username)
-                            .orElseThrow(() -> new EntityNotFoundException("User with email = " + username + "not found."))
+                            .orElseThrow(() -> new EntityNotFoundException("User with email = " + username + " not found."))
             );
         } else {
             return new UserDetailsImpl(
                     usersRepository.findUserByUserName(username)
-                            .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + "not found."))
+                            .orElseThrow(() -> new EntityNotFoundException("User with username = " + username + " not found."))
             );
         }
     }
