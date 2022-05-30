@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import ru.renett.dto.TagDto;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -20,5 +21,5 @@ public class ArticleForm {
     private String body;
     private MultipartFile thumbnailImage;
     @NotBlank
-    private List<String> tags;
+    private List<TagDto> tags;
 }

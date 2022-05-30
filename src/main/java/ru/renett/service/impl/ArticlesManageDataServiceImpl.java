@@ -15,7 +15,9 @@ import ru.renett.models.Article;
 import ru.renett.models.Like;
 import ru.renett.models.Tag;
 import ru.renett.models.User;
-import ru.renett.repository.*;
+import ru.renett.repository.ArticlesRepository;
+import ru.renett.repository.LikesRepository;
+import ru.renett.repository.UsersRepository;
 import ru.renett.service.article.ArticlesManageDataService;
 import ru.renett.service.file.FileManager;
 import ru.renett.utils.HtmlTagsValidator;
@@ -48,10 +50,12 @@ public class ArticlesManageDataServiceImpl implements ArticlesManageDataService 
         newArticle.setTags(new HashSet<>());
 
         if (form.getTags() != null) {
-            for (String tag : form.getTags()) {
-                if (!tag.equals("-1")) {
-                    TagDto tagDto = tagsCache.getTagById(tag);
-                    newArticle.getTags().add(Tag.builder().id(tagDto.getId()).title(tagDto.getTitle()).build());
+            for (TagDto tag : form.getTags()) {
+                if (tag.getTitle() != "-1") {
+                    newArticle.getTags().add(Tag.builder()
+                            .id(tag.getId())
+                            .title(tag.getTitle())
+                            .build());
                 } else {
                     newArticle.setTags(new HashSet<>());
                     break;
@@ -59,7 +63,9 @@ public class ArticlesManageDataServiceImpl implements ArticlesManageDataService 
             }
         }
 
-        newArticle = this.save(newArticle);
+        newArticle = this.
+
+                save(newArticle);
         return ArticleDto.from(newArticle);
     }
 

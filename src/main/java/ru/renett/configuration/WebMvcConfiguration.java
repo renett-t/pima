@@ -5,13 +5,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.validation.DefaultMessageCodesResolver;
-import org.springframework.validation.MessageCodesResolver;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import ru.renett.StringToTagConverter;
 import ru.renett.interceptor.AuthenticationInterceptor;
 
 import java.util.Locale;
@@ -20,13 +20,25 @@ import static ru.renett.configuration.Constants.*;
 
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
+    private final AuthenticationInterceptor interceptor;
+
+    private final StringToTagConverter stringToTagConverter;
+
     @Autowired
-    private AuthenticationInterceptor interceptor;
+    public WebMvcConfiguration(AuthenticationInterceptor interceptor, StringToTagConverter stringToTagConverter) {
+        this.interceptor = interceptor;
+        this.stringToTagConverter = stringToTagConverter;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor);
         registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(stringToTagConverter);
     }
 
     @Bean
@@ -50,7 +62,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename(MESSAGES_SOURCE);
         messageSource.setDefaultEncoding(CHAR_ENCODING);
-        //        messageSource.setConcurrentRefresh(true);
         return messageSource;
     }
 //
