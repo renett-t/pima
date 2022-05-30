@@ -15,6 +15,7 @@ public class UserPreferencesManager implements UserPreferencesService {
     public void saveLastViewedArticleIdCookie(String param, HttpServletResponse response) {
         Cookie cookie = new Cookie(Constants.COOKIE_LAST_VIEWED_ARTICLE, param);
         cookie.setMaxAge(Constants.COOKIE_LWAI_MAX_AGE);
+        cookie.setPath("/");
         response.addCookie(cookie);
     }
 

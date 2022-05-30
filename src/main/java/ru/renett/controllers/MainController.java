@@ -1,8 +1,6 @@
 package ru.renett.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -10,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.renett.configuration.Constants;
 import ru.renett.dto.ArticleDto;
-import ru.renett.models.Article;
+import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.service.article.ArticlesGetDataService;
-import ru.renett.service.impl.UsersServiceImpl;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping(value = {"/", "/main"})
@@ -22,10 +22,13 @@ public class MainController {
     private final ArticlesGetDataService articlesGetDataService;
 
     @GetMapping
-    public String getMainPage(@CookieValue(value = Constants.COOKIE_LAST_VIEWED_ARTICLE, required = false) String lwai, ModelMap map) {
-        if (lwai != null) {
-            ArticleDto lastViewed = articlesGetDataService.getArticleByIdOrSlug(lwai);
-            map.put("lwai", lastViewed);
+    public String getMainPage(HttpServletRequest request, @CookieValue(value = Constants.COOKIE_LAST_VIEWED_ARTICLE, defaultValue = "-1") String lwai, ModelMap map) {
+        if (lwai != null && !lwai.equals("-1")) {
+            try {
+                ArticleDto lastViewed = articlesGetDataService.getArticleByIdOrSlug(lwai);
+                map.put("lwai", lastViewed);
+            } catch (EntityNotFoundException ignored) {
+            }
         }
 
         return "main";
