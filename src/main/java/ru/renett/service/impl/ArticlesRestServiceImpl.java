@@ -82,8 +82,6 @@ public class ArticlesRestServiceImpl implements ArticlesRestService {
     @Transactional
     @Override
     public ArticleDto addNewArticle(AddArticleDto addArticleDto) {
-        // todo: add data validation for given dto object
-        // how to check user in session??? :(
         User author = usersRepository.findById(addArticleDto.getAuthorId())
                 .orElseThrow(() ->
                         new EntityNotFoundException("User with id = " + addArticleDto.getAuthorId() + " not found. Unable to create new Article"));

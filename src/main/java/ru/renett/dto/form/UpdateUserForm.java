@@ -22,7 +22,7 @@ public class UpdateUserForm {
     private String email;
 
     @NotBlank
-    @Length(min = 5, max = 32, message = "{valid.userName, {min}, {max}}") //todo :(
+    @Length(min = 5, max = 32, message = "{valid.userName}")
     private String userName;
 
     @NotBlank

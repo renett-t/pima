@@ -3,6 +3,8 @@ package ru.renett.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.renett.dto.UserDto;
@@ -15,7 +17,6 @@ import ru.renett.exceptions.PasswordsMismatchException;
 import ru.renett.exceptions.SignUpException;
 import ru.renett.models.Role;
 import ru.renett.models.User;
-import ru.renett.repository.RolesRepository;
 import ru.renett.repository.UsersRepository;
 import ru.renett.service.user.UsersService;
 import ru.renett.utils.RolesCache;
@@ -33,10 +34,10 @@ import java.util.Set;
 public class UsersServiceImpl implements UsersService {
 
     private final static Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
-
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final RolesCache rolesCache;
+    private final MessageSource messageSource;
 
     @Override
     public void signUp(SignUpForm dto) throws SignUpException {
@@ -45,13 +46,15 @@ public class UsersServiceImpl implements UsersService {
         Optional<User> userNameUser = usersRepository.findUserByUserName(dto.getUserName());
 
         if (emailUser.isPresent())
-            throw new SignUpException("User with email = " + dto.getEmail() + " already exists."); // todo: i18n message codes!!
+            throw new SignUpException(messageSource.getMessage(
+                    "error.sign_up.email.duplicate", new Object[]{dto.getEmail()}, LocaleContextHolder.getLocale()));
 
         if (userNameUser.isPresent())
-            throw new SignUpException("User with username = " + dto.getUserName() + " already exists.");
+            throw new SignUpException(messageSource.getMessage(
+                    "error.sign_up.username.duplicate", new Object[]{dto.getUserName()}, LocaleContextHolder.getLocale()));
 
         if (!checkPasswordsTheSame(dto.getPassword(), dto.getPasswordRepeat()))
-            throw new SignUpException("Passwords do not match.");
+            throw new SignUpException(messageSource.getMessage("valid.passwords", null, LocaleContextHolder.getLocale()));
 
         User user = User.builder()
                 .firstName(dto.getFirstName())
@@ -78,7 +81,7 @@ public class UsersServiceImpl implements UsersService {
         Optional<User> fromDb = usersRepository.findById(userId);
         if (fromDb.isPresent()) {
             if (checkPasswords(form.getPassword(), fromDb.get().getPassword())) {
-                throw new PasswordsMismatchException("Passwords do not match");
+                throw new PasswordsMismatchException(messageSource.getMessage("valid.passwords", null, LocaleContextHolder.getLocale()));
             } else {
                 User user = fromDb.get();
                 user.setFirstName(form.getFirstName());
@@ -150,14 +153,14 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UserDto findUserByEmail(String email) throws EntityNotFoundException{
+    public UserDto findUserByEmail(String email) throws EntityNotFoundException {
         return UserDto.from(usersRepository.findUserByEmail(email).orElseThrow(
                 () -> new EntityNotFoundException("No user by email = " + email + " found")
         ));
     }
 
     @Override
-    public UserDto finsUserByUserName(String userName) throws EntityNotFoundException{
+    public UserDto finsUserByUserName(String userName) throws EntityNotFoundException {
         return UserDto.from(usersRepository.findUserByUserName(userName).orElseThrow(
                 () -> new EntityNotFoundException("No user by username = " + userName + " found")
         ));

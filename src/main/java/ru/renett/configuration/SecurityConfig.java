@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/signUp").permitAll()
                     .antMatchers("/profile/").authenticated()
                     .antMatchers("/profile/edit").authenticated()
-                    .antMatchers("/confirm").hasAuthority(User.State.NOT_CONFIRMED.name()) //todo
+                    .antMatchers("/confirm").hasAuthority(User.State.NOT_CONFIRMED.name()) // todo CONFIRMATION OF ACCOUNTS BY EMAIL
                     .antMatchers("/admin/**").hasRole(Role.ROLE.ADMIN.name())
                     .antMatchers("/articles/*/edit").authenticated()
                     .antMatchers("/articles/new").authenticated()
