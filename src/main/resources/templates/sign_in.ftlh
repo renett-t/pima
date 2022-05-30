@@ -43,14 +43,16 @@
             <button class="btn btn-primary" type="submit"><@spring.message 'page.sign_in.form.btn.submit'/></button>
         </form>
         <br>
-        <div><@spring.message 'page.sing_in.no_registration'/><br> <a class="" href="<@spring.url'/signUp'/>">Регистрация</a>
-        </div>
-        <br>
         <div>
-            <a href="${vkOauthUrl}"><img class="vk-auth-icon"
-                                         src="<@spring.url'/assets/icons/vk-logo-mediator.png'/>"
-                                         alt="authorization via vk.com"><@spring.message 'page.sing_in.via_vk'/>
-            </a>
+            <div><@spring.message 'page.sing_in.no_registration'/><br> <a class="" href="<@spring.url'/signUp'/>"><@spring.message 'page.sign_up.title'/></a>
+            </div>
+            <br>
+            <div>
+                <a href="${vkOauthUrl}"><img class="vk-auth-icon"
+                                             src="<@spring.url'/assets/icons/vk-logo-mediator.png'/>"
+                                             alt="authorization via vk.com"><@spring.message 'page.sing_in.via_vk'/>
+                </a>
+            </div>
         </div>
     </div>
 
