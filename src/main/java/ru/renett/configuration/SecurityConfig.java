@@ -1,9 +1,12 @@
 package ru.renett.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +22,8 @@ import ru.renett.models.Role;
 import ru.renett.models.User;
 import ru.renett.security.oauth.VkAuthenticationProvider;
 import ru.renett.security.oauth.VkOauthAuthenticationFilter;
+import ru.renett.security.rest.JwtTokenAuthenticationFilter;
+import ru.renett.security.rest.JwtTokenAuthorizationFilter;
 
 import javax.sql.DataSource;
 
@@ -26,13 +31,18 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     public final UserDetailsService userDetailsService;
 
     public final VkAuthenticationProvider vkOauthProvider;
     public final VkOauthAuthenticationFilter vkOauthFilter;
     public final CustomAccessDeniedHandler accessDeniedHandler;
     public final DataSource dataSource;
+
+    @Value("${jwt.secret-key}")
+    public String secretKey;
+
+    @Value("${jwt.expires-in}")
+    public long expiresIn;
 
     @Autowired
     public SecurityConfig(@Qualifier("MainUserDetailsService") UserDetailsService userDetailsService, VkAuthenticationProvider vkOauthProvider, VkOauthAuthenticationFilter vkOauthFilter, CustomAccessDeniedHandler accessDeniedHandler, DataSource dataSource) {
@@ -70,7 +80,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/articles/new").authenticated()
                     .antMatchers("/articles/*/comments").authenticated()
                     .antMatchers("/", "/main", "/resources/**", "/articles").permitAll()
-                    .antMatchers("/api/**").permitAll()
+                    .antMatchers(API_LOGIN_URL).permitAll()
+                    .antMatchers(API_URL_PREFIX + "/articles").authenticated()
                     .antMatchers("/ajax/**").authenticated()
                 .anyRequest().permitAll()
                     .and()
@@ -82,6 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .failureUrl("/signIn?error=true")
                     .permitAll()
                     .and()
+                .addFilter(jwtTokenAuthenticationFilter())
+                .addFilterBefore(jwtTokenAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(vkOauthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout()
                     .permitAll()
@@ -104,4 +117,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         jdbcTokenRepository.setDataSource(dataSource);
         return jdbcTokenRepository;
     }
+
+    // jwt specific
+
+    public static final String API_URL_PREFIX = "/api";
+    public static final String API_LOGIN_URL = API_URL_PREFIX + "/authorization";
+    public static final String API_HEADER_PREFIX = "Bearer ";
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter() throws Exception {
+        JwtTokenAuthenticationFilter authenticationFilter = new JwtTokenAuthenticationFilter(authenticationManagerBean(), secretKey, objectMapper,expiresIn);
+        authenticationFilter.setFilterProcessesUrl(API_LOGIN_URL);
+
+        return authenticationFilter;
+    }
+
+
+    @Bean
+    public JwtTokenAuthorizationFilter jwtTokenAuthorizationFilter() {
+        return new JwtTokenAuthorizationFilter(objectMapper, secretKey, expiresIn);
+    }
+
+
+
 }

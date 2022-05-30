@@ -1,7 +1,6 @@
 package ru.renett.security;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.renett.models.Role;
 import ru.renett.models.User;
@@ -25,7 +24,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-       return roles;
+        return roles;
     }
 
     @Override
@@ -56,5 +55,13 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return state.equals(User.State.CONFIRMED.name());
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 }
