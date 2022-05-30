@@ -10,7 +10,7 @@
         <h1 class="h3 mb-3 fw-normal"><@spring.message 'page.sign_up.form.title'/></h1>
         <form class="registration-form" method="POST" action="<@spring.url'/signUp'/>">
             <@spring.bind "signUpForm" />
-            <p class="message-wrapper">${spring.status.errorMessage}</p>
+            <p class="message-wrapper error-field">${spring.status.errorMessage}</p>
 
             <label for="nameInput" class="form-label"><@spring.message 'page.sign_up.form.label.firstName'/></label><br>
             <#assign fNamePlaceholder>
