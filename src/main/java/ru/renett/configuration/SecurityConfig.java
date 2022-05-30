@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ru.renett.controllers.exception.CustomAccessDeniedHandler;
 import ru.renett.models.Role;
 import ru.renett.models.User;
 import ru.renett.security.oauth.VkAuthenticationProvider;
@@ -30,13 +31,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public final VkAuthenticationProvider vkOauthProvider;
     public final VkOauthAuthenticationFilter vkOauthFilter;
+    public final CustomAccessDeniedHandler accessDeniedHandler;
     public final DataSource dataSource;
 
     @Autowired
-    public SecurityConfig(@Qualifier("MainUserDetailsService") UserDetailsService userDetailsService, VkAuthenticationProvider vkOauthProvider, VkOauthAuthenticationFilter vkOauthFilter, DataSource dataSource) {
+    public SecurityConfig(@Qualifier("MainUserDetailsService") UserDetailsService userDetailsService, VkAuthenticationProvider vkOauthProvider, VkOauthAuthenticationFilter vkOauthFilter, CustomAccessDeniedHandler accessDeniedHandler, DataSource dataSource) {
         this.vkOauthFilter = vkOauthFilter;
         this.userDetailsService = userDetailsService;
         this.vkOauthProvider = vkOauthProvider;
+        this.accessDeniedHandler = accessDeniedHandler;
         this.dataSource = dataSource;
     }
 
@@ -73,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin()
                     .loginPage("/signIn")
-                    .defaultSuccessUrl("/")
+                    .defaultSuccessUrl("/profile")
                     .usernameParameter("userName")
                     .passwordParameter("password")
                     .failureUrl("/signIn?error=true")
@@ -90,7 +93,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe()
                     .rememberMeParameter("rememberMe")
                     .tokenRepository(tokenRepository())
-                    .tokenValiditySeconds(Constants.SECURITY_TOKEN_VALIDITY_SECONDS);
+                    .tokenValiditySeconds(Constants.SECURITY_TOKEN_VALIDITY_SECONDS)
+                    .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
     @Bean

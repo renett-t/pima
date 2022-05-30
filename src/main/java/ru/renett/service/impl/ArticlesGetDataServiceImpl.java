@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.renett.dto.ArticleDto;
 import ru.renett.dto.CommentDto;
+import ru.renett.exceptions.ArticleNotFoundException;
 import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.models.*;
 import ru.renett.repository.*;
@@ -118,9 +119,12 @@ public class ArticlesGetDataServiceImpl implements ArticlesGetDataService {
 
     @Override
     public ArticleDto getArticleByIdOrSlug(String parameter) {
-        // todo: slug search
-        Long id = Long.parseLong(parameter);
-        return getArticleById(id);
+        try {
+            Long id = Long.parseLong(parameter);
+            return getArticleById(id);
+        } catch (NumberFormatException e) {
+            throw new ArticleNotFoundException("Wrong parameter.");
+        }
     }
 
     private void initializeArticlesWithBasicInfo(List<Article> articleList) {

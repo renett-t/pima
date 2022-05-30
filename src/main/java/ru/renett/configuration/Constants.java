@@ -47,6 +47,7 @@ public class Constants {
     public static final String COMMENT_ATTR = "comment";
 
     public static final String SPRING_MACRO_CONTEXT_ATTR = "springMacroRequestContext";
+    public static final String CODE_ATTR = "code";
 
     public static final String LIKE_SOURCE = "/assets/icons/like-active.png";
     public static final String DISLIKE_SOURCE = "/assets/icons/like.png";

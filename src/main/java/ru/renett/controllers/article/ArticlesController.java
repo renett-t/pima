@@ -106,8 +106,9 @@ public class ArticlesController {
 
             article.setViews(Math.toIntExact(articlesManageDataService.incrementViewCount(article.getId())));
             map.put(ARTICLE_ATTR, article);
-        } catch (ArticleNotFoundException ex) {
-            map.put(MESSAGE_ATTR, messageSource.getMessage("page.articles.not_found", null, LocaleContextHolder.getLocale()));
+        } catch (ArticleNotFoundException rethrow) {
+            throw rethrow;
+//            map.put(MESSAGE_ATTR, messageSource.getMessage("page.articles.not_found", null, LocaleContextHolder.getLocale()));
         }
 
         return "article_display";

@@ -1,5 +1,6 @@
 <#ftl encoding="UTF-8"/>
 <#-- @ftlvariable name="message" type="java.lang.String" -->
+<#-- @ftlvariable name="code" type="java.lang.String" -->
 <#import "spring.ftl" as spring />
 <#import "macro_layout.ftl" as layout/>
 <#import "macro_article_card.ftl" as article/>
@@ -10,11 +11,14 @@
 
 <@layout.contents title>
     <#if message??>
-        <div class="message-wrapper">
+        <div class="message-wrapper centered-content-wrapper">
             <h6>${message}</h6>
         </div>
     </#if>
+    <#assign url>
+        <@spring.url'/assets/error/'/>${code}.jpg
+    </#assign>
     <div class="error-wrapper">
-        <img src="<@spring.url'/assets/error/500.jpg'/>" alt="Something went wrong.">
+        <img src="${url}" alt="Something went wrong.">
     </div>
 </@layout.contents>
