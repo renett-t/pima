@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import ru.renett.StringToTagConverter;
+import ru.renett.utils.StringToTagConverter;
 import ru.renett.interceptor.AuthenticationInterceptor;
 
 import java.util.Locale;
@@ -64,11 +64,4 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         messageSource.setDefaultEncoding(CHAR_ENCODING);
         return messageSource;
     }
-//
-//    @Override
-//    public MessageCodesResolver getMessageCodesResolver() {
-//        DefaultMessageCodesResolver codesResolver = new DefaultMessageCodesResolver();
-//        codesResolver.setMessageCodeFormatter(DefaultMessageCodesResolver.Format.POSTFIX_ERROR_CODE);
-//        return codesResolver;
-//    }
 }

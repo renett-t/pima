@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@SameFields(one = "password", two = "passwordRepeat", message = "{valid.passwords")
+@SameFields(one = "password", two = "passwordRepeat", message = "{valid.passwords}")
 public class SignUpForm {
     private String firstName;
     private String secondName;
@@ -23,7 +23,7 @@ public class SignUpForm {
     private String email;
 
     @NotBlank
-    @Length(min = 5, max = 32, message = "{valid.userName, {min}, {max}}") //todo :(
+    @Length(min = 5, max = 32, message = "{valid.userName}")
     private String userName;
 
     @NotBlank

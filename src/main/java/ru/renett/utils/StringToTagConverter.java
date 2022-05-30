@@ -1,11 +1,10 @@
-package ru.renett;
+package ru.renett.utils;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import ru.renett.dto.TagDto;
 import ru.renett.exceptions.EntityNotFoundException;
-import ru.renett.utils.TagsCache;
 
 @Component
 @RequiredArgsConstructor
