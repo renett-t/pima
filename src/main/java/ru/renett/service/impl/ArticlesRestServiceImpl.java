@@ -23,10 +23,7 @@ import ru.renett.service.article.ArticlesRestService;
 import ru.renett.utils.CommentsRearranger;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -92,12 +89,15 @@ public class ArticlesRestServiceImpl implements ArticlesRestService {
                 .title(addArticleDto.getTitle())
                 .author(author)
                 .body(addArticleDto.getBody())
+                .publishedAt(new Date())
                 .thumbnailPath(addArticleDto.getImage())
+                .likes(new HashSet<>())
+                .commentList(new ArrayList<>())
+                .viewAmount(0L)
                 .tags(tags)
                 .build();
-        articlesRepository.save(newArt);
 
-        return ArticleDto.from(newArt);
+        return ArticleDto.from(articlesRepository.save(newArt));
     }
 
     @Transactional

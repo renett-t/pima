@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.renett.configuration.Constants;
 import ru.renett.exceptions.ArticleNotFoundException;
+import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.exceptions.ServiceException;
 
 @ControllerAdvice
@@ -25,12 +26,12 @@ public class ExceptionHandlingController {
         return "exception_page";
     }
 
-    @ExceptionHandler(ArticleNotFoundException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String articleNotFound(ArticleNotFoundException ex, Model map) {
-        logger.warn("Requested unknown Article. Returning 404 error.");
+    public String articleNotFound(EntityNotFoundException ex, Model map) {
+        logger.warn("Requested unknown resource. Returning 404 error.");
 
-        map.addAttribute(Constants.MESSAGE_ATTR, "Article not found :(");
+        map.addAttribute(Constants.MESSAGE_ATTR, "Resource not found :(");
         map.addAttribute(Constants.CODE_ATTR, "404");
         return "exception_page";
     }

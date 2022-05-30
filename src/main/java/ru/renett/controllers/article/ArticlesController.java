@@ -15,6 +15,7 @@ import ru.renett.dto.ArticleDto;
 import ru.renett.dto.TagDto;
 import ru.renett.dto.UserDto;
 import ru.renett.exceptions.ArticleNotFoundException;
+import ru.renett.exceptions.EntityNotFoundException;
 import ru.renett.service.article.ArticlesGetDataService;
 import ru.renett.service.article.ArticlesManageDataService;
 import ru.renett.service.user.UserPreferencesService;
@@ -106,7 +107,7 @@ public class ArticlesController {
 
             article.setViews(Math.toIntExact(articlesManageDataService.incrementViewCount(article.getId())));
             map.put(ARTICLE_ATTR, article);
-        } catch (ArticleNotFoundException rethrow) {
+        } catch (EntityNotFoundException rethrow) {
             throw rethrow;
 //            map.put(MESSAGE_ATTR, messageSource.getMessage("page.articles.not_found", null, LocaleContextHolder.getLocale()));
         }

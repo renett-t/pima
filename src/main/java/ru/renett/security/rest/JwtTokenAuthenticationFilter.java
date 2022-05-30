@@ -29,7 +29,7 @@ public class JwtTokenAuthenticationFilter extends UsernamePasswordAuthentication
     
 
     public JwtTokenAuthenticationFilter(AuthenticationManager manager, String secretKey, ObjectMapper objectMapper, long expiresIn) {
-//        super(manager);
+        super(manager);
         this.secretKey = secretKey;
         this.objectMapper = objectMapper;
         this.expiresIn = expiresIn;
@@ -37,6 +37,7 @@ public class JwtTokenAuthenticationFilter extends UsernamePasswordAuthentication
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        log.warn("Auth request!");
         try {
             AuthDto authDto = objectMapper.readValue(request.getReader(), AuthDto.class);
 
@@ -62,7 +63,7 @@ public class JwtTokenAuthenticationFilter extends UsernamePasswordAuthentication
                 .withClaim("email", user.getUsername())
                 .withClaim("role", user.getRoles().toString())
                 .withClaim("state", user.getState())
-                .withClaim("expires_at", current + expiresIn)
+                .withClaim("expires_at", current + expiresIn * 1000)
                 .sign(Algorithm.HMAC256(secretKey));
 
         objectMapper.writeValue(response.getWriter(),

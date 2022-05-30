@@ -1,39 +1,54 @@
-### Получение списка статей
-GET http://localhost:8088/pima/api/articles
-
-### Получение списка статей с указанием пагинации
-GET http://localhost:8088/pima/api/articles?page=0&limit=10
-
-### Получение статьи по id
-GET http://localhost:8088/pima/api/articles/8
-
-### Получение комметариев статьи по id
-GET http://localhost:8088/pima/api/articles/8/comments
-
-#работает, но тут нужно ввести токены!!!!
-### Создание новой статьи:
-POST http://localhost:8088/pima/api/articles
+### Авторизация
+POST http://localhost:8088/pima/api/authorization
 Content-Type: application/json
 
 {
+  "email": "rtapkina@gmail.com",
+  "password": "qwerty007"
+}
+
+### Получение списка статей
+GET http://localhost:8088/pima/api/articles
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZW5ldHRfdCIsInJvbGUiOiJbUm9sZShpZD0zLCBuYW1lPUFVVEhPUiksIFJvbGUoaWQ9MiwgbmFtZT1VU0VSKV0iLCJleHBpcmVzX2F0IjoxNjUzOTM5NzAxMzE2LCJzdGF0ZSI6IkNPTkZJUk1FRCIsImVtYWlsIjoicmVuZXR0X3QifQ.ECy3aftuzTuft_SVFvUKndLdz8iEmlFPiyCAmyEgP5g
+
+### Получение списка статей с указанием пагинации
+GET http://localhost:8088/pima/api/articles?page=0&limit=10
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZW5ldHRfdCIsInJvbGUiOiJbUm9sZShpZD0zLCBuYW1lPUFVVEhPUiksIFJvbGUoaWQ9MiwgbmFtZT1VU0VSKV0iLCJleHBpcmVzX2F0IjoxNjUzOTM5NzAxMzE2LCJzdGF0ZSI6IkNPTkZJUk1FRCIsImVtYWlsIjoicmVuZXR0X3QifQ.ECy3aftuzTuft_SVFvUKndLdz8iEmlFPiyCAmyEgP5g
+
+### Получение статьи по id
+GET http://localhost:8088/pima/api/articles/8
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZW5ldHRfdCIsInJvbGUiOiJbUm9sZShpZD0zLCBuYW1lPUFVVEhPUiksIFJvbGUoaWQ9MiwgbmFtZT1VU0VSKV0iLCJleHBpcmVzX2F0IjoxNjUzOTM5NzAxMzE2LCJzdGF0ZSI6IkNPTkZJUk1FRCIsImVtYWlsIjoicmVuZXR0X3QifQ.ECy3aftuzTuft_SVFvUKndLdz8iEmlFPiyCAmyEgP5g
+
+### Получение комметариев статьи по id
+GET http://localhost:8088/pima/api/articles/8/comments
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZW5ldHRfdCIsInJvbGUiOiJbUm9sZShpZD0zLCBuYW1lPUFVVEhPUiksIFJvbGUoaWQ9MiwgbmFtZT1VU0VSKV0iLCJleHBpcmVzX2F0IjoxNjUzOTM5NzAxMzE2LCJzdGF0ZSI6IkNPTkZJUk1FRCIsImVtYWlsIjoicmVuZXR0X3QifQ.ECy3aftuzTuft_SVFvUKndLdz8iEmlFPiyCAmyEgP5g
+
+
+### Создание новой статьи:
+POST http://localhost:8088/pima/api/articles
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZW5ldHRfdCIsInJvbGUiOiJbUm9sZShpZD0zLCBuYW1lPUFVVEhPUiksIFJvbGUoaWQ9MiwgbmFtZT1VU0VSKV0iLCJleHBpcmVzX2F0IjoxNjUzOTM5NzAxMzE2LCJzdGF0ZSI6IkNPTkZJUk1FRCIsImVtYWlsIjoicmVuZXR0X3QifQ.ECy3aftuzTuft_SVFvUKndLdz8iEmlFPiyCAmyEgP5g
+
+{
   "authorId" : 1,
-  "title": "Test title",
+  "title": "Test title!",
   "body": "Test body",
   "image": "link",
   "tags": ["test", "useful", "tutorial", "Руководство"]
 }
 
 ### Обновление статьи по id
-PUT http://localhost:8088/pima/api/articles/7
+PUT http://localhost:8088/pima/api/articles/31
 Content-Type: application/json
-#Authorization: Bearer token
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZW5ldHRfdCIsInJvbGUiOiJbUm9sZShpZD0zLCBuYW1lPUFVVEhPUiksIFJvbGUoaWQ9MiwgbmFtZT1VU0VSKV0iLCJleHBpcmVzX2F0IjoxNjUzOTM5NzAxMzE2LCJzdGF0ZSI6IkNPTkZJUk1FRCIsImVtYWlsIjoicmVuZXR0X3QifQ.ECy3aftuzTuft_SVFvUKndLdz8iEmlFPiyCAmyEgP5g
 
 {
-  "title": "Test title",
-  "body": "Test body",
+  "title": "Test title!",
+  "body": "Test body updated",
   "image": "link",
   "tags": ["test", "useful", "tutorial", "Руководство"]
 }
 
 ### Удаление статьи
-DELETE http://localhost:8088/pima/api/articles/1
+DELETE http://localhost:8088/pima/api/articles/31
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZW5ldHRfdCIsInJvbGUiOiJbUm9sZShpZD0zLCBuYW1lPUFVVEhPUiksIFJvbGUoaWQ9MiwgbmFtZT1VU0VSKV0iLCJleHBpcmVzX2F0IjoxNjUzOTM5NzAxMzE2LCJzdGF0ZSI6IkNPTkZJUk1FRCIsImVtYWlsIjoicmVuZXR0X3QifQ.ECy3aftuzTuft_SVFvUKndLdz8iEmlFPiyCAmyEgP5g
