@@ -119,6 +119,7 @@ public class ArticlesGetDataServiceImpl implements ArticlesGetDataService {
 
     @Override
     public ArticleDto getArticleByIdOrSlug(String parameter) {
+        // todo: search by slug - fix model, creating & editing of article
         try {
             Long id = Long.parseLong(parameter);
             return getArticleById(id);
