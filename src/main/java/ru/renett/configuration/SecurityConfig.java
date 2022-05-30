@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Configuration
-    @Order(2)
+    @Order(1)
     public static class MainConfiguration extends WebSecurityConfigurerAdapter {
         public final UserDetailsService userDetailsService;
         public final PasswordEncoder passwordEncoder;
@@ -114,7 +114,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Configuration
-    @Order(1)
+    @Order(2)
     public static class RestApiConfiguration extends WebSecurityConfigurerAdapter {
         public final UserDetailsService userDetailsService;
         public final PasswordEncoder passwordEncoder;
@@ -147,9 +147,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.csrf().ignoringAntMatchers(API_URL_PREFIX + "/**");
-            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http.addFilter(jwtTokenAuthenticationFilter())
-                    .addFilterBefore(jwtTokenAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterAfter(jwtTokenAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+            http.formLogin().disable();
+            http.httpBasic().disable();
             http.authorizeRequests()
                     .antMatchers(API_LOGIN_URL).permitAll()
                     .antMatchers(API_URL_PREFIX + "/articles").authenticated()
